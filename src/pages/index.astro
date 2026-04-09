@@ -15,8 +15,8 @@ import ParticleNetwork from "../components/react/ParticleNetwork";
 ---
 
 <BaseLayout>
-  <!-- Global particle background - desktop only, fixed behind everything -->
-  <div class="fixed inset-0 z-0 hidden md:block" aria-hidden="true">
+  <!-- Global particle background - desktop only, fixed, pointer-events pass through -->
+  <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true">
     <ParticleNetwork client:load />
   </div>
 
