@@ -1,0 +1,94 @@
+---
+import { NAV_ITEMS } from "../../lib/constants";
+---
+
+<header
+  id="header"
+  class="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+>
+  <nav class="mx-auto flex max-w-[var(--max-w-content)] items-center justify-between px-6 py-4">
+    <a
+      href="#"
+      class="font-mono text-lg font-bold tracking-tight text-accent"
+    >
+      AIR
+    </a>
+
+    <!-- Desktop nav -->
+    <ul class="hidden items-center gap-8 md:flex">
+      {NAV_ITEMS.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="relative text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile toggle -->
+    <button
+      id="mobile-toggle"
+      class="flex flex-col gap-1.5 md:hidden"
+      aria-label="Toggle navigation"
+      aria-expanded="false"
+    >
+      <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
+      <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
+      <span class="block h-px w-4 bg-text-primary transition-all duration-300"></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden flex-col items-center gap-6 bg-bg-secondary/95 px-6 py-8 backdrop-blur-xl md:hidden"
+  >
+    {NAV_ITEMS.map((item) => (
+      <a
+        href={item.href}
+        class="mobile-nav-link text-lg text-text-secondary transition-colors duration-200 hover:text-text-primary"
+      >
+        {item.label}
+      </a>
+    ))}
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById("header");
+  const toggle = document.getElementById("mobile-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  // Scroll effect
+  let lastScroll = 0;
+  window.addEventListener("scroll", () => {
+    if (!header) return;
+    const current = window.scrollY;
+    if (current > 50) {
+      header.classList.add("bg-bg-primary/80", "backdrop-blur-xl", "border-b", "border-border");
+    } else {
+      header.classList.remove("bg-bg-primary/80", "backdrop-blur-xl", "border-b", "border-border");
+    }
+    lastScroll = current;
+  });
+
+  // Mobile toggle
+  toggle?.addEventListener("click", () => {
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!expanded));
+    menu?.classList.toggle("hidden");
+    menu?.classList.toggle("flex");
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu?.classList.add("hidden");
+      menu?.classList.remove("flex");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+</script>

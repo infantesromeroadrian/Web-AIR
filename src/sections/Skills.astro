@@ -1,0 +1,45 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import { skills } from "../data/skills";
+
+const icons: Record<string, string> = {
+  "AI Security": "🛡",
+  "AI/ML": "🧠",
+  "LLMs & Agents": "🤖",
+  "NVIDIA": "⚡",
+  "Infrastructure": "☁",
+  "Languages": "&lt;/&gt;",
+};
+---
+
+<section id="skills" class="bg-bg-secondary/30 px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="Tech Stack"
+      subtitle="Tools I use to build and secure AI systems"
+    />
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {skills.map((category, i) => (
+        <ScrollReveal client:visible delay={i * 0.08}>
+          <div class="h-full rounded-xl border border-border bg-bg-secondary/50 p-6 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+            <div class="mb-4 flex items-center gap-3">
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10 text-lg">
+                <span set:html={icons[category.name] || "&lt;/&gt;"} />
+              </div>
+              <h3 class="text-lg font-semibold text-text-primary">{category.name}</h3>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              {category.skills.map((skill) => (
+                <span class="rounded-lg border border-border bg-bg-primary/50 px-3 py-1.5 text-sm text-text-secondary transition-all duration-200 hover:border-accent/30 hover:text-accent hover:shadow-sm hover:shadow-accent/5">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </ScrollReveal>
+      ))}
+    </div>
+  </div>
+</section>

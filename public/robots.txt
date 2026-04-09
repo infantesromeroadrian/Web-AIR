@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://infantesromeroadrian.github.io/Web-AIR/sitemap.xml

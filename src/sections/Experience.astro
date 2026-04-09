@@ -1,0 +1,82 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import { experience } from "../data/experience";
+---
+
+<section id="experience" class="bg-bg-secondary/30 px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="Experience"
+      subtitle="From data pipelines to AI security architecture"
+    />
+
+    <div class="relative">
+      <!-- Timeline line -->
+      <div class="absolute left-0 top-0 hidden h-full w-px bg-border md:left-8 md:block"></div>
+
+      <div class="flex flex-col gap-12">
+        {experience.map((exp, i) => (
+          <ScrollReveal client:visible delay={i * 0.1}>
+            <div class="group relative md:pl-20">
+              <!-- Timeline dot -->
+              <div class="absolute left-0 top-2 hidden h-4 w-4 rounded-full border-2 border-accent bg-bg-primary transition-all duration-300 group-hover:scale-125 group-hover:shadow-lg group-hover:shadow-accent/20 md:left-[25px] md:block"></div>
+
+              <div class="rounded-xl border border-border bg-bg-secondary/50 p-6 transition-all duration-300 hover:border-accent/20 hover:shadow-lg hover:shadow-accent/5">
+                <!-- Header -->
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h3 class="text-xl font-bold text-text-primary">{exp.role}</h3>
+                    <p class="text-accent">{exp.company}</p>
+                  </div>
+                  <div class="text-right text-sm text-text-muted">
+                    <p>{exp.period}</p>
+                    <p>{exp.location}</p>
+                  </div>
+                </div>
+
+                <!-- Business headline -->
+                <p class="mt-3 text-text-secondary italic">
+                  &ldquo;{exp.headline}&rdquo;
+                </p>
+
+                <!-- Impact badges -->
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {exp.impact.map((imp) => (
+                    <span class="rounded-full bg-accent/10 px-3 py-1 text-sm font-medium text-accent">
+                      {imp.value} {imp.label.toLowerCase()}
+                    </span>
+                  ))}
+                </div>
+
+                <!-- Expandable details -->
+                <details class="mt-4">
+                  <summary class="cursor-pointer text-sm text-text-muted transition-colors hover:text-accent">
+                    Technical details &darr;
+                  </summary>
+                  <div class="mt-3 space-y-3 border-t border-border pt-3">
+                    <p class="text-sm text-text-secondary">{exp.description}</p>
+                    <ul class="space-y-1.5">
+                      {exp.highlights.map((h) => (
+                        <li class="text-sm text-text-secondary">
+                          <span class="mr-2 text-accent">&#9656;</span>{h}
+                        </li>
+                      ))}
+                    </ul>
+                    <div class="flex flex-wrap gap-1.5 pt-2">
+                      {exp.tags.map((tag) => (
+                        <span class="rounded bg-bg-tertiary px-2 py-0.5 text-xs text-text-muted">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import AnimatedCounter from "../components/react/AnimatedCounter";
+import ScrollReveal from "../components/react/ScrollReveal";
+import profileImage from "../../assets/Gemini_Generated_Image_ne74yhne74yhne74.png";
+import { Image } from "astro:assets";
+
+const metrics = [
+  { value: "6+", label: "Years building AI systems" },
+  { value: "206+", label: "Attacks on Foundation Models" },
+  { value: "800", label: "HackTheBox global rank" },
+  { value: "-20%", label: "Latency in prod banking" },
+  { value: "-35%", label: "Infrastructure costs" },
+  { value: "45K", label: "Images/hour real-time CV" },
+];
+---
+
+<section id="about" class="px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle title="About" />
+
+    <div class="grid gap-12 lg:grid-cols-[300px_1fr]">
+      <!-- Photo -->
+      <ScrollReveal client:visible direction="left">
+        <div class="flex justify-center lg:justify-start">
+          <div class="relative overflow-hidden rounded-2xl border border-border">
+            <Image
+              src={profileImage}
+              alt="Adrian Infantes in a data center"
+              width={300}
+              height={400}
+              class="object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg-primary/60 to-transparent"></div>
+          </div>
+        </div>
+      </ScrollReveal>
+
+      <!-- Content -->
+      <div>
+        <ScrollReveal client:visible delay={0.1}>
+          <p class="text-lg leading-relaxed text-text-secondary">
+            I build and break AI systems for one of Europe's largest banks.
+            <span class="font-medium text-text-primary">+6 years at the intersection of AI Engineering and Offensive Security</span>,
+            specialized in Financial Crime environments: AML, Sanctions Screening, KYC/KYB,
+            and Transaction Monitoring. I evaluate, attack, and fortify Foundation Models,
+            RAG pipelines, and Agentic Systems in regulated banking production.
+          </p>
+        </ScrollReveal>
+
+        <ScrollReveal client:visible delay={0.2}>
+          <p class="mt-4 text-text-secondary">
+            From the math behind the Transformer to the attack surface of the autonomous agent --
+            first-principles thinking applied to making AI systems secure by design.
+          </p>
+        </ScrollReveal>
+
+        <!-- Animated metrics grid -->
+        <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {metrics.map((m, i) => (
+            <AnimatedCounter
+              client:visible
+              value={m.value}
+              label={m.label}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+import type { SkillCategory } from "../lib/types";
+
+export const skills: SkillCategory[] = [
+  {
+    name: "AI Security",
+    icon: "shield-alert",
+    skills: [
+      "MITRE ATLAS",
+      "OWASP LLMs",
+      "Adversarial ML",
+      "PyRIT",
+      "Garak",
+      "Threat Modeling",
+      "Fuzzing",
+      "Red Teaming",
+    ],
+  },
+  {
+    name: "AI/ML",
+    icon: "brain",
+    skills: [
+      "PyTorch",
+      "Transformers",
+      "Deep Learning",
+      "scikit-learn",
+      "XGBoost",
+      "Computer Vision",
+      "NLP",
+      "ONNX",
+    ],
+  },
+  {
+    name: "LLMs & Agents",
+    icon: "bot",
+    skills: [
+      "LangGraph",
+      "LangChain",
+      "AutoGen",
+      "RAG",
+      "GraphRAG",
+      "Self-RAG",
+      "ReAct",
+      "FAISS",
+    ],
+  },
+  {
+    name: "NVIDIA",
+    icon: "cpu",
+    skills: [
+      "DGX",
+      "TensorRT-LLM",
+      "Triton",
+      "NIM",
+      "CUDA",
+      "cuDNN",
+      "Quantization",
+      "FP8/INT8/AWQ",
+    ],
+  },
+  {
+    name: "Infrastructure",
+    icon: "server",
+    skills: [
+      "Kubernetes",
+      "Docker",
+      "AWS",
+      "Azure",
+      "GCP",
+      "MLflow",
+      "CI/CD",
+      "Zero Trust",
+    ],
+  },
+  {
+    name: "Languages",
+    icon: "code",
+    skills: [
+      "Python",
+      "C++",
+      "CUDA",
+      "TypeScript",
+      "SQL",
+      "Bash",
+    ],
+  },
+];

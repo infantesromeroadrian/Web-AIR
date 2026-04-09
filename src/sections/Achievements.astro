@@ -1,0 +1,30 @@
+---
+import { achievements } from "../data/achievements";
+---
+
+<section class="border-y border-border bg-bg-secondary/50 px-6 py-12">
+  <div class="mx-auto flex max-w-[var(--max-w-content)] flex-wrap items-center justify-center gap-8 sm:gap-12">
+    {achievements.map((a) => (
+      <div class="text-center">
+        {a.url ? (
+          <a
+            href={a.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group"
+          >
+            <div class="text-lg font-bold text-text-primary transition-colors group-hover:text-accent">
+              {a.title}
+            </div>
+            <div class="text-xs text-text-muted">{a.subtitle}</div>
+          </a>
+        ) : (
+          <div>
+            <div class="text-lg font-bold text-text-primary">{a.title}</div>
+            <div class="text-xs text-text-muted">{a.subtitle}</div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</section>

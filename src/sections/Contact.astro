@@ -1,0 +1,40 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import { SOCIAL_LINKS, SITE } from "../lib/constants";
+---
+
+<section id="contact" class="bg-bg-secondary/30 px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)] text-center">
+    <SectionTitle title="Let's Talk" />
+
+    <ScrollReveal client:visible>
+      <p class="mx-auto max-w-xl text-lg text-text-secondary">
+        Looking for an AI Security Engineer who builds and breaks AI systems?
+        Let's connect.
+      </p>
+
+      <a
+        href={`mailto:${SITE.email}`}
+        class="mt-8 inline-block rounded-lg bg-accent px-8 py-4 text-lg font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
+      >
+        {SITE.email}
+      </a>
+
+      <div class="mt-8 flex items-center justify-center gap-6">
+        {SOCIAL_LINKS.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-text-muted transition-colors duration-200 hover:text-accent"
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+
+      <p class="mt-6 text-sm text-text-muted">{SITE.location}</p>
+    </ScrollReveal>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+import { SOCIAL_LINKS, SITE } from "../../lib/constants";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-bg-secondary px-6 py-12">
+  <div class="mx-auto flex max-w-[var(--max-w-content)] flex-col items-center gap-6">
+    <div class="flex items-center gap-6">
+      {SOCIAL_LINKS.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-muted transition-colors duration-200 hover:text-accent"
+          aria-label={link.name}
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-2 text-sm text-text-muted">
+      <span>&copy; {year} {SITE.author}.</span>
+      <span class="hidden sm:inline">Built with Astro.</span>
+      <span class="text-text-muted/50">|</span>
+      <button
+        id="terminal-hint"
+        class="font-mono text-xs text-text-muted/40 transition-colors duration-200 hover:text-accent"
+        aria-label="Open terminal"
+      >
+        Ctrl+K
+      </button>
+    </div>
+  </div>
+</footer>
