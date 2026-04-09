@@ -4,7 +4,7 @@ import { SOCIAL_LINKS, SITE } from "../../lib/constants";
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-border bg-bg-secondary px-6 py-12">
+<footer class="relative z-10 border-t border-border bg-bg-secondary/80 px-6 py-12 backdrop-blur-sm">
   <div class="mx-auto flex max-w-[var(--max-w-content)] flex-col items-center gap-6">
     <div class="flex items-center gap-6">
       {SOCIAL_LINKS.map((link) => (
@@ -34,3 +34,9 @@ const year = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById("terminal-hint")?.addEventListener("click", () => {
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
+  });
+</script>

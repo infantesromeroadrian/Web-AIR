@@ -1,0 +1,415 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e6]:
+    - navigation [ref=e7]:
+      - link "AIR" [ref=e8] [cursor=pointer]:
+        - /url: "#"
+      - list [ref=e9]:
+        - listitem [ref=e10]:
+          - link "About" [ref=e11] [cursor=pointer]:
+            - /url: "#about"
+        - listitem [ref=e12]:
+          - link "Experience" [ref=e13] [cursor=pointer]:
+            - /url: "#experience"
+        - listitem [ref=e14]:
+          - link "Projects" [ref=e15] [cursor=pointer]:
+            - /url: "#projects"
+        - listitem [ref=e16]:
+          - link "Skills" [ref=e17] [cursor=pointer]:
+            - /url: "#skills"
+        - listitem [ref=e18]:
+          - link "Contact" [ref=e19] [cursor=pointer]:
+            - /url: "#contact"
+      - button "Open terminal" [ref=e20]:
+        - generic [ref=e21]: Ctrl+K
+  - main [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: AI Security · AI Safety · Red Teaming
+        - heading "Adrian Infantes" [level=1] [ref=e27]
+        - paragraph [ref=e28]: AI Security Engineer
+        - paragraph [ref=e29]:
+          - text: I protect AI systems from the attacks
+          - text: that haven't been invented yet.
+        - generic [ref=e32]: "|"
+        - generic [ref=e33]:
+          - generic [ref=e34]: BBVA Technology
+          - generic [ref=e35]: Kaggle Master
+          - generic [ref=e36]: HackTheBox Top 800
+        - generic [ref=e37]:
+          - link "View Work →" [ref=e38] [cursor=pointer]:
+            - /url: "#projects"
+            - text: View Work
+            - generic [ref=e39]: →
+          - link "Contact" [ref=e40] [cursor=pointer]:
+            - /url: "#contact"
+      - generic [ref=e43]: scroll
+    - generic [ref=e46]:
+      - heading "About" [level=2] [ref=e48]
+      - generic [ref=e50]:
+        - img "Adrian Infantes in a data center" [ref=e56]
+        - generic [ref=e58]:
+          - paragraph [ref=e62]: "I build and break AI systems for one of Europe's largest banks. +6 years at the intersection of AI Engineering and Offensive Security, specialized in Financial Crime environments: AML, Sanctions Screening, KYC/KYB, and Transaction Monitoring. I evaluate, attack, and fortify Foundation Models, RAG pipelines, and Agentic Systems in regulated banking production."
+          - paragraph [ref=e66]: From the math behind the Transformer to the attack surface of the autonomous agent -- first-principles thinking applied to making AI systems secure by design.
+          - generic [ref=e67]:
+            - generic [ref=e69]:
+              - generic [ref=e70]: 6+
+              - generic [ref=e71]: Years building AI systems
+            - generic [ref=e73]:
+              - generic [ref=e74]: 206+
+              - generic [ref=e75]: Attacks on Foundation Models
+            - generic [ref=e77]:
+              - generic [ref=e78]: "800"
+              - generic [ref=e79]: HackTheBox global rank
+            - generic [ref=e81]:
+              - generic [ref=e82]: "-20%"
+              - generic [ref=e83]: Latency in prod banking
+            - generic [ref=e85]:
+              - generic [ref=e86]: "-35%"
+              - generic [ref=e87]: Infrastructure costs
+            - generic [ref=e89]:
+              - generic [ref=e90]: 45K
+              - generic [ref=e91]: Images/hour real-time CV
+    - generic [ref=e93]:
+      - link "Kaggle Master Top-tier competitive ML" [ref=e95] [cursor=pointer]:
+        - /url: https://www.kaggle.com/adrianinfantes
+        - generic [ref=e96]: Kaggle Master
+        - generic [ref=e97]: Top-tier competitive ML
+      - link "HackTheBox Top 800 Global ranking (L4tentNoise)" [ref=e99] [cursor=pointer]:
+        - /url: https://app.hackthebox.com
+        - generic [ref=e100]: HackTheBox Top 800
+        - generic [ref=e101]: Global ranking (L4tentNoise)
+      - generic [ref=e103]:
+        - generic [ref=e104]: 2nd Place Hack a Boss
+        - generic [ref=e105]: Python Hackathon
+      - generic [ref=e107]:
+        - generic [ref=e108]: Speaker OMEN League
+        - generic [ref=e109]: Featured speaker
+      - generic [ref=e111]:
+        - generic [ref=e112]: Talent4Cyber
+        - generic [ref=e113]: CiberEspacio contributor
+    - generic [ref=e115]:
+      - generic [ref=e116]:
+        - heading "Experience" [level=2] [ref=e117]
+        - paragraph [ref=e118]: From data pipelines to AI security architecture
+      - generic [ref=e122]:
+        - generic [ref=e128]:
+          - generic [ref=e129]:
+            - generic [ref=e130]:
+              - heading "AI Security Architect" [level=3] [ref=e131]
+              - paragraph [ref=e132]: BBVA Technology
+            - generic [ref=e133]:
+              - paragraph [ref=e134]: Jan 2026 -- Present
+              - paragraph [ref=e135]: Madrid, Spain
+          - paragraph [ref=e136]: “Protecting AI systems in European banking from adversarial attacks”
+          - generic [ref=e137]:
+            - generic [ref=e138]: "-20% latency"
+            - generic [ref=e139]: "-35% costs"
+            - generic [ref=e140]: 206+ attacks tested
+          - group [ref=e141]:
+            - generic "Technical details ↓" [ref=e142] [cursor=pointer]
+        - generic [ref=e148]:
+          - generic [ref=e149]:
+            - generic [ref=e150]:
+              - heading "AI/ML Engineer" [level=3] [ref=e151]
+              - paragraph [ref=e152]: BBVA Technology
+            - generic [ref=e153]:
+              - paragraph [ref=e154]: Jan 2024 -- Jan 2026
+              - paragraph [ref=e155]: Madrid, Spain
+          - paragraph [ref=e156]: “Building secure RAG and fraud detection for financial crime prevention”
+          - generic [ref=e157]:
+            - generic [ref=e158]: +15% retrieval precision
+            - generic [ref=e159]: +22% AUC fraud detection
+            - generic [ref=e160]: "-40% time-to-market"
+          - group [ref=e161]:
+            - generic "Technical details ↓" [ref=e162] [cursor=pointer]
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - heading "Machine Learning Engineer" [level=3] [ref=e171]
+              - paragraph [ref=e172]: Ecoembes
+            - generic [ref=e173]:
+              - paragraph [ref=e174]: Feb 2020 -- Jan 2024
+              - paragraph [ref=e175]: Madrid, Spain
+          - paragraph [ref=e176]: “Automating waste classification with computer vision and edge AI”
+          - generic [ref=e177]:
+            - generic [ref=e178]: 45K img/h throughput
+            - generic [ref=e179]: <100ms latency
+            - generic [ref=e180]: "-18% co2 footprint"
+          - group [ref=e181]:
+            - generic "Technical details ↓" [ref=e182] [cursor=pointer]
+        - generic [ref=e188]:
+          - generic [ref=e189]:
+            - generic [ref=e190]:
+              - heading "Data Scientist" [level=3] [ref=e191]
+              - paragraph [ref=e192]: Capgemini
+            - generic [ref=e193]:
+              - paragraph [ref=e194]: Jan 2019 -- Feb 2020
+              - paragraph [ref=e195]: Madrid, Spain
+          - paragraph [ref=e196]: “Modernizing analytics with cloud data pipelines on AWS”
+          - generic [ref=e197]:
+            - generic [ref=e198]: "-30% analysis cycle"
+            - generic [ref=e199]: "-35% query time"
+            - generic [ref=e200]: +20% forecast accuracy
+          - group [ref=e201]:
+            - generic "Technical details ↓" [ref=e202] [cursor=pointer]
+    - generic [ref=e204]:
+      - generic [ref=e205]:
+        - heading "Featured Projects" [level=2] [ref=e206]
+        - paragraph [ref=e207]: Real systems, real code, real impact
+      - generic [ref=e209]:
+        - generic [ref=e213]:
+          - generic [ref=e215]:
+            - generic "Demo video for FraudAI Agent" [ref=e216]
+            - generic:
+              - generic:
+                - img
+          - generic [ref=e217]:
+            - heading "FraudAI Agent" [level=3] [ref=e218]
+            - paragraph [ref=e219]: AI platform that catches bank fraud before it happens
+            - paragraph [ref=e220]: Multi-agent system for banking fraud detection and AI red teaming in FinTech. Autonomous agents analyze transactions, detect anomalies, and test system resilience.
+            - generic [ref=e221]:
+              - generic [ref=e222]: LangGraph
+              - generic [ref=e223]: Multi-Agent
+              - generic [ref=e224]: FinTech
+              - generic [ref=e225]: Red Teaming
+            - link "GitHub →" [ref=e227] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/FraudAI-Agent
+              - text: GitHub
+              - generic [ref=e228]: →
+        - generic [ref=e232]:
+          - generic [ref=e234]:
+            - generic "Demo video for Hospital Center AI" [ref=e235]
+            - generic:
+              - generic:
+                - img
+          - generic [ref=e236]:
+            - heading "Hospital Center AI" [level=3] [ref=e237]
+            - paragraph [ref=e238]: 9 AI specialists triaging emergency patients
+            - paragraph [ref=e239]: Multi-agent AI triage system with LangGraph. 9 medical specialists, emergency routing, clinical checklists, and prompt injection defense.
+            - generic [ref=e240]:
+              - generic [ref=e241]: LangGraph
+              - generic [ref=e242]: Multi-Agent
+              - generic [ref=e243]: Medical AI
+              - generic [ref=e244]: AI Safety
+            - link "GitHub →" [ref=e246] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/LangGraph-Agents-HospitalCenter
+              - text: GitHub
+              - generic [ref=e247]: →
+        - generic [ref=e251]:
+          - generic [ref=e253]:
+            - generic "Demo video for Drone GeoAnalysis" [ref=e254]
+            - generic:
+              - generic:
+                - img
+          - generic [ref=e255]:
+            - heading "Drone GeoAnalysis" [level=3] [ref=e256]
+            - paragraph [ref=e257]: Turning drone footage into actionable intelligence
+            - paragraph [ref=e258]: LLM-powered geospatial analysis system that processes drone imagery and extracts structured intelligence using vision models and natural language.
+            - generic [ref=e259]:
+              - generic [ref=e260]: LLMs
+              - generic [ref=e261]: Computer Vision
+              - generic [ref=e262]: Geospatial
+              - generic [ref=e263]: Python
+            - link "GitHub →" [ref=e265] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs
+              - text: GitHub
+              - generic [ref=e266]: →
+        - generic [ref=e270]:
+          - generic [ref=e272]: ">_"
+          - generic [ref=e273]:
+            - heading "Spectra" [level=3] [ref=e274]
+            - paragraph [ref=e275]: Mapping attack surfaces with AI reasoning
+            - paragraph [ref=e276]: AI-powered attack surface reconnaissance tool. Scans targets for subdomains, open ports, services, and known vulnerabilities, stores in Neo4j, and provides an AI analyst.
+            - generic [ref=e277]:
+              - generic [ref=e278]: LangGraph
+              - generic [ref=e279]: Neo4j
+              - generic [ref=e280]: Security
+              - generic [ref=e281]: OSINT
+            - link "GitHub →" [ref=e283] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/Spectra-LangGraph-AI-Red-Teaming-Orchestration
+              - text: GitHub
+              - generic [ref=e284]: →
+        - generic [ref=e288]:
+          - generic [ref=e290]: ">_"
+          - generic [ref=e291]:
+            - heading "WatchDogs Security City" [level=3] [ref=e292]
+            - paragraph [ref=e293]: Smart city threat monitoring system
+            - paragraph [ref=e294]: Real-time security event processing and monitoring for smart city infrastructure. Threat detection and automated response orchestration.
+            - generic [ref=e295]:
+              - generic [ref=e296]: Security
+              - generic [ref=e297]: Monitoring
+              - generic [ref=e298]: Real-time
+              - generic [ref=e299]: Python
+            - link "GitHub →" [ref=e301] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/WatchDogs-Security-City
+              - text: GitHub
+              - generic [ref=e302]: →
+        - generic [ref=e306]:
+          - generic [ref=e308]: ">_"
+          - generic [ref=e309]:
+            - heading "SIEM Anomaly Detector" [level=3] [ref=e310]
+            - paragraph [ref=e311]: ML that finds the needle in millions of logs
+            - paragraph [ref=e312]: Machine learning-based anomaly detection system for SIEM data. Identifies suspicious patterns in security logs at scale.
+            - generic [ref=e313]:
+              - generic [ref=e314]: ML
+              - generic [ref=e315]: Cybersecurity
+              - generic [ref=e316]: SIEM
+              - generic [ref=e317]: Anomaly Detection
+            - link "GitHub →" [ref=e319] [cursor=pointer]:
+              - /url: https://github.com/infantesromeroadrian/SIEM-Anomaly-Detector-ML
+              - text: GitHub
+              - generic [ref=e320]: →
+    - generic [ref=e322]:
+      - generic [ref=e323]:
+        - heading "Tech Stack" [level=2] [ref=e324]
+        - paragraph [ref=e325]: Tools I use to build and secure AI systems
+      - generic [ref=e327]:
+        - generic [ref=e331]:
+          - generic [ref=e332]:
+            - img [ref=e334]
+            - heading "AI Security" [level=3] [ref=e336]
+          - generic [ref=e337]:
+            - generic [ref=e338]: MITRE ATLAS
+            - generic [ref=e339]: OWASP LLMs
+            - generic [ref=e340]: Adversarial ML
+            - generic [ref=e341]: PyRIT
+            - generic [ref=e342]: Garak
+            - generic [ref=e343]: Threat Modeling
+            - generic [ref=e344]: Fuzzing
+            - generic [ref=e345]: Red Teaming
+        - generic [ref=e349]:
+          - generic [ref=e350]:
+            - img [ref=e352]
+            - heading "AI/ML" [level=3] [ref=e356]
+          - generic [ref=e357]:
+            - generic [ref=e358]: PyTorch
+            - generic [ref=e359]: Transformers
+            - generic [ref=e360]: Deep Learning
+            - generic [ref=e361]: scikit-learn
+            - generic [ref=e362]: XGBoost
+            - generic [ref=e363]: Computer Vision
+            - generic [ref=e364]: NLP
+            - generic [ref=e365]: ONNX
+        - generic [ref=e369]:
+          - generic [ref=e370]:
+            - img [ref=e372]
+            - heading "LLMs & Agents" [level=3] [ref=e375]
+          - generic [ref=e376]:
+            - generic [ref=e377]: LangGraph
+            - generic [ref=e378]: LangChain
+            - generic [ref=e379]: AutoGen
+            - generic [ref=e380]: RAG
+            - generic [ref=e381]: GraphRAG
+            - generic [ref=e382]: Self-RAG
+            - generic [ref=e383]: ReAct
+            - generic [ref=e384]: FAISS
+        - generic [ref=e388]:
+          - generic [ref=e389]:
+            - img [ref=e391]
+            - heading "NVIDIA" [level=3] [ref=e394]
+          - generic [ref=e395]:
+            - generic [ref=e396]: DGX
+            - generic [ref=e397]: TensorRT-LLM
+            - generic [ref=e398]: Triton
+            - generic [ref=e399]: NIM
+            - generic [ref=e400]: CUDA
+            - generic [ref=e401]: cuDNN
+            - generic [ref=e402]: Quantization
+            - generic [ref=e403]: FP8/INT8/AWQ
+        - generic [ref=e407]:
+          - generic [ref=e408]:
+            - img [ref=e410]
+            - heading "Infrastructure" [level=3] [ref=e413]
+          - generic [ref=e414]:
+            - generic [ref=e415]: Kubernetes
+            - generic [ref=e416]: Docker
+            - generic [ref=e417]: AWS
+            - generic [ref=e418]: Azure
+            - generic [ref=e419]: GCP
+            - generic [ref=e420]: MLflow
+            - generic [ref=e421]: CI/CD
+            - generic [ref=e422]: Zero Trust
+        - generic [ref=e426]:
+          - generic [ref=e427]:
+            - img [ref=e429]
+            - heading "Languages" [level=3] [ref=e432]
+          - generic [ref=e433]:
+            - generic [ref=e434]: Python
+            - generic [ref=e435]: C++
+            - generic [ref=e436]: CUDA
+            - generic [ref=e437]: TypeScript
+            - generic [ref=e438]: SQL
+            - generic [ref=e439]: Bash
+    - generic [ref=e441]:
+      - heading "Education" [level=2] [ref=e443]
+      - generic [ref=e445]:
+        - generic [ref=e449]:
+          - heading "Universidad Camilo Jose Cela" [level=3] [ref=e450]
+          - paragraph [ref=e451]: BS Double Degree Computational Mathematics & Computer Science
+          - paragraph [ref=e452]: "Specialization: Artificial Intelligence"
+        - generic [ref=e456]:
+          - heading "MIOTI | Tech & Business School" [level=3] [ref=e457]
+          - paragraph [ref=e458]: Master's Degree, Gen AI & Deep Learning
+        - generic [ref=e462]:
+          - heading "MIOTI | Tech & Business School" [level=3] [ref=e463]
+          - paragraph [ref=e464]: Master's Degree, Big Data & Data Science
+        - generic [ref=e468]:
+          - heading "U-tad" [level=3] [ref=e469]
+          - paragraph [ref=e470]: CFGS Administracion de Sistemas Informaticos en Red (ASIR)
+      - generic [ref=e474]:
+        - heading "Certifications" [level=3] [ref=e475]
+        - generic [ref=e476]:
+          - generic [ref=e477]: "AI-102: Azure AI Solution Design"
+          - generic [ref=e478]: LangChain for LLM Application Development
+          - generic [ref=e479]: Certificate AI Engineer Track
+          - generic [ref=e480]: Linear Algebra for ML & Data Science
+          - generic [ref=e481]: OSINT Fundamentals
+    - generic [ref=e483]:
+      - heading "Let's Talk" [level=2] [ref=e485]
+      - generic [ref=e489]:
+        - paragraph [ref=e490]: Looking for an AI Security Engineer who builds and breaks AI systems? Let's connect.
+        - link "infantesromeroadrian@gmail.com" [ref=e491] [cursor=pointer]:
+          - /url: mailto:infantesromeroadrian@gmail.com
+        - generic [ref=e492]:
+          - link "GitHub" [ref=e493] [cursor=pointer]:
+            - /url: https://github.com/infantesromeroadrian
+          - link "LinkedIn" [ref=e494] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/adrianinfantes
+          - link "Kaggle" [ref=e495] [cursor=pointer]:
+            - /url: https://www.kaggle.com/adrianinfantes
+          - link "Email" [ref=e496] [cursor=pointer]:
+            - /url: mailto:infantesromeroadrian@gmail.com
+        - paragraph [ref=e497]: Madrid, Spain
+  - contentinfo [ref=e498]:
+    - generic [ref=e499]:
+      - generic [ref=e500]:
+        - link "GitHub" [ref=e501] [cursor=pointer]:
+          - /url: https://github.com/infantesromeroadrian
+        - link "LinkedIn" [ref=e502] [cursor=pointer]:
+          - /url: https://www.linkedin.com/in/adrianinfantes
+        - link "Kaggle" [ref=e503] [cursor=pointer]:
+          - /url: https://www.kaggle.com/adrianinfantes
+        - link "Email" [ref=e504] [cursor=pointer]:
+          - /url: mailto:infantesromeroadrian@gmail.com
+      - generic [ref=e505]:
+        - generic [ref=e506]: © 2026 Adrian Infantes.
+        - generic [ref=e507]: Built with Astro.
+        - generic [ref=e508]: "|"
+        - button "Open terminal" [ref=e509]: Ctrl+K
+  - generic [ref=e512]:
+    - button "Menu" [ref=e513]:
+      - img [ref=e515]
+      - generic: Menu
+    - button "Inspect" [ref=e519]:
+      - img [ref=e521]
+      - generic: Inspect
+    - button "Audit" [ref=e523]:
+      - generic [ref=e524]:
+        - img [ref=e525]
+        - img [ref=e528]
+      - generic: Audit
+    - button "Settings" [ref=e531]:
+      - img [ref=e533]
+      - generic: Settings

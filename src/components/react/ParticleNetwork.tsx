@@ -10,7 +10,7 @@ interface Particle {
 
 const PARTICLE_COUNT = 60;
 const CONNECTION_DISTANCE = 150;
-const PARTICLE_COLOR = "6, 182, 212"; // cyan-500 RGB
+const PARTICLE_COLOR = "6, 182, 212";
 const SPEED = 0.3;
 
 export default function ParticleNetwork() {
@@ -18,6 +18,7 @@ export default function ParticleNetwork() {
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
   const mouseRef = useRef({ x: -1000, y: -1000 });
+  const sizeRef = useRef({ w: 0, h: 0 });
 
   const initParticles = useCallback((width: number, height: number) => {
     particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
@@ -40,7 +41,8 @@ export default function ParticleNetwork() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      sizeRef.current = { w: rect.width, h: rect.height };
       if (particlesRef.current.length === 0) {
         initParticles(rect.width, rect.height);
       }
@@ -56,9 +58,7 @@ export default function ParticleNetwork() {
     canvas.addEventListener("mousemove", handleMouse);
 
     const animate = () => {
-      const rect = canvas.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
+      const { w, h } = sizeRef.current;
       ctx.clearRect(0, 0, w, h);
 
       const particles = particlesRef.current;
@@ -71,7 +71,6 @@ export default function ParticleNetwork() {
         if (p.y < 0 || p.y > h) p.vy *= -1;
       }
 
-      // Draw connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -88,7 +87,6 @@ export default function ParticleNetwork() {
           }
         }
 
-        // Mouse connection
         const mdx = particles[i].x - mouse.x;
         const mdy = particles[i].y - mouse.y;
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
@@ -103,7 +101,6 @@ export default function ParticleNetwork() {
         }
       }
 
-      // Draw particles
       for (const p of particles) {
         ctx.fillStyle = `rgba(${PARTICLE_COLOR}, 0.6)`;
         ctx.beginPath();
@@ -114,14 +111,11 @@ export default function ParticleNetwork() {
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    // Check for reduced motion preference
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!prefersReduced) {
       animationRef.current = requestAnimationFrame(animate);
     } else {
-      // Draw static frame
-      initParticles(canvas.getBoundingClientRect().width, canvas.getBoundingClientRect().height);
-      const rect2 = canvas.getBoundingClientRect();
+      initParticles(sizeRef.current.w, sizeRef.current.h);
       for (const p of particlesRef.current) {
         ctx.fillStyle = `rgba(${PARTICLE_COLOR}, 0.4)`;
         ctx.beginPath();

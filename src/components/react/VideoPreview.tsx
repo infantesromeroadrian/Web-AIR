@@ -42,8 +42,9 @@ export default function VideoPreview({ src, title }: Props) {
         }`}
         aria-label={`Demo video for ${title}`}
       />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-secondary)] to-transparent opacity-60 pointer-events-none"></div>
       {!isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
           <div className="rounded-full bg-[var(--color-accent)]/20 p-4 backdrop-blur-sm">
             <svg
               width="24"
@@ -57,7 +58,6 @@ export default function VideoPreview({ src, title }: Props) {
           </div>
         </div>
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-secondary)] to-transparent opacity-60"></div>
     </div>
   );
 }

@@ -20,7 +20,8 @@ export default function AnimatedCounter({ value, label }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [display, setDisplay] = useState(value);
-  const { prefix, number, suffix } = parseNumericPart(value);
+  const parsed = useRef(parseNumericPart(value));
+  const { prefix, number, suffix } = parsed.current;
 
   useEffect(() => {
     if (!isInView || number === 0) return;

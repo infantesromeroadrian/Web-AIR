@@ -10,11 +10,18 @@ import Skills from "../sections/Skills.astro";
 import Achievements from "../sections/Achievements.astro";
 import Education from "../sections/Education.astro";
 import Contact from "../sections/Contact.astro";
+import MiniTerminal from "../components/react/MiniTerminal";
+import ParticleNetwork from "../components/react/ParticleNetwork";
 ---
 
 <BaseLayout>
+  <!-- Global particle background - desktop only, fixed behind everything -->
+  <div class="fixed inset-0 z-0 hidden md:block" aria-hidden="true">
+    <ParticleNetwork client:load />
+  </div>
+
   <Header />
-  <main id="main">
+  <main id="main" class="relative z-10">
     <Hero />
     <About />
     <Achievements />
@@ -25,4 +32,5 @@ import Contact from "../sections/Contact.astro";
     <Contact />
   </main>
   <Footer />
+  <MiniTerminal client:idle />
 </BaseLayout>

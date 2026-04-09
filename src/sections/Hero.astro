@@ -1,5 +1,4 @@
 ---
-import ParticleNetwork from "../components/react/ParticleNetwork";
 import TypewriterText from "../components/react/TypewriterText";
 
 const phrases = [
@@ -14,15 +13,8 @@ const phrases = [
   id="hero"
   class="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
 >
-  <!-- Background layers -->
-  <div class="absolute inset-0 bg-gradient-to-br from-bg-primary via-bg-secondary to-bg-primary">
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.08),transparent_50%)]"></div>
-  </div>
-
-  <!-- Particle network - desktop only -->
-  <div class="absolute inset-0 hidden md:block">
-    <ParticleNetwork client:load />
-  </div>
+  <!-- Hero gradient overlay -->
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.08),transparent_50%)]"></div>
 
   <div class="relative z-10 mx-auto max-w-[var(--max-w-content)] text-center">
     <p class="mb-4 font-mono text-sm tracking-widest text-text-muted uppercase">
