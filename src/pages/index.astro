@@ -12,6 +12,7 @@ import Education from "../sections/Education.astro";
 import Contact from "../sections/Contact.astro";
 import MiniTerminal from "../components/react/MiniTerminal";
 import ParticleNetwork from "../components/react/ParticleNetwork";
+import DeadPixel from "../components/react/DeadPixel";
 ---
 
 <BaseLayout>
@@ -19,6 +20,9 @@ import ParticleNetwork from "../components/react/ParticleNetwork";
   <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true">
     <ParticleNetwork client:load />
   </div>
+
+  <!-- Dead pixel Easter egg - links to L4tentNoise -->
+  <DeadPixel client:idle />
 
   <Header />
   <main id="main" class="relative z-10">
