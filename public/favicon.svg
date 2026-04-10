@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#0a0a0f"/>
-  <text x="4" y="24" font-family="monospace" font-size="20" font-weight="bold" fill="#06b6d4">A</text>
+  <rect width="32" height="32" rx="6" fill="#0a0a0f"/>
+  <rect x="1" y="1" width="30" height="30" rx="5" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+  <!-- Shield outline -->
+  <path d="M16 4 L26 9 L26 17 C26 22 21.5 26.5 16 28 C10.5 26.5 6 22 6 17 L6 9 Z"
+    fill="none" stroke="#06b6d4" stroke-width="1.2" opacity="0.6"/>
+  <!-- Terminal prompt inside shield -->
+  <text x="9" y="20.5" font-family="monospace" font-size="11" font-weight="bold" fill="#06b6d4">&gt;_</text>
 </svg>

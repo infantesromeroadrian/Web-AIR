@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+  <!-- Subtle grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a1a2e" stroke-width="0.5"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <!-- Gradient accent -->
+  <ellipse cx="600" cy="200" rx="400" ry="200" fill="#06b6d4" opacity="0.05"/>
+  <!-- Name -->
+  <text x="600" y="240" text-anchor="middle" font-family="monospace, sans-serif" font-size="72" font-weight="bold" fill="#e4e4e7">Adrian Infantes</text>
+  <!-- Role -->
+  <text x="600" y="310" text-anchor="middle" font-family="monospace, sans-serif" font-size="32" fill="#06b6d4">AI Security Engineer</text>
+  <!-- Tagline -->
+  <text x="600" y="380" text-anchor="middle" font-family="monospace, sans-serif" font-size="22" fill="#a1a1aa">AI Safety &middot; Red Teaming &middot; Adversarial ML &middot; Kaggle Master</text>
+  <!-- Bottom bar -->
+  <rect x="0" y="590" width="1200" height="40" fill="#12121a"/>
+  <text x="600" y="617" text-anchor="middle" font-family="monospace, sans-serif" font-size="16" fill="#71717a">infantesromeroadrian.github.io/Web-AIR</text>
+  <!-- Shield icon -->
+  <g transform="translate(560, 420)">
+    <path d="M40 5 L75 18 L75 42 C75 58 58 72 40 78 C22 72 5 58 5 42 L5 18 Z"
+      fill="none" stroke="#06b6d4" stroke-width="2" opacity="0.4"/>
+    <text x="20" y="52" font-family="monospace" font-size="24" font-weight="bold" fill="#06b6d4">&gt;_</text>
+  </g>
+</svg>
