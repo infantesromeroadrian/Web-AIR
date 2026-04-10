@@ -20,7 +20,7 @@ import DeadPixel from "../components/react/DeadPixel";
 ---
 
 <BaseLayout>
-  <!-- Global particle background - persists across page transitions -->
+  <!-- Global particle background - behind content, body is transparent so particles show -->
   <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true" transition:persist="particles">
     <ParticleNetwork client:load transition:persist />
   </div>
