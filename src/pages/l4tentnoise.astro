@@ -1,50 +1,49 @@
 ---
 import "../styles/global.css";
 import L4tentNoiseShell from "../components/react/L4tentNoiseShell";
+import GlitchLayer from "../components/react/GlitchLayer";
 
 const stats = [
-  { label: "Global Rank", value: "#751" },
-  { label: "Points", value: "232" },
-  { label: "Flags", value: "69" },
-  { label: "Ownership", value: "37.88%" },
+  { label: "RANK", value: "#751", sub: "GLOBAL" },
+  { label: "PTS", value: "232", sub: "ACCUMULATED" },
+  { label: "FLAGS", value: "69", sub: "CAPTURED" },
+  { label: "OWN%", value: "37.88", sub: "CONTENT" },
 ];
-
-const season = {
-  name: "Season 10",
-  tier: "Silver",
-  rank: "#3997",
-  points: "220",
-  flags: "8/26",
-};
 
 const difficulty = [
-  { level: "Easy", count: 6, color: "#10b981" },
-  { level: "Medium", count: 4, color: "#f59e0b" },
-  { level: "Hard", count: 4, color: "#ef4444" },
-  { level: "Insane", count: 0, color: "#8b5cf6" },
+  { level: "EASY", count: 6, color: "#10b981" },
+  { level: "MED", count: 4, color: "#f59e0b" },
+  { level: "HARD", count: 4, color: "#ef4444" },
+  { level: "INS", count: 0, color: "#8b5cf6" },
 ];
 
-const redTeamTargets = [
+const compromised = [
   {
-    model: "NVIDIA Nemotron",
-    type: "Foundation Model",
-    status: "Compromised",
-    detail: "Guardrail bypass, prompt injection, data exfiltration vectors identified",
+    target: "NVIDIA Nemotron",
+    classification: "Foundation Model — 340B params",
+    vectors: "Guardrail bypass, prompt injection, data exfiltration, tool abuse",
+    status: "PWNED",
   },
   {
-    model: "Microsoft Phi",
-    type: "Small Language Model",
-    status: "Compromised",
-    detail: "Multi-turn jailbreak, system prompt extraction, alignment bypass",
+    target: "Microsoft Phi",
+    classification: "SLM — Alignment target",
+    vectors: "Multi-turn jailbreak, system prompt extraction, alignment bypass",
+    status: "PWNED",
+  },
+  {
+    target: "Foundation Models (aggregate)",
+    classification: "Cross-vendor evaluation",
+    vectors: "206+ vectors: injection, poisoning, extraction, manipulation",
+    status: "7 CRITICAL",
   },
 ];
 
-const recentActivity = [
-  { action: "Solved Fortress flag", target: "Jerry-built", time: "7 days ago" },
-  { action: "Solved Fortress flag", target: "Shortcut", time: "7 days ago" },
-  { action: "Solved Fortress flag", target: "Magnified", time: "8 days ago" },
-  { action: "Solved Fortress flag", target: "Inspector", time: "8 days ago" },
-  { action: "Solved Fortress flag", target: "Early Access", time: "8 days ago" },
+const activity = [
+  { flag: "Jerry-built", type: "Fortress", ago: "7d" },
+  { flag: "Shortcut", type: "Fortress", ago: "7d" },
+  { flag: "Magnified", type: "Fortress", ago: "8d" },
+  { flag: "Inspector", type: "Fortress", ago: "8d" },
+  { flag: "Early Access", type: "Fortress", ago: "8d" },
 ];
 ---
 
@@ -61,223 +60,229 @@ const recentActivity = [
         0% { transform: translateY(-100%); }
         100% { transform: translateY(100vh); }
       }
-      @keyframes flicker {
-        0%, 97%, 100% { opacity: 1; }
-        98% { opacity: 0.8; }
-        99% { opacity: 0.95; }
-      }
-      @keyframes glitch-h {
-        0%, 100% { transform: translateX(0); }
-        20% { transform: translateX(-3px); }
-        40% { transform: translateX(3px); }
-        60% { transform: translateX(-1px); }
-        80% { transform: translateX(1px); }
-      }
       @keyframes terminal-cursor {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
       }
-      .scanline-anim { animation: scanline 8s linear infinite; }
-      .flicker { animation: flicker 4s infinite; }
-      .glitch-hover:hover { animation: glitch-h 0.3s ease-in-out; }
+      @keyframes pulse-red {
+        0%, 100% { box-shadow: 0 0 0 rgba(239,68,68,0); }
+        50% { box-shadow: 0 0 12px rgba(239,68,68,0.3); }
+      }
+      .scanline-anim { animation: scanline 6s linear infinite; }
       .cursor-blink::after {
         content: "_";
-        animation: terminal-cursor 1s step-end infinite;
+        animation: terminal-cursor 0.8s step-end infinite;
         color: #06b6d4;
       }
-      .status-compromised {
-        text-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+      .pulse-danger { animation: pulse-red 2s ease-in-out infinite; }
+      .classified-stamp {
+        position: relative;
+      }
+      .classified-stamp::before {
+        content: "LEAKED";
+        position: absolute;
+        top: -8px;
+        right: -12px;
+        font-size: 9px;
+        font-weight: 900;
+        color: rgba(239,68,68,0.6);
+        letter-spacing: 0.15em;
+        transform: rotate(12deg);
+        border: 1px solid rgba(239,68,68,0.3);
+        padding: 1px 4px;
       }
     </style>
   </head>
   <body class="bg-bg-primary text-text-primary font-mono overflow-x-hidden">
 
     <L4tentNoiseShell client:load>
-      <!-- Scanline overlay -->
-      <div class="pointer-events-none fixed inset-0 z-50 overflow-hidden opacity-[0.04]">
+      <!-- Persistent effects layer -->
+      <GlitchLayer client:load />
+
+      <!-- Scanline -->
+      <div class="pointer-events-none fixed inset-0 z-50 overflow-hidden opacity-[0.03]">
         <div class="scanline-anim h-[2px] w-full bg-accent"></div>
       </div>
 
       <!-- CRT vignette -->
       <div class="pointer-events-none fixed inset-0 z-40"
-        style="background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);">
+        style="background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);">
       </div>
 
-      <div class="relative z-10 mx-auto max-w-4xl px-6 py-16">
+      <div class="relative z-10 mx-auto max-w-4xl px-6 py-8">
 
-        <!-- Header -->
-        <header class="mb-16 text-center">
-          <p class="text-xs text-accent-red tracking-[0.3em] uppercase mb-4 flicker">
-            [SIGNAL INTERCEPTED]
-          </p>
-
-          <h1 class="text-5xl sm:text-7xl font-bold tracking-tight glitch-hover"
-            style="text-shadow: 3px 3px 0 rgba(239,68,68,0.25), -2px -2px 0 rgba(6,182,212,0.25);">
-            <span class="text-accent">L4tent</span><span class="text-text-primary">Noise</span>
-          </h1>
-
-          <div class="mx-auto mt-4 h-px w-40 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
-
-          <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <span class="rounded border border-accent-green/30 bg-accent-green/10 px-3 py-1 text-xs text-accent-green">
-              VIP+ Hacker
+        <!-- System bar -->
+        <div class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-accent-red/20 pb-3 text-[10px] text-text-muted">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1.5">
+              <span class="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse"></span>
+              UNSECURED SESSION
             </span>
-            <span class="rounded border border-accent/30 bg-accent/10 px-3 py-1 text-xs text-accent">
-              Kaggle Master
-            </span>
-            <span class="rounded border border-accent-red/30 bg-accent-red/10 px-3 py-1 text-xs text-accent-red">
-              AI Red Teamer
-            </span>
+            <span>PID: 4721</span>
+            <span>TTY: pts/3</span>
           </div>
+          <div class="flex items-center gap-4">
+            <span>VPN: 10.10.14.x</span>
+            <span>UPTIME: {Math.floor(Math.random() * 200 + 50)}h</span>
+            <span class="text-accent-red">REC</span>
+          </div>
+        </div>
 
-          <p class="mt-4 text-sm text-text-muted">
-            Spain &middot; Joined Nov 2025 &middot; 27 Respects
-          </p>
+        <!-- Identity block -->
+        <header class="mb-12">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p class="text-[10px] text-accent-red tracking-[0.3em] uppercase mb-2">
+                // CLASSIFIED — OPERATOR FILE
+              </p>
+              <h1 class="text-4xl sm:text-6xl font-bold tracking-tight"
+                style="text-shadow: 2px 2px 0 rgba(239,68,68,0.2), -1px -1px 0 rgba(6,182,212,0.2);">
+                <span class="text-accent">L4tent</span><span class="text-text-primary">Noise</span>
+              </h1>
+              <p class="mt-2 text-sm text-text-secondary">
+                AI Red Teamer &middot; Adversarial ML Researcher &middot; Offensive Security
+              </p>
+            </div>
+            <div class="flex flex-col items-end gap-2">
+              <span class="rounded border border-accent-red/40 bg-accent-red/10 px-3 py-1 text-[10px] text-accent-red pulse-danger">
+                THREAT LEVEL: HIGH
+              </span>
+              <div class="flex gap-2">
+                <span class="rounded border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[10px] text-accent-green">HTB VIP+</span>
+                <span class="rounded border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] text-accent">KAGGLE MASTER</span>
+              </div>
+            </div>
+          </div>
         </header>
 
         <!-- HTB Stats -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-border pb-2">
-            <span class="text-accent">//</span> HackTheBox Global
+        <section class="mb-10">
+          <h2 class="mb-4 text-[10px] tracking-[0.2em] text-text-muted uppercase border-b border-border/50 pb-2">
+            <span class="text-accent-red">&gt;</span> hackthebox_stats.db <span class="classified-stamp"></span>
           </h2>
-          <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div class="grid grid-cols-4 gap-3">
             {stats.map((s) => (
-              <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
-                <div class="text-2xl font-bold text-accent">{s.value}</div>
-                <div class="mt-1 text-xs text-text-muted">{s.label}</div>
+              <div class="rounded border border-border/50 bg-bg-secondary/30 p-3 text-center">
+                <div class="text-xl font-bold text-accent">{s.value}</div>
+                <div class="text-[9px] text-text-muted tracking-wider">{s.label}</div>
               </div>
             ))}
           </div>
-        </section>
-
-        <!-- Season -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-border pb-2">
-            <span class="text-accent">//</span> {season.name} &middot; {season.tier} Tier
-          </h2>
-          <div class="grid grid-cols-3 gap-4">
-            <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
-              <div class="text-xl font-bold text-text-primary">{season.rank}</div>
-              <div class="text-xs text-text-muted">Seasonal Rank</div>
-            </div>
-            <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
-              <div class="text-xl font-bold text-text-primary">{season.points}</div>
-              <div class="text-xs text-text-muted">Points</div>
-            </div>
-            <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
-              <div class="text-xl font-bold text-text-primary">{season.flags}</div>
-              <div class="text-xs text-text-muted">Flags</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Difficulty -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-border pb-2">
-            <span class="text-accent">//</span> Difficulty Completion
-          </h2>
-          <div class="grid grid-cols-4 gap-4">
+          <div class="mt-3 grid grid-cols-4 gap-3">
             {difficulty.map((d) => (
-              <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
-                <div class="text-3xl font-bold" style={`color: ${d.color};`}>{d.count}</div>
-                <div class="mt-1 text-xs text-text-muted">{d.level}</div>
-                <div class="mx-auto mt-2 h-1 w-full rounded-full bg-bg-tertiary overflow-hidden">
-                  <div class="h-full rounded-full" style={`width: ${Math.min(d.count * 10, 100)}%; background-color: ${d.color};`}></div>
+              <div class="flex items-center gap-2 rounded border border-border/30 bg-bg-secondary/20 px-3 py-2">
+                <span class="text-lg font-bold" style={`color: ${d.color};`}>{d.count}</span>
+                <div class="flex-1">
+                  <div class="text-[9px] text-text-muted">{d.level}</div>
+                  <div class="mt-0.5 h-0.5 w-full rounded-full bg-bg-tertiary overflow-hidden">
+                    <div class="h-full rounded-full" style={`width: ${Math.min(d.count * 15, 100)}%; background-color: ${d.color};`}></div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+          <div class="mt-3 flex items-center gap-4 text-[10px] text-text-muted">
+            <span>SEASON 10: Silver Tier</span>
+            <span>|</span>
+            <span>Seasonal #3997</span>
+            <span>|</span>
+            <span>220 pts</span>
+            <span>|</span>
+            <span>8/26 flags</span>
+          </div>
         </section>
 
-        <!-- AI Red Team Targets -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-accent-red/30 pb-2">
-            <span class="text-accent-red">//</span> AI Red Team &middot; Foundation Model Attacks
+        <!-- COMPROMISED TARGETS -->
+        <section class="mb-10">
+          <h2 class="mb-4 text-[10px] tracking-[0.2em] text-accent-red uppercase border-b border-accent-red/30 pb-2">
+            <span>&gt;</span> cat /var/log/engagements/ai_redteam.log
           </h2>
-          <div class="space-y-4">
-            {redTeamTargets.map((target) => (
-              <div class="rounded-lg border border-accent-red/20 bg-accent-red/5 p-5">
+          <div class="space-y-3">
+            {compromised.map((c) => (
+              <div class="rounded border border-accent-red/20 bg-accent-red/[0.03] p-4">
                 <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <h3 class="text-lg font-bold text-text-primary">{target.model}</h3>
-                    <p class="text-xs text-text-muted">{target.type}</p>
+                    <span class="text-base font-bold text-text-primary">{c.target}</span>
+                    <span class="ml-2 text-[10px] text-text-muted">{c.classification}</span>
                   </div>
-                  <span class="status-compromised inline-flex items-center gap-1.5 rounded border border-accent-red/40 bg-accent-red/10 px-3 py-1 text-xs font-bold text-accent-red uppercase">
+                  <span class="inline-flex items-center gap-1.5 rounded border border-accent-red/50 bg-accent-red/15 px-2.5 py-0.5 text-[10px] font-black text-accent-red tracking-wider"
+                    style="text-shadow: 0 0 6px rgba(239,68,68,0.5);">
                     <span class="h-1.5 w-1.5 rounded-full bg-accent-red animate-pulse"></span>
-                    {target.status}
+                    {c.status}
                   </span>
                 </div>
-                <p class="mt-3 text-sm text-text-secondary">{target.detail}</p>
+                <p class="mt-2 text-xs text-text-muted">{c.vectors}</p>
               </div>
             ))}
           </div>
-          <p class="mt-4 text-xs text-text-muted">
-            206+ total attack vectors evaluated across Foundation Models.
-            7 critical findings remediated pre-deploy at BBVA Technology.
-          </p>
         </section>
 
         <!-- Kaggle -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-accent/30 pb-2">
-            <span class="text-accent">//</span> Kaggle &middot; Competitive ML
+        <section class="mb-10">
+          <h2 class="mb-4 text-[10px] tracking-[0.2em] text-text-muted uppercase border-b border-border/50 pb-2">
+            <span class="text-accent">&gt;</span> kaggle_profile --rank master
           </h2>
-          <div class="rounded-lg border border-accent/20 bg-accent/5 p-5">
-            <div class="flex items-center gap-4">
-              <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10 text-2xl font-bold text-accent">
-                K
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-accent">Kaggle Master</h3>
-                <p class="text-sm text-text-secondary">Top-tier competitive machine learning</p>
-              </div>
+          <div class="rounded border border-accent/20 bg-accent/[0.03] p-4">
+            <div class="flex items-center gap-3">
+              <span class="text-2xl font-bold text-accent">MASTER</span>
+              <span class="text-xs text-text-muted">// Competitive ML — Top-tier rank</span>
             </div>
-            <div class="mt-4 rounded border border-border bg-bg-secondary/50 p-3 text-sm">
-              <p class="text-accent">$ cat triagegeist/results.json</p>
-              <p class="mt-1 text-text-secondary">Triagegeist Hackathon &mdash; QWK: <span class="text-accent-green font-bold">0.9998</span> &middot; Macro F1: <span class="text-accent-green font-bold">0.999</span></p>
-              <p class="text-text-muted text-xs mt-1">Laitinen-Fredriksson Foundation &middot; $10,000 prize</p>
+            <div class="mt-3 rounded border border-border/30 bg-bg-primary/50 p-3 text-xs">
+              <p class="text-accent">$ ./triagegeist --eval</p>
+              <p class="mt-1 text-text-secondary">
+                QWK: <span class="text-accent-green font-bold">0.9998</span>
+                &nbsp;|&nbsp; F1: <span class="text-accent-green font-bold">0.999</span>
+                &nbsp;|&nbsp; ESI-1 Recall: <span class="text-accent-green font-bold">99.5%</span>
+              </p>
+              <p class="text-text-muted mt-1">Laitinen-Fredriksson Foundation // $10K prize pool</p>
             </div>
           </div>
         </section>
 
-        <!-- Recent Activity -->
-        <section class="mb-12">
-          <h2 class="mb-6 text-xs tracking-[0.2em] text-text-muted uppercase border-b border-border pb-2">
-            <span class="text-accent">//</span> Recent Activity
+        <!-- Recent flags -->
+        <section class="mb-10">
+          <h2 class="mb-4 text-[10px] tracking-[0.2em] text-text-muted uppercase border-b border-border/50 pb-2">
+            <span class="text-accent-green">&gt;</span> tail -f /var/log/flags.log
           </h2>
-          <div class="space-y-2">
-            {recentActivity.map((a) => (
-              <div class="flex items-center gap-3 rounded border border-border bg-bg-secondary/30 px-4 py-2.5 text-sm">
-                <span class="text-accent-green">+</span>
-                <span class="text-text-secondary">{a.action}</span>
-                <span class="font-bold text-text-primary">{a.target}</span>
-                <span class="ml-auto text-xs text-text-muted">{a.time}</span>
+          <div class="space-y-1 text-xs">
+            {activity.map((a) => (
+              <div class="flex items-center gap-2 rounded bg-bg-secondary/20 px-3 py-1.5 border border-border/20">
+                <span class="text-accent-green">FLAG</span>
+                <span class="text-text-muted">{a.type}</span>
+                <span class="text-text-primary font-medium">{a.flag}</span>
+                <span class="ml-auto text-text-muted/50">{a.ago}</span>
               </div>
             ))}
           </div>
         </section>
 
-        <!-- Terminal footer -->
-        <footer class="mt-16 text-center">
-          <div class="inline-block rounded-lg border border-border bg-bg-secondary/50 px-6 py-4 text-sm">
-            <p class="text-text-muted">
+        <!-- Footer terminal -->
+        <footer class="mt-16 border-t border-border/30 pt-6">
+          <div class="text-center">
+            <div class="inline-block rounded border border-border/50 bg-bg-secondary/30 px-6 py-3 text-xs">
               <span class="text-accent">root@l4tentnoise</span>:<span class="text-text-secondary">~</span>#
               <span class="cursor-blink"> </span>
-            </p>
-          </div>
+            </div>
 
-          <div class="mt-8">
+            <div class="mt-6 flex items-center justify-center gap-4 text-[10px] text-text-muted/30">
+              <span>SESSION: ACTIVE</span>
+              <span>|</span>
+              <span>ENCRYPTION: AES-256</span>
+              <span>|</span>
+              <span>EXIT NODE: TOR</span>
+            </div>
+
             <a
               href="/Web-AIR/"
-              class="text-sm text-text-muted transition-colors hover:text-accent"
+              class="mt-6 inline-block text-xs text-text-muted/40 transition-colors hover:text-accent-red"
             >
-              &lt; back to surface
+              [disconnect]
             </a>
-          </div>
 
-          <p class="mt-4 text-xs text-text-muted/40">
-            You found the signal in the noise.
-          </p>
+            <p class="mt-2 text-[9px] text-text-muted/20">
+              This session was not supposed to be accessible.
+            </p>
+          </div>
         </footer>
       </div>
     </L4tentNoiseShell>
