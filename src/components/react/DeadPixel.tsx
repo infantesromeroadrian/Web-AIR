@@ -2,45 +2,77 @@ import { useState, useEffect } from "react";
 
 export default function DeadPixel() {
   const [glitch, setGlitch] = useState(false);
+  const [flash, setFlash] = useState(false);
 
   useEffect(() => {
-    // Random micro-glitch every 3-8 seconds
+    // Micro-glitch every 2-5 seconds
     const tick = () => {
-      const delay = 3000 + Math.random() * 5000;
+      const delay = 2000 + Math.random() * 3000;
       setTimeout(() => {
         setGlitch(true);
-        setTimeout(() => setGlitch(false), 80 + Math.random() * 120);
+        setTimeout(() => setGlitch(false), 100 + Math.random() * 150);
         tick();
       }, delay);
     };
     tick();
+
+    // Stronger flash every 8-15 seconds to catch attention
+    const flashTick = () => {
+      const delay = 8000 + Math.random() * 7000;
+      setTimeout(() => {
+        setFlash(true);
+        setTimeout(() => setFlash(false), 200);
+        flashTick();
+      }, delay);
+    };
+    flashTick();
   }, []);
 
   return (
     <a
       href="/Web-AIR/l4tentnoise"
-      className="group fixed z-30"
-      style={{ top: "47%", right: "12px" }}
+      className="group fixed z-30 hidden md:block"
+      style={{ top: "52%", right: "18px" }}
       aria-hidden="true"
       tabIndex={-1}
     >
-      {/* Dead pixel cluster - 2x2 pixels */}
+      {/* Dead pixel cluster */}
       <span
-        className="block transition-all duration-75"
+        className="block"
         style={{
-          width: glitch ? "3px" : "2px",
-          height: glitch ? "3px" : "2px",
-          backgroundColor: glitch
-            ? `rgb(${Math.random() > 0.5 ? "6, 182, 212" : "239, 68, 68"})`
-            : "rgba(6, 182, 212, 0.35)",
-          boxShadow: glitch
-            ? "0 0 4px rgba(6, 182, 212, 0.8), 1px 1px 0 rgba(239, 68, 68, 0.6)"
-            : "none",
-          imageRendering: "pixelated",
+          width: flash ? "6px" : glitch ? "4px" : "3px",
+          height: flash ? "6px" : glitch ? "4px" : "3px",
+          backgroundColor: flash
+            ? "rgb(239, 68, 68)"
+            : glitch
+              ? "rgb(6, 182, 212)"
+              : "rgba(6, 182, 212, 0.5)",
+          boxShadow: flash
+            ? "0 0 8px 2px rgba(239, 68, 68, 0.6), 0 0 2px rgba(6, 182, 212, 0.8)"
+            : glitch
+              ? "0 0 6px 1px rgba(6, 182, 212, 0.5)"
+              : "0 0 3px rgba(6, 182, 212, 0.3)",
+          transition: "all 50ms",
+          imageRendering: "pixelated" as const,
         }}
       />
-      {/* Hover reveal - tiny hint that appears on very close inspection */}
-      <span className="pointer-events-none absolute -left-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-[var(--color-bg-tertiary)] px-1.5 py-0.5 font-mono text-[9px] text-[var(--color-accent)] opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      {/* Second stuck pixel nearby */}
+      <span
+        className="absolute"
+        style={{
+          top: "5px",
+          left: "-2px",
+          width: "2px",
+          height: "2px",
+          backgroundColor: glitch
+            ? "rgba(239, 68, 68, 0.7)"
+            : "rgba(239, 68, 68, 0.25)",
+          boxShadow: glitch ? "0 0 4px rgba(239, 68, 68, 0.4)" : "none",
+          transition: "all 50ms",
+        }}
+      />
+      {/* Hover hint */}
+      <span className="pointer-events-none absolute -left-20 top-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-[var(--color-bg-tertiary)] px-2 py-1 font-mono text-[10px] text-[var(--color-accent)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 border border-[var(--color-border)]">
         &gt;_
       </span>
     </a>
