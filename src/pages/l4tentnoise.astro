@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import L4tentLayout from "../layouts/L4tentLayout.astro";
 import L4tentNoiseShell from "../components/react/L4tentNoiseShell";
 import GlitchLayer from "../components/react/GlitchLayer";
 
@@ -47,54 +47,7 @@ const activity = [
 ];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-    <title>L4tentNoise // Signal Intercepted</title>
-    <style>
-      @keyframes scanline {
-        0% { transform: translateY(-100%); }
-        100% { transform: translateY(100vh); }
-      }
-      @keyframes terminal-cursor {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-      }
-      @keyframes pulse-red {
-        0%, 100% { box-shadow: 0 0 0 rgba(239,68,68,0); }
-        50% { box-shadow: 0 0 12px rgba(239,68,68,0.3); }
-      }
-      .scanline-anim { animation: scanline 6s linear infinite; }
-      .cursor-blink::after {
-        content: "_";
-        animation: terminal-cursor 0.8s step-end infinite;
-        color: #06b6d4;
-      }
-      .pulse-danger { animation: pulse-red 2s ease-in-out infinite; }
-      .classified-stamp {
-        position: relative;
-      }
-      .classified-stamp::before {
-        content: "LEAKED";
-        position: absolute;
-        top: -8px;
-        right: -12px;
-        font-size: 9px;
-        font-weight: 900;
-        color: rgba(239,68,68,0.6);
-        letter-spacing: 0.15em;
-        transform: rotate(12deg);
-        border: 1px solid rgba(239,68,68,0.3);
-        padding: 1px 4px;
-      }
-    </style>
-  </head>
-  <body class="bg-bg-primary text-text-primary font-mono overflow-x-hidden">
-
+<L4tentLayout>
     <L4tentNoiseShell client:load>
       <!-- Persistent effects layer -->
       <GlitchLayer client:load />
@@ -286,6 +239,4 @@ const activity = [
         </footer>
       </div>
     </L4tentNoiseShell>
-
-  </body>
-</html>
+</L4tentLayout>

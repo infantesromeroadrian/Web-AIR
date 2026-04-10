@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="404 | Access Denied" description="This route does not exist.">
+  <div class="flex min-h-screen flex-col items-center justify-center px-6">
+    <div class="text-center font-mono">
+
+      <div class="mb-8 text-accent-red/20 text-[120px] sm:text-[180px] font-bold leading-none select-none"
+        style="text-shadow: 0 0 40px rgba(239,68,68,0.1);">
+        404
+      </div>
+
+      <div class="rounded-xl border border-accent-red/20 bg-bg-secondary/50 p-8 max-w-lg mx-auto">
+        <p class="text-accent-red text-sm tracking-wider uppercase mb-4">
+          // ACCESS DENIED
+        </p>
+        <p class="text-text-secondary text-sm">
+          The requested resource does not exist or you do not have
+          sufficient clearance to access it.
+        </p>
+        <div class="mt-6 rounded border border-border bg-bg-primary/50 p-4 text-xs text-left">
+          <p class="text-text-muted">
+            <span class="text-accent">$</span> curl -I {Astro.url.pathname}
+          </p>
+          <p class="mt-1 text-accent-red">HTTP/1.1 404 Not Found</p>
+          <p class="text-text-muted">X-Security: strict-origin</p>
+          <p class="text-text-muted">X-Powered-By: Adrian Infantes</p>
+        </div>
+      </div>
+
+      <div class="mt-10 flex items-center justify-center gap-6">
+        <a
+          href="/Web-AIR/"
+          class="rounded-lg border border-border px-5 py-2.5 text-sm text-text-secondary transition-all hover:border-accent hover:text-accent"
+        >
+          Return to base
+        </a>
+      </div>
+
+      <p class="mt-8 text-xs text-text-muted/30">
+        All access attempts are logged.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

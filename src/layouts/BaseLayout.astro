@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import { SITE } from "../lib/constants";
 
 interface Props {
@@ -37,6 +38,8 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <meta name="theme-color" content="#0a0a0f" />
     <title>{title}</title>
+    <ClientRouter />
+
 
     <!-- Schema.org -->
     <script type="application/ld+json" set:html={JSON.stringify({

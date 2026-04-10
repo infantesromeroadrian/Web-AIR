@@ -7,6 +7,10 @@ export default defineConfig({
   site: "https://infantesromeroadrian.github.io",
   base: "/Web-AIR",
   integrations: [react(), sitemap()],
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   vite: {
     plugins: [tailwindcss()],
   },
