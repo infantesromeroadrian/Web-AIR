@@ -1,0 +1,18 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import SkillGraph from "../components/react/SkillGraph";
+---
+
+<section class="px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="Knowledge Graph"
+      subtitle="How my skills, sectors, and projects connect"
+    />
+
+    <ScrollReveal client:visible>
+      <SkillGraph client:visible />
+    </ScrollReveal>
+  </div>
+</section>

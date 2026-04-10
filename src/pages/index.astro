@@ -7,9 +7,12 @@ import About from "../sections/About.astro";
 import Experience from "../sections/Experience.astro";
 import Projects from "../sections/Projects.astro";
 import Skills from "../sections/Skills.astro";
+import Topology from "../sections/Topology.astro";
 import LiveDemo from "../sections/LiveDemo.astro";
 import Achievements from "../sections/Achievements.astro";
 import Education from "../sections/Education.astro";
+import GitHubStats from "../sections/GitHubStats.astro";
+import BlogTeaser from "../sections/BlogTeaser.astro";
 import Contact from "../sections/Contact.astro";
 import MiniTerminal from "../components/react/MiniTerminal";
 import ParticleNetwork from "../components/react/ParticleNetwork";
@@ -17,9 +20,9 @@ import DeadPixel from "../components/react/DeadPixel";
 ---
 
 <BaseLayout>
-  <!-- Global particle background - desktop only, fixed, pointer-events pass through -->
-  <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true">
-    <ParticleNetwork client:load />
+  <!-- Global particle background - persists across page transitions -->
+  <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true" transition:persist="particles">
+    <ParticleNetwork client:load transition:persist />
   </div>
 
   <!-- Dead pixel Easter egg - links to L4tentNoise -->
@@ -34,7 +37,10 @@ import DeadPixel from "../components/react/DeadPixel";
     <Projects />
     <LiveDemo />
     <Skills />
+    <Topology />
     <Education />
+    <GitHubStats />
+    <BlogTeaser />
     <Contact />
   </main>
   <Footer />

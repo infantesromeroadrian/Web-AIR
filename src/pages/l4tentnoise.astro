@@ -2,6 +2,7 @@
 import L4tentLayout from "../layouts/L4tentLayout.astro";
 import L4tentNoiseShell from "../components/react/L4tentNoiseShell";
 import GlitchLayer from "../components/react/GlitchLayer";
+import ParticleNetwork from "../components/react/ParticleNetwork";
 
 const stats = [
   { label: "RANK", value: "#751", sub: "GLOBAL" },
@@ -48,6 +49,11 @@ const activity = [
 ---
 
 <L4tentLayout>
+    <!-- Particles persist from main page -->
+    <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true" transition:persist="particles">
+      <ParticleNetwork client:load transition:persist />
+    </div>
+
     <L4tentNoiseShell client:load>
       <!-- Persistent effects layer -->
       <GlitchLayer client:load />

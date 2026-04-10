@@ -1,0 +1,168 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+
+// Fetch at build-time
+let repos: any[] = [];
+let languages: Record<string, number> = {};
+let totalStars = 0;
+
+try {
+  const res = await fetch(
+    "https://api.github.com/users/infantesromeroadrian/repos?per_page=100&sort=updated",
+    { headers: { "User-Agent": "Web-AIR-Portfolio" } }
+  );
+  if (res.ok) {
+    repos = await res.json();
+    repos = repos.filter((r: any) => !r.fork && r.name !== "infantesromeroadrian");
+    totalStars = repos.reduce((sum: number, r: any) => sum + (r.stargazers_count || 0), 0);
+
+    // Aggregate languages
+    for (const repo of repos) {
+      if (repo.language) {
+        languages[repo.language] = (languages[repo.language] || 0) + 1;
+      }
+    }
+  }
+} catch {
+  // Build continues even if GitHub API fails
+}
+
+const topLanguages = Object.entries(languages)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6);
+
+const totalLangs = Object.values(languages).reduce((a, b) => a + b, 0);
+
+const langColors: Record<string, string> = {
+  Python: "#3572A5",
+  TypeScript: "#3178C6",
+  JavaScript: "#F7DF1E",
+  Jupyter: "#F37626",
+  HTML: "#E34C26",
+  CSS: "#563D7C",
+  Shell: "#89E051",
+  Dockerfile: "#384D54",
+  "Jupyter Notebook": "#F37626",
+};
+
+const recentRepos = repos.slice(0, 4);
+
+const stats = [
+  { value: repos.length.toString(), label: "Public repos" },
+  { value: totalStars.toString(), label: "Stars" },
+  { value: Object.keys(languages).length.toString(), label: "Languages" },
+  { value: "2019", label: "Coding since" },
+];
+---
+
+<section class="bg-bg-secondary/30 px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="GitHub Activity"
+      subtitle="Open source contributions and personal projects"
+    />
+
+    {repos.length > 0 ? (
+      <div class="space-y-8">
+        <!-- Stats row -->
+        <ScrollReveal client:visible>
+          <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {stats.map((s) => (
+              <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
+                <div class="text-2xl font-bold text-accent">{s.value}</div>
+                <div class="mt-1 text-xs text-text-muted">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <div class="grid gap-8 lg:grid-cols-[1fr_300px]">
+          <!-- Recent repos -->
+          <ScrollReveal client:visible delay={0.1}>
+            <div>
+              <h3 class="mb-4 font-mono text-xs text-text-muted uppercase tracking-wider">
+                <span class="text-accent">$</span> gh repo list --sort updated
+              </h3>
+              <div class="space-y-3">
+                {recentRepos.map((repo: any) => (
+                  <a
+                    href={repo.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group block rounded-lg border border-border bg-bg-secondary/50 p-4 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
+                  >
+                    <div class="flex items-center justify-between">
+                      <span class="font-medium text-text-primary group-hover:text-accent transition-colors">
+                        {repo.name}
+                      </span>
+                      {repo.language && (
+                        <span class="flex items-center gap-1.5 text-xs text-text-muted">
+                          <span
+                            class="h-2 w-2 rounded-full"
+                            style={`background-color: ${langColors[repo.language] || "#8b8b8b"};`}
+                          ></span>
+                          {repo.language}
+                        </span>
+                      )}
+                    </div>
+                    {repo.description && (
+                      <p class="mt-1.5 text-sm text-text-secondary line-clamp-1">
+                        {repo.description}
+                      </p>
+                    )}
+                  </a>
+                ))}
+              </div>
+              <a
+                href="https://github.com/infantesromeroadrian?tab=repositories"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-block text-sm text-text-muted transition-colors hover:text-accent"
+              >
+                View all repositories &rarr;
+              </a>
+            </div>
+          </ScrollReveal>
+
+          <!-- Language breakdown -->
+          <ScrollReveal client:visible delay={0.2}>
+            <div>
+              <h3 class="mb-4 font-mono text-xs text-text-muted uppercase tracking-wider">
+                Languages
+              </h3>
+              <div class="rounded-lg border border-border bg-bg-secondary/50 p-4">
+                <!-- Language bar -->
+                <div class="flex h-3 overflow-hidden rounded-full">
+                  {topLanguages.map(([lang, count]) => (
+                    <div
+                      style={`width: ${(count / totalLangs) * 100}%; background-color: ${langColors[lang] || "#8b8b8b"};`}
+                      title={`${lang}: ${count} repos`}
+                    ></div>
+                  ))}
+                </div>
+                <!-- Legend -->
+                <div class="mt-4 space-y-2">
+                  {topLanguages.map(([lang, count]) => (
+                    <div class="flex items-center justify-between text-sm">
+                      <div class="flex items-center gap-2">
+                        <span
+                          class="h-2.5 w-2.5 rounded-full"
+                          style={`background-color: ${langColors[lang] || "#8b8b8b"};`}
+                        ></span>
+                        <span class="text-text-secondary">{lang}</span>
+                      </div>
+                      <span class="text-text-muted">{Math.round((count / totalLangs) * 100)}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </div>
+    ) : (
+      <p class="text-text-muted">GitHub data unavailable at build time.</p>
+    )}
+  </div>
+</section>
