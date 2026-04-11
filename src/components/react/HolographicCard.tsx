@@ -4,7 +4,7 @@ interface Props {
   children: ReactNode;
 }
 
-const MAX_TILT_DEG = 8;
+const MAX_TILT_DEG = 4;
 const PERSPECTIVE = 1200;
 const GLARE_SIZE = 500;
 const SPRING_STIFFNESS = 0.15;
@@ -85,20 +85,10 @@ export default function HolographicCard({ children }: Props) {
       glare.style.background = `radial-gradient(${GLARE_SIZE}px circle at ${cur.gx.toFixed(
         1
       )}% ${cur.gy.toFixed(1)}%, rgba(255,255,255,${(
-        cur.active * 0.08
+        cur.active * 0.06
       ).toFixed(3)}) 0%, rgba(6,182,212,${(
-        cur.active * 0.05
+        cur.active * 0.04
       ).toFixed(3)}) 25%, transparent 60%)`;
-
-      const holoEl = card.querySelector<HTMLDivElement>(
-        "[data-holo-foil]"
-      );
-      if (holoEl) {
-        holoEl.style.opacity = (cur.active * 0.35).toFixed(3);
-        holoEl.style.backgroundPosition = `${cur.gx.toFixed(
-          1
-        )}% ${cur.gy.toFixed(1)}%`;
-      }
 
       rafRef.current = requestAnimationFrame(animate);
     };
@@ -146,32 +136,25 @@ export default function HolographicCard({ children }: Props) {
           }}
         />
 
-        {/* Rarity tag — top-right corner */}
+        {/* Status tag — top-right */}
         <div
           className="pointer-events-none absolute right-4 top-4 flex items-center gap-1.5 rounded border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-[var(--color-accent)]"
           style={{ transform: "translateZ(30px)" }}
         >
-          <span className="inline-block h-1 w-1 rounded-full bg-[var(--color-accent)]" />
-          Rare Card
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]"
+            style={{ animation: "holo-pulse 1.6s ease-in-out infinite" }}
+          />
+          inference: active
         </div>
 
-        {/* Edition number — top-left corner */}
+        {/* Uptime — top-left */}
         <div
-          className="pointer-events-none absolute left-4 top-4 font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]/60"
+          className="pointer-events-none absolute left-4 top-4 font-mono text-[9px] uppercase tracking-widest text-[var(--color-text-muted)]/70"
           style={{ transform: "translateZ(30px)" }}
         >
-          001/001
+          uptime: 6.2y
         </div>
-
-        {/* Corner brackets */}
-        <div
-          className="pointer-events-none absolute bottom-3 left-3 h-3 w-3 border-b border-l border-[var(--color-accent)]/40"
-          style={{ transform: "translateZ(20px)" }}
-        />
-        <div
-          className="pointer-events-none absolute bottom-3 right-3 h-3 w-3 border-b border-r border-[var(--color-accent)]/40"
-          style={{ transform: "translateZ(20px)" }}
-        />
 
         {/* Content (lifted on Z axis for parallax depth) */}
         <div
@@ -181,24 +164,12 @@ export default function HolographicCard({ children }: Props) {
           {children}
         </div>
 
-        {/* Holographic foil layer — animated conic gradient */}
+        {/* Soft cyan glow — replaces the rainbow foil */}
         <div
-          data-holo-foil
-          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 mix-blend-color-dodge"
+          className="pointer-events-none absolute inset-0 rounded-2xl"
           style={{
-            backgroundImage:
-              "conic-gradient(from 0deg at var(--bg-x, 50%) var(--bg-y, 50%), #ef4444 0%, #f59e0b 14%, #10b981 28%, #06b6d4 42%, #3b82f6 56%, #8b5cf6 70%, #ec4899 84%, #ef4444 100%)",
-            backgroundSize: "200% 200%",
-            filter: "blur(20px) saturate(140%)",
-          }}
-        />
-
-        {/* Scanline effect — very subtle */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.3) 2px, rgba(255,255,255,0.3) 3px)",
+            background:
+              "radial-gradient(ellipse at center, rgba(6,182,212,0.06) 0%, transparent 65%)",
           }}
         />
 
@@ -208,6 +179,13 @@ export default function HolographicCard({ children }: Props) {
           className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300"
           style={{ mixBlendMode: "plus-lighter" }}
         />
+
+        <style>{`
+          @keyframes holo-pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(6,182,212,0.5); }
+            50% { opacity: 0.5; box-shadow: 0 0 0 3px rgba(6,182,212,0); }
+          }
+        `}</style>
       </div>
     </div>
   );
