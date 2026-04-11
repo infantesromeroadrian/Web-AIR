@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://adrian-infantes.vercel.app/sitemap-index.xml
+Host: adrian-infantes.vercel.app
