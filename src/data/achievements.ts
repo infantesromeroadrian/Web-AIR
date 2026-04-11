@@ -4,7 +4,7 @@ export const achievements: Achievement[] = [
   {
     title: "Kaggle Master",
     subtitle: "Top-tier competitive ML",
-    url: "https://www.kaggle.com/adrianinfantes",
+    url: "https://www.kaggle.com/adrininfantesromero",
   },
   {
     title: "HackTheBox Top 800",

@@ -30,7 +30,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "Kaggle",
-    url: "https://www.kaggle.com/adrianinfantes",
+    url: "https://www.kaggle.com/adrininfantesromero",
     icon: "bar-chart-2",
   },
   {

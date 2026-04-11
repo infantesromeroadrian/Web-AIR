@@ -77,7 +77,7 @@ GitHub   : github.com/infantesromeroadrian
 Location : Madrid, Spain`,
 
   kaggle: `Kaggle Master
-Profile: kaggle.com/adrianinfantes
+Profile: kaggle.com/adrininfantesromero
 Rank: Top-tier competitive ML`,
 
   htb: `HackTheBox — L4tentNoise
