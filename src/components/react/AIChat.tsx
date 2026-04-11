@@ -58,7 +58,25 @@ const CONFIGS: Record<Mode, ModeConfig> = {
   },
 };
 
-function ChatButton({
+// Heartbeat curve — realistic cardiac pattern with sistole/diastole
+function heartbeatIntensity(t: number): number {
+  const cycle = t % 1;
+  if (cycle < 0.06) return cycle / 0.06;                    // up-stroke
+  if (cycle < 0.12) return 1 - ((cycle - 0.06) / 0.06) * 0.55; // down to 0.45
+  if (cycle < 0.16) return 0.45 + ((cycle - 0.12) / 0.04) * 0.4; // dicrotic rise
+  if (cycle < 0.24) return 0.85 - ((cycle - 0.16) / 0.08) * 0.85; // decay
+  return 0; // rest
+}
+
+interface Particle {
+  ringIdx: number;
+  angleOffset: number;
+  speed: number;
+  tiltPhase: number;
+  size: number;
+}
+
+function SentientCore({
   isOpen,
   onClick,
   mode,
@@ -67,56 +85,268 @@ function ChatButton({
   onClick: () => void;
   mode: Mode;
 }) {
-  const config = CONFIGS[mode];
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rafRef = useRef<number>(0);
+  const mouseRef = useRef({ x: 0, y: 0, inside: 0, targetInside: 0 });
+  const particlesRef = useRef<Particle[]>([]);
+  const startRef = useRef<number>(0);
+  const glitchRef = useRef<number>(0);
+
+  const isRedTeam = mode === "red_team";
+  const primary = isRedTeam
+    ? { r: 239, g: 68, b: 68 }
+    : { r: 6, g: 182, b: 212 };
+  const secondary = isRedTeam
+    ? { r: 252, g: 165, b: 165 }
+    : { r: 34, g: 211, b: 238 };
+
+  // Initialize particles once
+  if (particlesRef.current.length === 0) {
+    particlesRef.current = Array.from({ length: 11 }, (_, i) => ({
+      ringIdx: i % 3,
+      angleOffset: (i / 11) * Math.PI * 2,
+      speed: 0.0006 + Math.random() * 0.0008,
+      tiltPhase: Math.random() * Math.PI * 2,
+      size: 0.8 + Math.random() * 0.9,
+    }));
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const dpr = window.devicePixelRatio || 1;
+    const size = 72;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
+
+    startRef.current = performance.now();
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      mouseRef.current.x = dx;
+      mouseRef.current.y = dy;
+      mouseRef.current.targetInside = dist < 120 ? 1 : 0;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const draw = () => {
+      const now = performance.now();
+      const elapsed = (now - startRef.current) / 1000;
+      const cw = size;
+      const ch = size;
+      const cx = cw / 2;
+      const cy = ch / 2;
+
+      ctx.clearRect(0, 0, cw, ch);
+
+      // Smooth interpolate mouse influence
+      mouseRef.current.inside +=
+        (mouseRef.current.targetInside - mouseRef.current.inside) * 0.1;
+      const hoverBoost = mouseRef.current.inside;
+
+      // Heartbeat timing — ARCA 60bpm (1s cycle), NULL 120bpm (0.5s cycle)
+      const bpm = isRedTeam ? 0.5 : 1.0;
+      const beat = heartbeatIntensity(elapsed / bpm);
+
+      // NULL occasional glitches
+      if (isRedTeam && Math.random() > 0.985) {
+        glitchRef.current = 1;
+      }
+      glitchRef.current *= 0.88;
+      const glitch = glitchRef.current;
+
+      // Background radial glow — synced with heartbeat + hover
+      const glowRadius = 24 + beat * 8 + hoverBoost * 6;
+      const glowAlpha = 0.15 + beat * 0.25 + hoverBoost * 0.1;
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, glowRadius);
+      grad.addColorStop(
+        0,
+        `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${glowAlpha})`
+      );
+      grad.addColorStop(1, `rgba(${primary.r}, ${primary.g}, ${primary.b}, 0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, glowRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Solid background disc — the "button body"
+      ctx.fillStyle = `rgba(10, 10, 15, 0.85)`;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 26, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Outer border ring
+      ctx.strokeStyle = `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${0.4 + hoverBoost * 0.4})`;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 26, 0, Math.PI * 2);
+      ctx.stroke();
+
+      if (!prefersReduced) {
+        // Orbital rings — 3 tilted ellipses rotating in 3D
+        const ringConfigs = [
+          { radius: 22, speed: 0.4, tilt: 0.55, phase: 0 },
+          { radius: 17, speed: -0.6, tilt: 0.75, phase: Math.PI / 3 },
+          { radius: 12, speed: 0.9, tilt: 0.35, phase: Math.PI / 2 },
+        ];
+
+        ringConfigs.forEach((ring, i) => {
+          const rot = elapsed * ring.speed + ring.phase;
+          const tiltMod = ring.tilt + Math.sin(elapsed * 0.5 + i) * 0.08;
+          const ry = ring.radius * Math.cos(tiltMod);
+
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.rotate(rot);
+          ctx.strokeStyle = `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${0.22 + beat * 0.15 + hoverBoost * 0.2})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, ring.radius, ry, 0, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // Orbital particles — each follows a ring with 3D depth simulation
+        for (const p of particlesRef.current) {
+          const ring = ringConfigs[p.ringIdx];
+          const angle = elapsed * ring.speed * 1.8 + p.angleOffset;
+          const tiltMod = ring.tilt + Math.sin(elapsed * 0.5 + p.ringIdx) * 0.08;
+
+          // Position on tilted ellipse
+          const localX = Math.cos(angle) * ring.radius;
+          const localY = Math.sin(angle) * ring.radius * Math.cos(tiltMod);
+
+          // Rotate by ring phase to match ring
+          const cosP = Math.cos(ring.phase + elapsed * ring.speed * 0.3);
+          const sinP = Math.sin(ring.phase + elapsed * ring.speed * 0.3);
+          const px = cx + localX * cosP - localY * sinP;
+          const py = cy + localX * sinP + localY * cosP;
+
+          // Depth cue — particles "behind" (negative Y before rotation) are smaller and more transparent
+          const depth = (Math.sin(angle + p.tiltPhase) + 1) / 2; // 0 (back) to 1 (front)
+          const particleSize = p.size * (0.5 + depth * 1.1) * (1 + hoverBoost * 0.4);
+          const particleAlpha = 0.35 + depth * 0.55 + beat * 0.1;
+
+          ctx.fillStyle = `rgba(${secondary.r}, ${secondary.g}, ${secondary.b}, ${particleAlpha})`;
+          ctx.shadowColor = `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${depth * 0.8})`;
+          ctx.shadowBlur = 6 * depth;
+          ctx.beginPath();
+          ctx.arc(px, py, particleSize, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = "transparent";
+      }
+
+      // Central core — pulsating
+      const coreRadius = 3 + beat * 4 + hoverBoost * 1.5;
+      const coreGlowRadius = coreRadius + 5 + beat * 6;
+
+      // Core glow
+      const coreGrad = ctx.createRadialGradient(
+        cx,
+        cy,
+        0,
+        cx,
+        cy,
+        coreGlowRadius
+      );
+      coreGrad.addColorStop(
+        0,
+        `rgba(${secondary.r}, ${secondary.g}, ${secondary.b}, ${0.8 + beat * 0.2})`
+      );
+      coreGrad.addColorStop(
+        0.4,
+        `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${0.5 + beat * 0.3})`
+      );
+      coreGrad.addColorStop(
+        1,
+        `rgba(${primary.r}, ${primary.g}, ${primary.b}, 0)`
+      );
+      ctx.fillStyle = coreGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, coreGlowRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Core solid — glitch offset in NULL mode
+      const coreX = cx + glitch * (Math.random() - 0.5) * 6;
+      const coreY = cy + glitch * (Math.random() - 0.5) * 3;
+
+      ctx.fillStyle = `rgba(255, 255, 255, ${0.9 + beat * 0.1})`;
+      ctx.beginPath();
+      ctx.arc(coreX, coreY, coreRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Inner core highlight
+      ctx.fillStyle = `rgba(${secondary.r}, ${secondary.g}, ${secondary.b}, 0.95)`;
+      ctx.beginPath();
+      ctx.arc(coreX, coreY, coreRadius * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // NULL mode: horizontal glitch scanline occasionally
+      if (isRedTeam && glitch > 0.3) {
+        const gy = cy + (Math.random() - 0.5) * 40;
+        ctx.fillStyle = `rgba(${primary.r}, ${primary.g}, ${primary.b}, ${glitch * 0.6})`;
+        ctx.fillRect(cx - 25, gy, 50, 1);
+      }
+
+      rafRef.current = requestAnimationFrame(draw);
+    };
+
+    rafRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [isRedTeam, primary.r, primary.g, primary.b, secondary.r, secondary.g, secondary.b]);
 
   return (
     <button
       onClick={onClick}
       aria-label={isOpen ? "Close chat" : "Open chat with Adrian"}
-      className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full shadow-2xl transition-all duration-300 hover:scale-110"
-      style={{
-        backgroundColor: config.color,
-        boxShadow: `0 0 30px ${config.colorSoft}, 0 10px 40px rgba(0, 0, 0, 0.4)`,
-      }}
+      className="group fixed bottom-6 right-6 z-40 block transition-transform duration-300 hover:scale-105"
+      style={{ width: 72, height: 72 }}
     >
-      <AnimatePresence mode="wait">
-        {isOpen ? (
-          <motion.svg
-            key="close"
-            initial={{ rotate: -90, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            exit={{ rotate: 90, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#0a0a0f"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          >
-            <path d="M18 6L6 18M6 6l12 12" />
-          </motion.svg>
-        ) : (
-          <motion.svg
-            key="chat"
-            initial={{ rotate: 90, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            exit={{ rotate: -90, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#0a0a0f"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-          </motion.svg>
-        )}
-      </AnimatePresence>
+      <canvas
+        ref={canvasRef}
+        className="block"
+        style={{
+          width: 72,
+          height: 72,
+          filter: isOpen ? "brightness(1.2)" : undefined,
+        }}
+      />
+      {/* Overlay X when open */}
+      {isOpen && (
+        <svg
+          className="pointer-events-none absolute inset-0 m-auto"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="rgba(10,10,15,0.9)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        >
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      )}
     </button>
   );
 }
@@ -342,7 +572,7 @@ export default function AIChat() {
 
   return (
     <>
-      <ChatButton isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} mode={mode} />
+      <SentientCore isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} mode={mode} />
 
       <AnimatePresence>
         {isOpen && (
