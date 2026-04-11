@@ -63,25 +63,25 @@ const phrases = lang === "es"
             {t("hero.badge.htb", lang)}
           </span>
         </div>
-
-        <!-- CTAs -->
-        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
-            href="#projects"
-            class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
-          >
-            {t("hero.cta.work", lang)}
-            <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
-          </a>
-          <a
-            href="#contact"
-            class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
-          >
-            {t("hero.cta.contact", lang)}
-          </a>
-        </div>
       </div>
     </HolographicCard>
+
+    <!-- CTAs — outside the 3D card so the rotation never blocks clicks -->
+    <div class="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a
+        href="#projects"
+        class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
+      >
+        {t("hero.cta.work", lang)}
+        <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+      </a>
+      <a
+        href="#contact"
+        class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
+      >
+        {t("hero.cta.contact", lang)}
+      </a>
+    </div>
   </div>
 
   <!-- Scroll indicator -->
