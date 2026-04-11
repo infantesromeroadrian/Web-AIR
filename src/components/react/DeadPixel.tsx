@@ -30,7 +30,7 @@ export default function DeadPixel() {
 
   return (
     <a
-      href="/Web-AIR/l4tentnoise"
+      href="/l4tentnoise"
       className="group fixed z-30 hidden md:block"
       style={{ top: "52%", right: "18px" }}
       aria-hidden="true"

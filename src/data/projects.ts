@@ -37,7 +37,7 @@ export const sectors: Sector[] = [
         githubUrl:
           "https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs",
         videoSrc:
-          "/Web-AIR/videos/Análisis_de_Proyecto_Drone_GeoAnalysis_LLMs.mp4",
+          "/videos/Análisis_de_Proyecto_Drone_GeoAnalysis_LLMs.mp4",
         featured: true,
       },
       {
@@ -114,7 +114,7 @@ export const sectors: Sector[] = [
           "Docker",
         ],
         githubUrl: "https://github.com/infantesromeroadrian/FraudAI-Agent",
-        videoSrc: "/Web-AIR/videos/FraudAI_Agent_Video_Generado.mp4",
+        videoSrc: "/videos/FraudAI_Agent_Video_Generado.mp4",
         featured: true,
       },
     ],
@@ -135,7 +135,7 @@ export const sectors: Sector[] = [
         tags: ["LangGraph", "PostgreSQL", "WebSocket", "Flask", "D3.js"],
         githubUrl:
           "https://github.com/infantesromeroadrian/LangGraph-Agents-HospitalCenter",
-        videoSrc: "/Web-AIR/videos/Video_Generado_y_Centro_Médico.mp4",
+        videoSrc: "/videos/Video_Generado_y_Centro_Médico.mp4",
         featured: true,
       },
       {

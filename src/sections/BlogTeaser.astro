@@ -22,7 +22,7 @@ const hasPosts = posts.some((p) => !p.data.draft);
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.filter((p) => !p.data.draft).map((post) => (
             <a
-              href={`/Web-AIR/blog/${post.id}`}
+              href={`/blog/${post.id}`}
               class="group rounded-xl border border-border bg-bg-secondary/50 p-6 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
             >
               <time class="text-xs text-text-muted" datetime={post.data.date.toISOString()}>

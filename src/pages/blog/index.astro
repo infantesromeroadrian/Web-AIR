@@ -20,7 +20,7 @@ const posts = (await getCollection("blog"))
       <div class="mt-12 space-y-8">
         {posts.map((post) => (
           <a
-            href={`/Web-AIR/blog/${post.id}`}
+            href={`/blog/${post.id}`}
             class="group block rounded-xl border border-border bg-bg-secondary/50 p-6 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5"
           >
             <div class="flex items-center gap-3 text-xs text-text-muted">

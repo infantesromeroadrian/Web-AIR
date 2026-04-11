@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://infantesromeroadrian.github.io/Web-AIR/sitemap.xml
+Sitemap: https://web-air-seven.vercel.app/sitemap-index.xml

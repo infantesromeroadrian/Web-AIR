@@ -4,8 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://infantesromeroadrian.github.io",
-  base: "/Web-AIR",
+  site: "https://web-air-seven.vercel.app",
   integrations: [react(), sitemap()],
   prefetch: {
     prefetchAll: true,

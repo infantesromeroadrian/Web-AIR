@@ -26,5 +26,8 @@
   },
   "overrides": {
     "vite": "^7"
+  },
+  "devDependencies": {
+    "vercel": "^50.44.0"
   }
 }
