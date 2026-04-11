@@ -1,40 +1,52 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
+import ContactForm from "../components/react/ContactForm";
 import { SOCIAL_LINKS, SITE } from "../lib/constants";
 ---
 
 <section id="contact" class="bg-bg-secondary/30 px-6 py-24">
-  <div class="mx-auto max-w-[var(--max-w-content)] text-center">
-    <SectionTitle title="Let's Talk" center />
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <div class="text-center">
+      <SectionTitle title="Let's Talk" center />
 
-    <ScrollReveal client:visible>
-      <p class="mx-auto max-w-xl text-lg text-text-secondary">
-        Looking for an AI Security Engineer who builds and breaks AI systems?
-        Let's connect.
-      </p>
+      <ScrollReveal client:visible>
+        <p class="mx-auto max-w-xl text-lg text-text-secondary">
+          Looking for an AI Security Engineer who builds and breaks AI systems?
+          Drop a message.
+        </p>
+      </ScrollReveal>
+    </div>
 
-      <a
-        href={`mailto:${SITE.email}`}
-        class="mt-8 inline-block rounded-lg bg-accent px-8 py-4 text-lg font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
-      >
-        {SITE.email}
-      </a>
-
-      <div class="mt-8 flex items-center justify-center gap-6">
-        {SOCIAL_LINKS.map((link) => (
-          <a
-            href={link.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-text-muted transition-colors duration-200 hover:text-accent"
-          >
-            {link.name}
-          </a>
-        ))}
+    <ScrollReveal client:visible delay={0.1}>
+      <div class="mt-12">
+        <ContactForm client:visible />
       </div>
+    </ScrollReveal>
 
-      <p class="mt-6 text-sm text-text-muted">{SITE.location}</p>
+    <ScrollReveal client:visible delay={0.2}>
+      <div class="mt-12 text-center">
+        <div class="mb-4 flex items-center justify-center gap-3 text-xs text-text-muted">
+          <span class="h-px w-8 bg-border"></span>
+          <span class="font-mono uppercase tracking-wider">or find me at</span>
+          <span class="h-px w-8 bg-border"></span>
+        </div>
+
+        <div class="flex items-center justify-center gap-6">
+          {SOCIAL_LINKS.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-text-muted transition-colors duration-200 hover:text-accent"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+
+        <p class="mt-6 text-xs text-text-muted/60">{SITE.location}</p>
+      </div>
     </ScrollReveal>
   </div>
 </section>
