@@ -1,18 +1,18 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
-import SkillGraph3D from "../components/react/SkillGraph3D";
+import AttackExplorer from "../components/react/AttackExplorer";
 ---
 
-<section class="bg-bg-secondary/20 px-6 py-24">
+<section id="attacks" class="px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="Knowledge Graph"
-      subtitle="How my skills, sectors, and projects connect in 3D space"
+      title="Breaking the Model"
+      subtitle="Two angles on adversarial attacks against Foundation Models"
     />
 
     <ScrollReveal client:visible>
-      <SkillGraph3D client:visible />
+      <AttackExplorer client:visible />
     </ScrollReveal>
   </div>
 </section>
