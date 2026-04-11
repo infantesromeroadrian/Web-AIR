@@ -1,6 +1,9 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const uiLang = getLangFromUrl(Astro.url);
 
 // Fetch at build-time
 let repos: any[] = [];
@@ -49,18 +52,18 @@ const langColors: Record<string, string> = {
 const recentRepos = repos.slice(0, 4);
 
 const stats = [
-  { value: repos.length.toString(), label: "Public repos" },
-  { value: totalStars.toString(), label: "Stars" },
-  { value: Object.keys(languages).length.toString(), label: "Languages" },
-  { value: "2019", label: "Coding since" },
+  { value: repos.length.toString(), label: t("github.stat.repos", uiLang) },
+  { value: totalStars.toString(), label: t("github.stat.stars", uiLang) },
+  { value: Object.keys(languages).length.toString(), label: t("github.stat.languages", uiLang) },
+  { value: "2019", label: t("github.stat.since", uiLang) },
 ];
 ---
 
 <section class="bg-bg-secondary/30 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="GitHub Activity"
-      subtitle="Open source contributions and personal projects"
+      title={t("github.title", uiLang)}
+      subtitle={t("github.subtitle", uiLang)}
     />
 
     {repos.length > 0 ? (
@@ -120,7 +123,7 @@ const stats = [
                 rel="noopener noreferrer"
                 class="mt-4 inline-block text-sm text-text-muted transition-colors hover:text-accent"
               >
-                View all repositories &rarr;
+                {t("github.viewAll", uiLang)}
               </a>
             </div>
           </ScrollReveal>
@@ -129,7 +132,7 @@ const stats = [
           <ScrollReveal client:visible delay={0.2}>
             <div>
               <h3 class="mb-4 font-mono text-xs text-text-muted uppercase tracking-wider">
-                Languages
+                {t("github.languages", uiLang)}
               </h3>
               <div class="rounded-lg border border-border bg-bg-secondary/50 p-4">
                 <!-- Language bar -->

@@ -3,24 +3,47 @@ import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
 import ContactForm from "../components/react/ContactForm";
 import { SOCIAL_LINKS, SITE } from "../lib/constants";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+
+const labels = {
+  name: t("contact.form.name", lang),
+  namePlaceholder: t("contact.form.name.placeholder", lang),
+  email: t("contact.form.email", lang),
+  emailPlaceholder: t("contact.form.email.placeholder", lang),
+  company: t("contact.form.company", lang),
+  companyOptional: t("contact.form.company.optional", lang),
+  companyPlaceholder: t("contact.form.company.placeholder", lang),
+  message: t("contact.form.message", lang),
+  messagePlaceholder: t("contact.form.message.placeholder", lang),
+  send: t("contact.form.send", lang),
+  sending: t("contact.form.sending", lang),
+  success: t("contact.form.success", lang),
+  successDetail: t("contact.form.success.detail", lang),
+  again: t("contact.form.again", lang),
+  privacy: t("contact.form.privacy", lang),
+  errorName: t("contact.form.error.name", lang),
+  errorEmail: t("contact.form.error.email", lang),
+  errorMessage: t("contact.form.error.message", lang),
+};
 ---
 
 <section id="contact" class="bg-bg-secondary/30 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <div class="text-center">
-      <SectionTitle title="Let's Talk" center />
+      <SectionTitle title={t("contact.title", lang)} center />
 
       <ScrollReveal client:visible>
         <p class="mx-auto max-w-xl text-lg text-text-secondary">
-          Looking for an AI Security Engineer who builds and breaks AI systems?
-          Drop a message.
+          {t("contact.subtitle", lang)}
         </p>
       </ScrollReveal>
     </div>
 
     <ScrollReveal client:visible delay={0.1}>
       <div class="mt-12">
-        <ContactForm client:visible />
+        <ContactForm client:visible labels={labels} />
       </div>
     </ScrollReveal>
 
@@ -28,7 +51,7 @@ import { SOCIAL_LINKS, SITE } from "../lib/constants";
       <div class="mt-12 text-center">
         <div class="mb-4 flex items-center justify-center gap-3 text-xs text-text-muted">
           <span class="h-px w-8 bg-border"></span>
-          <span class="font-mono uppercase tracking-wider">or find me at</span>
+          <span class="font-mono uppercase tracking-wider">{t("contact.or", lang)}</span>
           <span class="h-px w-8 bg-border"></span>
         </div>
 

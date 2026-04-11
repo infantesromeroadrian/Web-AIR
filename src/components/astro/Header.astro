@@ -1,5 +1,15 @@
 ---
 import { NAV_ITEMS } from "../../lib/constants";
+import { getLangFromUrl, pathForLang, t } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const homePath = lang === "es" ? "/es/" : "/";
+const otherPath = pathForLang(Astro.url, lang === "es" ? "en" : "es");
+
+const navItems = NAV_ITEMS.map((item) => ({
+  label: t(`nav.${item.label.toLowerCase()}`, lang),
+  href: item.href,
+}));
 ---
 
 <header
@@ -8,7 +18,7 @@ import { NAV_ITEMS } from "../../lib/constants";
 >
   <nav class="mx-auto flex max-w-[var(--max-w-content)] items-center justify-between px-6 py-4">
     <a
-      href="#"
+      href={homePath}
       class="font-mono text-lg font-bold tracking-tight text-accent"
     >
       AIR
@@ -16,7 +26,7 @@ import { NAV_ITEMS } from "../../lib/constants";
 
     <!-- Desktop nav -->
     <ul class="hidden items-center gap-8 md:flex">
-      {NAV_ITEMS.map((item) => (
+      {navItems.map((item) => (
         <li>
           <a
             href={item.href}
@@ -28,26 +38,53 @@ import { NAV_ITEMS } from "../../lib/constants";
       ))}
     </ul>
 
-    <!-- Terminal shortcut hint -->
-    <button
-      id="nav-terminal"
-      class="ml-4 hidden items-center rounded border border-border px-2 py-1 font-mono text-xs text-text-muted transition-colors hover:border-accent hover:text-accent lg:flex"
-      aria-label="Open terminal"
-    >
-      <kbd>Ctrl+K</kbd>
-    </button>
+    <div class="ml-4 hidden items-center gap-2 lg:flex">
+      <!-- Lang toggle -->
+      <a
+        id="lang-toggle"
+        href={otherPath}
+        data-astro-reload
+        class="inline-flex items-center rounded border border-border px-2 py-1 font-mono text-xs text-text-muted transition-colors hover:border-accent hover:text-accent"
+        aria-label={t("lang.switchTo", lang)}
+      >
+        <span class={lang === "en" ? "text-accent" : ""}>EN</span>
+        <span class="mx-1 text-text-muted/40">/</span>
+        <span class={lang === "es" ? "text-accent" : ""}>ES</span>
+      </a>
 
-    <!-- Mobile toggle -->
-    <button
-      id="mobile-toggle"
-      class="flex flex-col gap-1.5 md:hidden"
-      aria-label="Toggle navigation"
-      aria-expanded="false"
-    >
-      <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
-      <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
-      <span class="block h-px w-4 bg-text-primary transition-all duration-300"></span>
-    </button>
+      <!-- Terminal shortcut hint -->
+      <button
+        id="nav-terminal"
+        class="flex items-center rounded border border-border px-2 py-1 font-mono text-xs text-text-muted transition-colors hover:border-accent hover:text-accent"
+        aria-label="Open terminal"
+      >
+        <kbd>Ctrl+K</kbd>
+      </button>
+    </div>
+
+    <!-- Mobile: lang toggle + menu toggle -->
+    <div class="flex items-center gap-3 md:hidden">
+      <a
+        href={otherPath}
+        data-astro-reload
+        class="inline-flex items-center rounded border border-border px-2 py-0.5 font-mono text-[10px] text-text-muted"
+        aria-label={t("lang.switchTo", lang)}
+      >
+        <span class={lang === "en" ? "text-accent" : ""}>EN</span>
+        <span class="mx-1 text-text-muted/40">/</span>
+        <span class={lang === "es" ? "text-accent" : ""}>ES</span>
+      </a>
+      <button
+        id="mobile-toggle"
+        class="flex flex-col gap-1.5"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+      >
+        <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
+        <span class="block h-px w-6 bg-text-primary transition-all duration-300"></span>
+        <span class="block h-px w-4 bg-text-primary transition-all duration-300"></span>
+      </button>
+    </div>
   </nav>
 
   <!-- Mobile menu -->
@@ -55,7 +92,7 @@ import { NAV_ITEMS } from "../../lib/constants";
     id="mobile-menu"
     class="hidden flex-col items-center gap-6 bg-bg-secondary/95 px-6 py-8 backdrop-blur-xl md:hidden"
   >
-    {NAV_ITEMS.map((item) => (
+    {navItems.map((item) => (
       <a
         href={item.href}
         class="mobile-nav-link text-lg text-text-secondary transition-colors duration-200 hover:text-text-primary"

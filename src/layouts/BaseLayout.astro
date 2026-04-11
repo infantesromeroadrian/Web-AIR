@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "../lib/constants";
 import AnalyticsBeacon from "../components/astro/AnalyticsBeacon.astro";
+import { getLangFromUrl, alternateLang, canonicalFor } from "../i18n/utils";
 
 interface Props {
   title?: string;
@@ -10,17 +11,23 @@ interface Props {
 }
 
 const { title = SITE.title, description = SITE.description } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, SITE.url);
+const lang = getLangFromUrl(Astro.url);
+const otherLang = alternateLang(lang);
+const canonicalURL = canonicalFor(Astro.url, lang, SITE.url);
+const alternateURL = canonicalFor(Astro.url, otherLang, SITE.url);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="author" content={SITE.author} />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang={lang} href={canonicalURL} />
+    <link rel="alternate" hreflang={otherLang} href={alternateURL} />
+    <link rel="alternate" hreflang="x-default" href={canonicalFor(Astro.url, "en", SITE.url)} />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -28,6 +35,8 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={`${SITE.url}/og-image.svg`} />
+    <meta property="og:locale" content={lang === "es" ? "es_ES" : "en_US"} />
+    <meta property="og:locale:alternate" content={otherLang === "es" ? "es_ES" : "en_US"} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -40,7 +49,6 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <meta name="theme-color" content="#0a0a0f" />
     <title>{title}</title>
     <ClientRouter />
-
 
     <!-- Schema.org -->
     <script type="application/ld+json" set:html={JSON.stringify({

@@ -2,13 +2,16 @@
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
 import SkillGraph3D from "../components/react/SkillGraph3D";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <section class="bg-bg-secondary/20 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="Knowledge Graph"
-      subtitle="How my skills, sectors, and projects connect in 3D space"
+      title={t("topology.title", lang)}
+      subtitle={t("topology.subtitle", lang)}
     />
 
     <ScrollReveal client:visible>

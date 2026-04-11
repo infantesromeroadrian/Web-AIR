@@ -2,13 +2,16 @@
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import SectorTabs from "../components/react/SectorTabs";
 import { sectors } from "../data/projects";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <section id="projects" class="bg-bg-secondary/20 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="Featured Projects"
-      subtitle="10+ projects across 3 industry sectors"
+      title={t("projects.title", lang)}
+      subtitle={t("projects.subtitle", lang)}
     />
 
     <SectorTabs client:visible sectors={sectors} />

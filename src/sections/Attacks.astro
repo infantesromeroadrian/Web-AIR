@@ -2,13 +2,16 @@
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
 import AttackExplorer from "../components/react/AttackExplorer";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 ---
 
 <section id="attacks" class="px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="Breaking the Model"
-      subtitle="Two angles on adversarial attacks against Foundation Models"
+      title={t("attacks.title", lang)}
+      subtitle={t("attacks.subtitle", lang)}
     />
 
     <ScrollReveal client:visible>

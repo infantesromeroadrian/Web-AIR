@@ -2,6 +2,9 @@
 import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
 import { skills } from "../data/skills";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 
 const iconSvg: Record<string, string> = {
   "AI Security": `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
@@ -16,8 +19,8 @@ const iconSvg: Record<string, string> = {
 <section id="skills" class="bg-bg-secondary/30 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
     <SectionTitle
-      title="Tech Stack"
-      subtitle="Tools I use to build and secure AI systems"
+      title={t("skills.title", lang)}
+      subtitle={t("skills.subtitle", lang)}
     />
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

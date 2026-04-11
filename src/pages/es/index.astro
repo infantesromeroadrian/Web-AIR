@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/astro/Header.astro";
+import Footer from "../../components/astro/Footer.astro";
+import Hero from "../../sections/Hero.astro";
+import About from "../../sections/About.astro";
+import Experience from "../../sections/Experience.astro";
+import Projects from "../../sections/Projects.astro";
+import Skills from "../../sections/Skills.astro";
+import Topology from "../../sections/Topology.astro";
+import Attacks from "../../sections/Attacks.astro";
+import LiveDemo from "../../sections/LiveDemo.astro";
+import Achievements from "../../sections/Achievements.astro";
+import Education from "../../sections/Education.astro";
+import GitHubStats from "../../sections/GitHubStats.astro";
+import Contact from "../../sections/Contact.astro";
+import MiniTerminal from "../../components/react/MiniTerminal";
+import ParticleNetwork from "../../components/react/ParticleNetwork";
+import DeadPixel from "../../components/react/DeadPixel";
+import AIChat from "../../components/react/AIChat";
+import SecurityCursor from "../../components/react/SecurityCursor";
+
+const title = "Adrian Infantes | Ingeniero de Seguridad IA";
+const description =
+  "Ingeniero de Seguridad IA especializado en AI Safety, Red Teaming y Adversarial ML. Construyo sistemas de IA seguros para financial crime en BBVA. Kaggle Master, HTB Top 800.";
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Global particle background - behind content, body is transparent so particles show -->
+  <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true" transition:persist="particles">
+    <ParticleNetwork client:load transition:persist />
+  </div>
+
+  <!-- Dead pixel Easter egg - links to L4tentNoise -->
+  <DeadPixel client:idle />
+
+  <Header />
+  <main id="main" class="relative z-10">
+    <Hero />
+    <About />
+    <Achievements />
+    <Experience />
+    <Projects />
+    <LiveDemo />
+    <Skills />
+    <Topology />
+    <Attacks />
+    <Education />
+    <GitHubStats />
+    <Contact />
+  </main>
+  <Footer />
+  <MiniTerminal client:idle />
+  <AIChat client:idle />
+  <SecurityCursor client:idle />
+</BaseLayout>

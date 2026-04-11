@@ -4,20 +4,23 @@ import AnimatedCounter from "../components/react/AnimatedCounter";
 import ScrollReveal from "../components/react/ScrollReveal";
 import profileImage from "../../assets/Gemini_Generated_Image_ne74yhne74yhne74.png";
 import { Image } from "astro:assets";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
 
 const metrics = [
-  { value: "6+", label: "Years building AI systems" },
-  { value: "206+", label: "Attacks on Foundation Models" },
-  { value: "800", label: "HackTheBox global rank" },
-  { value: "-20%", label: "Latency in prod banking" },
-  { value: "-35%", label: "Infrastructure costs" },
-  { value: "45K", label: "Images/hour real-time CV" },
+  { value: "6+", label: t("about.metric.years", lang) },
+  { value: "206+", label: t("about.metric.attacks", lang) },
+  { value: "800", label: t("about.metric.htb", lang) },
+  { value: "-20%", label: t("about.metric.latency", lang) },
+  { value: "-35%", label: t("about.metric.costs", lang) },
+  { value: "45K", label: t("about.metric.throughput", lang) },
 ];
 ---
 
 <section id="about" class="bg-bg-secondary/20 px-6 py-24">
   <div class="mx-auto max-w-[var(--max-w-content)]">
-    <SectionTitle title="About" />
+    <SectionTitle title={t("about.title", lang)} />
 
     <div class="grid gap-12 lg:grid-cols-[300px_1fr]">
       <!-- Photo -->
@@ -40,24 +43,20 @@ const metrics = [
       <div>
         <ScrollReveal client:visible delay={0.1}>
           <p class="text-lg leading-relaxed text-text-secondary">
-            I build and break AI systems for one of Europe's largest banks.
-            <span class="font-medium text-text-primary">+6 years at the intersection of AI Engineering and Offensive Security</span>,
-            specialized in Financial Crime environments: AML, Sanctions Screening, KYC/KYB,
-            and Transaction Monitoring. I evaluate, attack, and fortify Foundation Models,
-            RAG pipelines, and Agentic Systems in regulated banking production.
+            {t("about.p1.prefix", lang)}
+            <span class="font-medium text-text-primary">{t("about.p1.strong", lang)}</span>{t("about.p1.suffix", lang)}
           </p>
         </ScrollReveal>
 
         <ScrollReveal client:visible delay={0.2}>
           <p class="mt-4 text-text-secondary">
-            From the math behind the Transformer to the attack surface of the autonomous agent --
-            first-principles thinking applied to making AI systems secure by design.
+            {t("about.p2", lang)}
           </p>
         </ScrollReveal>
 
         <!-- Animated metrics grid -->
         <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {metrics.map((m, i) => (
+          {metrics.map((m) => (
             <AnimatedCounter
               client:visible
               value={m.value}

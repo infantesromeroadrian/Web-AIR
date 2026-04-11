@@ -1,13 +1,23 @@
 ---
 import TypewriterText from "../components/react/TypewriterText";
 import HolographicCard from "../components/react/HolographicCard";
+import { getLangFromUrl, t } from "../i18n/utils";
 
-const phrases = [
-  "206+ attacks against Foundation Models",
-  "Red Teaming LLMs in production banking",
-  "From Transformer math to attack surface",
-  "Kaggle Master | HTB Top 800 Global",
-];
+const lang = getLangFromUrl(Astro.url);
+
+const phrases = lang === "es"
+  ? [
+      "206+ ataques a Foundation Models",
+      "Red Teaming de LLMs en banca de produccion",
+      "De la matematica del Transformer a la superficie de ataque",
+      "Kaggle Master | HTB Top 800 Global",
+    ]
+  : [
+      "206+ attacks against Foundation Models",
+      "Red Teaming LLMs in production banking",
+      "From Transformer math to attack surface",
+      "Kaggle Master | HTB Top 800 Global",
+    ];
 ---
 
 <section
@@ -21,7 +31,7 @@ const phrases = [
     <HolographicCard client:load>
       <div class="text-center">
         <p class="mb-4 font-mono text-sm tracking-widest text-text-muted uppercase">
-          AI Security &middot; AI Safety &middot; Red Teaming
+          {t("hero.pretitle", lang)}
         </p>
 
         <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -29,12 +39,11 @@ const phrases = [
         </h1>
 
         <p class="mt-4 font-mono text-lg text-accent sm:text-xl">
-          AI Security Engineer
+          {t("hero.role", lang)}
         </p>
 
         <p class="mx-auto mt-6 max-w-xl text-base text-text-secondary sm:text-lg">
-          I protect AI systems from the attacks<br class="hidden sm:inline" />
-          that haven't been invented yet.
+          {t("hero.tagline", lang)}
         </p>
 
         <!-- Typewriter - secondary layer for technical audience -->
@@ -45,13 +54,13 @@ const phrases = [
         <!-- Proof badges -->
         <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
           <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-            BBVA Technology
+            {t("hero.badge.bbva", lang)}
           </span>
           <span class="rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm text-accent backdrop-blur-sm">
-            Kaggle Master
+            {t("hero.badge.kaggle", lang)}
           </span>
           <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-            HackTheBox Top 800
+            {t("hero.badge.htb", lang)}
           </span>
         </div>
 
@@ -61,14 +70,14 @@ const phrases = [
             href="#projects"
             class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
           >
-            View Work
+            {t("hero.cta.work", lang)}
             <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
           </a>
           <a
             href="#contact"
             class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
           >
-            Contact
+            {t("hero.cta.contact", lang)}
           </a>
         </div>
       </div>
@@ -78,7 +87,7 @@ const phrases = [
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
     <div class="flex flex-col items-center gap-2">
-      <span class="text-xs text-text-muted">scroll</span>
+      <span class="text-xs text-text-muted">{t("hero.scroll", lang)}</span>
       <div class="h-8 w-px animate-pulse bg-gradient-to-b from-accent to-transparent"></div>
     </div>
   </div>

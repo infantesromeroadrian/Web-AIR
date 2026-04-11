@@ -20,7 +20,54 @@ const initialData: FormData = {
   message: "",
 };
 
-export default function ContactForm() {
+export interface ContactFormLabels {
+  name: string;
+  namePlaceholder: string;
+  email: string;
+  emailPlaceholder: string;
+  company: string;
+  companyOptional: string;
+  companyPlaceholder: string;
+  message: string;
+  messagePlaceholder: string;
+  send: string;
+  sending: string;
+  success: string;
+  successDetail: string;
+  again: string;
+  privacy: string;
+  errorName: string;
+  errorEmail: string;
+  errorMessage: string;
+}
+
+const DEFAULT_LABELS: ContactFormLabels = {
+  name: "Name *",
+  namePlaceholder: "Jane Doe",
+  email: "Email *",
+  emailPlaceholder: "jane@company.com",
+  company: "Company",
+  companyOptional: "(optional)",
+  companyPlaceholder: "Acme Corp",
+  message: "Message *",
+  messagePlaceholder: "Looking for an AI Security Engineer to...",
+  send: "Send Message",
+  sending: "Sending...",
+  success: "Message received",
+  successDetail: "I'll get back to you at the email you provided. Usually within 24-48 hours.",
+  again: "< send another",
+  privacy: "Your message is sent via Formsubmit. No tracking, no spam.",
+  errorName: "Name is required",
+  errorEmail: "Valid email is required",
+  errorMessage: "Message must be at least 10 characters",
+};
+
+interface Props {
+  labels?: Partial<ContactFormLabels>;
+}
+
+export default function ContactForm({ labels: labelsProp }: Props = {}) {
+  const labels: ContactFormLabels = { ...DEFAULT_LABELS, ...labelsProp };
   const [data, setData] = useState<FormData>(initialData);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
@@ -31,9 +78,9 @@ export default function ContactForm() {
   };
 
   const validate = (): string | null => {
-    if (data.name.trim().length < 2) return "Name is required";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return "Valid email is required";
-    if (data.message.trim().length < 10) return "Message must be at least 10 characters";
+    if (data.name.trim().length < 2) return labels.errorName;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return labels.errorEmail;
+    if (data.message.trim().length < 10) return labels.errorMessage;
     return null;
   };
 
@@ -110,16 +157,16 @@ export default function ContactForm() {
               $ send_message --status ok
             </div>
             <div className="text-2xl font-bold text-[var(--color-text-primary)]">
-              Message received
+              {labels.success}
             </div>
             <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              I'll get back to you at the email you provided. Usually within 24-48 hours.
+              {labels.successDetail}
             </p>
             <button
               onClick={() => setStatus("idle")}
               className="mt-6 font-mono text-xs text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
             >
-              &lt; send another
+              {labels.again}
             </button>
           </motion.div>
         ) : (
@@ -145,7 +192,7 @@ export default function ContactForm() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <label htmlFor="name" className="mb-1.5 block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Name *
+                  {labels.name}
                 </label>
                 <input
                   id="name"
@@ -158,13 +205,13 @@ export default function ContactForm() {
                   autoComplete="name"
                   maxLength={100}
                   className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="Jane Doe"
+                  placeholder={labels.namePlaceholder}
                 />
               </div>
 
               <div>
                 <label htmlFor="email" className="mb-1.5 block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)]">
-                  Email *
+                  {labels.email}
                 </label>
                 <input
                   id="email"
@@ -177,14 +224,14 @@ export default function ContactForm() {
                   autoComplete="email"
                   maxLength={150}
                   className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
-                  placeholder="jane@company.com"
+                  placeholder={labels.emailPlaceholder}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="company" className="mb-1.5 block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)]">
-                Company <span className="normal-case text-[var(--color-text-muted)]/50">(optional)</span>
+                {labels.company} <span className="normal-case text-[var(--color-text-muted)]/50">{labels.companyOptional}</span>
               </label>
               <input
                 id="company"
@@ -196,13 +243,13 @@ export default function ContactForm() {
                 autoComplete="organization"
                 maxLength={100}
                 className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Acme Corp"
+                placeholder={labels.companyPlaceholder}
               />
             </div>
 
             <div>
               <label htmlFor="message" className="mb-1.5 block text-xs font-mono uppercase tracking-wider text-[var(--color-text-muted)]">
-                Message *
+                {labels.message}
               </label>
               <textarea
                 id="message"
@@ -214,7 +261,7 @@ export default function ContactForm() {
                 rows={5}
                 maxLength={2000}
                 className="w-full resize-y rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)]/80 px-4 py-2.5 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Looking for an AI Security Engineer to..."
+                placeholder={labels.messagePlaceholder}
               />
               <div className="mt-1 text-right font-mono text-[10px] text-[var(--color-text-muted)]/50">
                 {data.message.length}/2000
@@ -237,11 +284,11 @@ export default function ContactForm() {
               disabled={disabled}
               className="w-full rounded-lg bg-[var(--color-accent)] px-6 py-3.5 font-mono text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-glow)] hover:shadow-lg hover:shadow-[var(--color-accent)]/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {status === "submitting" ? "Sending..." : "Send Message"}
+              {status === "submitting" ? labels.sending : labels.send}
             </button>
 
             <p className="text-center font-mono text-[10px] text-[var(--color-text-muted)]/40">
-              Your message is sent via Formsubmit. No tracking, no spam.
+              {labels.privacy}
             </p>
           </motion.form>
         )}

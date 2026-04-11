@@ -1,5 +1,23 @@
 ---
-import { achievements } from "../data/achievements";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+
+const achievements = [
+  {
+    titleKey: "ach.kaggle.title",
+    subKey: "ach.kaggle.sub",
+    url: "https://www.kaggle.com/adrininfantesromero",
+  },
+  {
+    titleKey: "ach.htb.title",
+    subKey: "ach.htb.sub",
+    url: "https://app.hackthebox.com",
+  },
+  { titleKey: "ach.hackaboss.title", subKey: "ach.hackaboss.sub" },
+  { titleKey: "ach.omen.title", subKey: "ach.omen.sub" },
+  { titleKey: "ach.talent.title", subKey: "ach.talent.sub" },
+];
 ---
 
 <section class="border-y border-border bg-bg-secondary/50 px-6 py-12">
@@ -14,14 +32,14 @@ import { achievements } from "../data/achievements";
             class="group"
           >
             <div class="text-lg font-bold text-text-primary transition-colors group-hover:text-accent">
-              {a.title}
+              {t(a.titleKey, lang)}
             </div>
-            <div class="text-xs text-text-muted">{a.subtitle}</div>
+            <div class="text-xs text-text-muted">{t(a.subKey, lang)}</div>
           </a>
         ) : (
           <div>
-            <div class="text-lg font-bold text-text-primary">{a.title}</div>
-            <div class="text-xs text-text-muted">{a.subtitle}</div>
+            <div class="text-lg font-bold text-text-primary">{t(a.titleKey, lang)}</div>
+            <div class="text-xs text-text-muted">{t(a.subKey, lang)}</div>
           </div>
         )}
       </div>
