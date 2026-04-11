@@ -1,5 +1,6 @@
 ---
 import TypewriterText from "../components/react/TypewriterText";
+import HolographicCard from "../components/react/HolographicCard";
 
 const phrases = [
   "206+ attacks against Foundation Models",
@@ -11,63 +12,67 @@ const phrases = [
 
 <section
   id="hero"
-  class="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
+  class="relative flex min-h-screen items-center justify-center overflow-hidden px-6 py-24"
 >
   <!-- Hero gradient overlay -->
   <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.08),transparent_50%)]"></div>
 
-  <div class="relative z-10 mx-auto max-w-[var(--max-w-content)] text-center">
-    <p class="mb-4 font-mono text-sm tracking-widest text-text-muted uppercase">
-      AI Security &middot; AI Safety &middot; Red Teaming
-    </p>
+  <div class="relative z-10 mx-auto w-full max-w-3xl">
+    <HolographicCard client:load>
+      <div class="text-center">
+        <p class="mb-4 font-mono text-sm tracking-widest text-text-muted uppercase">
+          AI Security &middot; AI Safety &middot; Red Teaming
+        </p>
 
-    <h1 class="text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-      Adrian Infantes
-    </h1>
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          Adrian Infantes
+        </h1>
 
-    <p class="mt-4 font-mono text-lg text-accent sm:text-xl">
-      AI Security Engineer
-    </p>
+        <p class="mt-4 font-mono text-lg text-accent sm:text-xl">
+          AI Security Engineer
+        </p>
 
-    <p class="mx-auto mt-6 max-w-2xl text-lg text-text-secondary sm:text-xl">
-      I protect AI systems from the attacks<br class="hidden sm:inline" />
-      that haven't been invented yet.
-    </p>
+        <p class="mx-auto mt-6 max-w-xl text-base text-text-secondary sm:text-lg">
+          I protect AI systems from the attacks<br class="hidden sm:inline" />
+          that haven't been invented yet.
+        </p>
 
-    <!-- Typewriter - secondary layer for technical audience -->
-    <div class="mt-4 h-6">
-      <TypewriterText client:load phrases={phrases} />
-    </div>
+        <!-- Typewriter - secondary layer for technical audience -->
+        <div class="mt-4 h-6">
+          <TypewriterText client:load phrases={phrases} />
+        </div>
 
-    <!-- Proof badges -->
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-        BBVA Technology
-      </span>
-      <span class="rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm text-accent backdrop-blur-sm">
-        Kaggle Master
-      </span>
-      <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-        HackTheBox Top 800
-      </span>
-    </div>
+        <!-- Proof badges -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
+            BBVA Technology
+          </span>
+          <span class="rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm text-accent backdrop-blur-sm">
+            Kaggle Master
+          </span>
+          <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
+            HackTheBox Top 800
+          </span>
+        </div>
 
-    <!-- CTAs -->
-    <div class="mt-10 flex items-center justify-center gap-4">
-      <a
-        href="#projects"
-        class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
-      >
-        View Work
-        <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
-      </a>
-      <a
-        href="#contact"
-        class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
-      >
-        Contact
-      </a>
-    </div>
+        <!-- CTAs -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="#projects"
+            class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
+          >
+            View Work
+            <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+          </a>
+          <a
+            href="#contact"
+            class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
+          >
+            Contact
+          </a>
+        </div>
+      </div>
+    </HolographicCard>
   </div>
 
   <!-- Scroll indicator -->
