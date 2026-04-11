@@ -6,7 +6,6 @@ type Mode = "professional" | "red_team";
 interface Message {
   role: "user" | "assistant";
   content: string;
-  mode: Mode;
 }
 
 interface ModeConfig {
@@ -161,15 +160,15 @@ function ModeToggle({
 
 function MessageBubble({
   message,
-  config,
+  activeMode,
 }: {
   message: Message;
-  config: ModeConfig;
+  activeMode: Mode;
 }) {
   const isUser = message.role === "user";
-  const msgConfig = CONFIGS[message.mode];
+  const activeConfig = CONFIGS[activeMode];
 
-  if (message.mode === "red_team") {
+  if (activeMode === "red_team") {
     return (
       <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
         <div className="max-w-[85%] font-mono text-xs">
@@ -207,12 +206,12 @@ function MessageBubble({
       <div
         className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold"
         style={{
-          backgroundColor: isUser ? "var(--color-bg-tertiary)" : msgConfig.colorSoft,
-          color: isUser ? "var(--color-text-primary)" : msgConfig.color,
-          border: isUser ? "1px solid var(--color-border)" : `1px solid ${msgConfig.borderColor}`,
+          backgroundColor: isUser ? "var(--color-bg-tertiary)" : activeConfig.colorSoft,
+          color: isUser ? "var(--color-text-primary)" : activeConfig.color,
+          border: isUser ? "1px solid var(--color-border)" : `1px solid ${activeConfig.borderColor}`,
         }}
       >
-        {isUser ? "U" : msgConfig.avatar}
+        {isUser ? "U" : activeConfig.avatar}
       </div>
       <div
         className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
@@ -222,14 +221,14 @@ function MessageBubble({
         }`}
         style={
           !isUser
-            ? { border: `1px solid ${msgConfig.borderColor}` }
+            ? { border: `1px solid ${activeConfig.borderColor}` }
             : undefined
         }
       >
         <p className="whitespace-pre-wrap">
           {message.content}
           {message.content === "" && (
-            <span className="inline-block h-4 w-1.5 animate-pulse" style={{ backgroundColor: msgConfig.color }} />
+            <span className="inline-block h-4 w-1.5 animate-pulse" style={{ backgroundColor: activeConfig.color }} />
           )}
         </p>
       </div>
@@ -258,15 +257,14 @@ export default function AIChat() {
       if (!text.trim() || streaming) return;
       setError(null);
 
-      const userMsg: Message = { role: "user", content: text, mode };
-      const assistantMsg: Message = { role: "assistant", content: "", mode };
+      const userMsg: Message = { role: "user", content: text };
+      const assistantMsg: Message = { role: "assistant", content: "" };
       setMessages((prev) => [...prev, userMsg, assistantMsg]);
       setInput("");
       setStreaming(true);
 
       try {
         const history = messages
-          .filter((m) => m.mode === mode)
           .slice(-8)
           .map((m) => ({ role: m.role, content: m.content }));
 
@@ -453,7 +451,7 @@ export default function AIChat() {
                 </div>
               ) : (
                 messages.map((m, i) => (
-                  <MessageBubble key={i} message={m} config={config} />
+                  <MessageBubble key={i} message={m} activeMode={mode} />
                 ))
               )}
               {error && (
