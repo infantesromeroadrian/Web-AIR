@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import AnalyticsBeacon from "../components/astro/AnalyticsBeacon.astro";
 ---
 
 <!doctype html>
@@ -51,5 +52,6 @@ import { ClientRouter } from "astro:transitions";
   </head>
   <body class="bg-bg-primary text-text-primary font-mono overflow-x-hidden">
     <slot />
+    <AnalyticsBeacon />
   </body>
 </html>

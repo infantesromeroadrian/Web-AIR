@@ -1,0 +1,56 @@
+---
+import "../../styles/global.css";
+import { verifyAuth } from "../../lib/auth";
+import { readAnalytics } from "../../lib/redis";
+import AdminLogin from "../../components/react/AdminLogin";
+import AnalyticsDashboard from "../../components/react/AnalyticsDashboard";
+
+export const prerender = false;
+
+const auth = verifyAuth(Astro.request);
+const snapshot = auth.ok ? await readAnalytics() : null;
+const storageUnavailable = auth.ok && !snapshot;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <title>Analytics | Admin</title>
+  </head>
+  <body class="bg-bg-primary text-text-primary">
+    {!auth.ok ? (
+      <AdminLogin client:load />
+    ) : storageUnavailable ? (
+      <div class="flex min-h-screen items-center justify-center px-6">
+        <div class="max-w-md rounded-xl border border-accent-red/30 bg-accent-red/5 p-8 text-center">
+          <p class="font-mono text-xs uppercase tracking-wider text-accent-red">
+            // storage unavailable
+          </p>
+          <p class="mt-4 text-text-primary">
+            Analytics storage is not configured or unreachable.
+          </p>
+          <p class="mt-2 text-sm text-text-muted">
+            Check <code class="font-mono text-accent">UPSTASH_REDIS_REST_URL</code> and <code class="font-mono text-accent">UPSTASH_REDIS_REST_TOKEN</code> env vars.
+          </p>
+          <form method="POST" action="/api/analytics/logout" class="mt-6">
+            <button
+              type="submit"
+              class="rounded border border-border px-4 py-2 font-mono text-xs text-text-muted transition-colors hover:border-accent-red hover:text-accent-red"
+            >
+              logout
+            </button>
+          </form>
+        </div>
+      </div>
+    ) : (
+      <main class="mx-auto max-w-5xl px-6 py-12">
+        <AnalyticsDashboard client:load initialData={snapshot} />
+      </main>
+    )}
+  </body>
+</html>
