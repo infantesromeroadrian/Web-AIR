@@ -1,0 +1,49 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import LatentSpaceGlobe from "../components/react/LatentSpaceGlobe";
+---
+
+<section id="latent-space" class="px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="Latent Space"
+      subtitle="Where adversarial attacks actually live"
+    />
+
+    <div class="grid gap-10 lg:grid-cols-[1fr_360px] lg:items-center">
+      <ScrollReveal client:visible>
+        <LatentSpaceGlobe client:visible />
+      </ScrollReveal>
+
+      <ScrollReveal client:visible delay={0.15}>
+        <div class="space-y-5 text-sm text-text-secondary">
+          <p class="leading-relaxed">
+            Every Foundation Model encodes its knowledge as points in a high-dimensional space.
+            <span class="text-text-primary font-medium"> Attacks don't target text &mdash; they target the manifold.</span>
+          </p>
+          <p class="leading-relaxed">
+            A well-crafted adversarial perturbation moves an input by a vector humans can't perceive, but lands it in a
+            region the model classifies completely differently. This is how jailbreaks, prompt injection, and evasion
+            attacks work at the geometric level.
+          </p>
+          <p class="leading-relaxed">
+            <span class="font-mono text-accent">inject attack</span> above to see the pulse propagate through the cluster
+            topology. When I red team a model, this is what happens under the hood.
+          </p>
+          <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 font-mono text-[11px] text-text-muted">
+            <div class="text-accent">$ status</div>
+            <div class="mt-1">
+              clusters: <span class="text-text-primary">5</span>
+              &middot; vectors: <span class="text-text-primary">1800</span>
+              &middot; embedding dims: <span class="text-text-primary">3D proj</span>
+            </div>
+            <div class="mt-0.5">
+              stack: <span class="text-accent-green">three.js + react-three-fiber</span>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+    </div>
+  </div>
+</section>
