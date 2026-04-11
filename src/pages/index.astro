@@ -17,6 +17,7 @@ import Contact from "../sections/Contact.astro";
 import MiniTerminal from "../components/react/MiniTerminal";
 import ParticleNetwork from "../components/react/ParticleNetwork";
 import DeadPixel from "../components/react/DeadPixel";
+import AIChat from "../components/react/AIChat";
 ---
 
 <BaseLayout>
@@ -45,4 +46,5 @@ import DeadPixel from "../components/react/DeadPixel";
   </main>
   <Footer />
   <MiniTerminal client:idle />
+  <AIChat client:idle />
 </BaseLayout>
