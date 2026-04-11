@@ -204,6 +204,10 @@ export const TRANSLATIONS: Record<string, Entry> = {
 
   // ==================== FOOTER ====================
   "footer.built": { en: "Built with Astro.", es: "Hecho con Astro." },
+  "footer.rights": {
+    en: "All rights reserved.",
+    es: "Todos los derechos reservados.",
+  },
   "footer.terminal": { en: "Open terminal", es: "Abrir terminal" },
 
   // ==================== LANG TOGGLE ====================
