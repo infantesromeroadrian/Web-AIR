@@ -35,8 +35,18 @@ export default function HolographicCard({ children }: Props) {
       const dx = (e.clientX - cx) / (rect.width / 2);
       const dy = (e.clientY - cy) / (rect.height / 2);
 
-      targetRef.current.ry = dx * MAX_TILT_DEG;
-      targetRef.current.rx = -dy * MAX_TILT_DEG;
+      // Freeze rotation when hovering interactive children — otherwise the
+      // card keeps moving between mousedown and mouseup and the click is lost.
+      const target = e.target as HTMLElement | null;
+      const onInteractive = !!target?.closest("a, button, input, textarea, select, [role='button']");
+
+      if (onInteractive) {
+        targetRef.current.rx = 0;
+        targetRef.current.ry = 0;
+      } else {
+        targetRef.current.ry = dx * MAX_TILT_DEG;
+        targetRef.current.rx = -dy * MAX_TILT_DEG;
+      }
 
       const localX = ((e.clientX - rect.left) / rect.width) * 100;
       const localY = ((e.clientY - rect.top) / rect.height) * 100;
