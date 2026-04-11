@@ -1,0 +1,20 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import ThreatFeed from "../components/react/ThreatFeed";
+---
+
+<section id="threats" class="bg-bg-secondary/20 px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title="Threats I'm Tracking"
+      subtitle="Latest critical CVEs from the National Vulnerability Database"
+    />
+
+    <ScrollReveal client:visible>
+      <div class="mx-auto max-w-3xl">
+        <ThreatFeed client:visible />
+      </div>
+    </ScrollReveal>
+  </div>
+</section>
