@@ -10,41 +10,37 @@ interface Finding {
 interface AnalysisResult {
   score: number;
   verdict: "CLEAN" | "SUSPICIOUS" | "PHISHING" | "CRITICAL";
+  confidence?: number;
   findings: Finding[];
+  reasoning?: string;
+  model?: string;
+  provider?: string;
+  mode: "llm" | "local";
 }
 
+// Heuristic fallback (used if LLM endpoint fails)
 const URGENCY_WORDS = [
   "urgent", "immediately", "expire", "suspend", "verify your",
   "confirm your", "update your", "unusual activity", "unauthorized",
   "limited time", "act now", "account will be", "within 24 hours",
-  "within 48 hours",
 ];
 
 const FINANCIAL_WORDS = [
   "bank", "paypal", "credit card", "wire transfer", "bitcoin",
   "crypto", "invoice", "payment", "refund", "prize", "winner",
-  "lottery", "million", "inheritance", "beneficiary",
+  "lottery", "million", "inheritance",
 ];
 
 const SOCIAL_ENGINEERING = [
-  "click here", "click below", "click the link", "open the attachment",
-  "download", "enable macros", "enable content", "log in",
-  "sign in", "enter your password", "ssn", "social security",
-  "date of birth",
+  "click here", "click below", "click the link", "enter your password",
+  "log in", "sign in", "ssn", "social security",
 ];
 
-const IMPERSONATION = [
-  "dear customer", "dear user", "dear account holder", "dear sir",
-  "valued customer", "official notice", "security team",
-  "support team", "helpdesk", "it department",
-];
-
-function analyzeEmail(text: string): AnalysisResult {
+function localFallback(text: string): AnalysisResult {
   const lower = text.toLowerCase();
   const findings: Finding[] = [];
   let score = 0;
 
-  // Urgency patterns
   const urgencyHits = URGENCY_WORDS.filter((w) => lower.includes(w));
   if (urgencyHits.length > 0) {
     score += urgencyHits.length * 12;
@@ -55,7 +51,6 @@ function analyzeEmail(text: string): AnalysisResult {
     });
   }
 
-  // Financial bait
   const financialHits = FINANCIAL_WORDS.filter((w) => lower.includes(w));
   if (financialHits.length > 0) {
     score += financialHits.length * 10;
@@ -66,7 +61,6 @@ function analyzeEmail(text: string): AnalysisResult {
     });
   }
 
-  // Social engineering
   const socialHits = SOCIAL_ENGINEERING.filter((w) => lower.includes(w));
   if (socialHits.length > 0) {
     score += socialHits.length * 15;
@@ -77,30 +71,16 @@ function analyzeEmail(text: string): AnalysisResult {
     });
   }
 
-  // Impersonation
-  const impersonationHits = IMPERSONATION.filter((w) => lower.includes(w));
-  if (impersonationHits.length > 0) {
-    score += impersonationHits.length * 8;
-    findings.push({
-      type: "warning",
-      label: "Generic impersonation",
-      detail: `Detected: ${impersonationHits.slice(0, 3).join(", ")}`,
-    });
-  }
-
-  // URL patterns
   const urlMatch = text.match(/https?:\/\/[^\s]+/gi);
   if (urlMatch) {
     const suspicious = urlMatch.filter(
       (u) =>
         u.includes("bit.ly") ||
-        u.includes("tinyurl") ||
         u.match(/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) ||
         u.includes("-login") ||
         u.includes("secure-") ||
         u.includes(".xyz") ||
-        u.includes(".tk") ||
-        u.includes(".ml")
+        u.includes(".tk")
     );
     if (suspicious.length > 0) {
       score += 25;
@@ -109,34 +89,7 @@ function analyzeEmail(text: string): AnalysisResult {
         label: "Suspicious URLs",
         detail: `${suspicious.length} suspicious link(s) detected`,
       });
-    } else if (urlMatch.length > 0) {
-      findings.push({
-        type: "info",
-        label: "Links present",
-        detail: `${urlMatch.length} URL(s) found — verify domain ownership`,
-      });
     }
-  }
-
-  // ALL CAPS
-  const capsWords = text.split(/\s+/).filter((w) => w.length > 3 && w === w.toUpperCase());
-  if (capsWords.length >= 3) {
-    score += 10;
-    findings.push({
-      type: "warning",
-      label: "Excessive capitalization",
-      detail: `${capsWords.length} words in ALL CAPS — pressure tactic`,
-    });
-  }
-
-  // Spelling/grammar signals
-  if (lower.match(/\b(kindly|humbly|revert back|do the needful|dearest)\b/)) {
-    score += 15;
-    findings.push({
-      type: "warning",
-      label: "Social engineering language",
-      detail: "Formal/unusual phrasing common in phishing",
-    });
   }
 
   if (findings.length === 0) {
@@ -148,11 +101,26 @@ function analyzeEmail(text: string): AnalysisResult {
   }
 
   score = Math.min(score, 100);
-
   const verdict: AnalysisResult["verdict"] =
     score >= 70 ? "CRITICAL" : score >= 40 ? "PHISHING" : score >= 15 ? "SUSPICIOUS" : "CLEAN";
 
-  return { score, verdict, findings };
+  return { score, verdict, findings, mode: "local" };
+}
+
+async function analyzeWithLLM(text: string): Promise<AnalysisResult> {
+  const response = await fetch("/api/phishing-analyze", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+  return { ...data, mode: "llm" };
 }
 
 const SAMPLE_PHISH = `URGENT: Your PayPal account has been suspended due to unusual activity.
@@ -184,28 +152,43 @@ export default function PhishingAnalyzer() {
   const [input, setInput] = useState("");
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
+  const [showReasoning, setShowReasoning] = useState(false);
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (!input.trim()) return;
     setAnalyzing(true);
     setResult(null);
-    // Simulate processing time for effect
-    setTimeout(() => {
-      setResult(analyzeEmail(input));
+    setFallbackMessage(null);
+    setShowReasoning(false);
+
+    try {
+      const llmResult = await analyzeWithLLM(input);
+      setResult(llmResult);
+    } catch (err) {
+      console.warn("LLM analysis failed, using local fallback:", err);
+      setFallbackMessage(
+        err instanceof Error && err.message.includes("Rate limit")
+          ? "Rate limit reached. Showing local heuristic analysis instead."
+          : "LLM unavailable. Showing local heuristic analysis."
+      );
+      setResult(localFallback(input));
+    } finally {
       setAnalyzing(false);
-    }, 800);
+    }
   };
 
   const handleSample = () => {
     setInput(SAMPLE_PHISH);
     setResult(null);
+    setFallbackMessage(null);
   };
 
   return (
     <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-6">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h3 className="font-mono text-sm text-[var(--color-accent)]">
-          $ email_threat_analyzer --interactive
+          $ email_threat_analyzer --llm
         </h3>
         <button
           onClick={handleSample}
@@ -221,15 +204,19 @@ export default function PhishingAnalyzer() {
         placeholder="Paste a suspicious email here..."
         className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4 font-mono text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)]"
         rows={6}
+        maxLength={4000}
         spellCheck={false}
       />
+      <div className="mt-1 text-right font-mono text-[10px] text-[var(--color-text-muted)]/40">
+        {input.length}/4000
+      </div>
 
       <button
         onClick={handleAnalyze}
         disabled={!input.trim() || analyzing}
-        className="mt-4 w-full rounded-lg bg-[var(--color-accent)] py-3 font-mono text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-glow)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="mt-2 w-full rounded-lg bg-[var(--color-accent)] py-3 font-mono text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-glow)] disabled:cursor-not-allowed disabled:opacity-40"
       >
-        {analyzing ? "Analyzing threat vectors..." : "Analyze Email"}
+        {analyzing ? "Analyzing with Llama 3.3 70B..." : "Analyze Email"}
       </button>
 
       <AnimatePresence>
@@ -241,8 +228,14 @@ export default function PhishingAnalyzer() {
             transition={{ duration: 0.3 }}
             className="mt-6 space-y-4"
           >
+            {fallbackMessage && (
+              <div className="rounded-lg border border-[var(--color-accent-amber)]/30 bg-[var(--color-accent-amber)]/5 px-4 py-2 text-xs text-[var(--color-accent-amber)]">
+                {fallbackMessage}
+              </div>
+            )}
+
             {/* Score + Verdict */}
-            <div className="flex items-center justify-between rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4">
+            <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4">
               <div>
                 <div className="text-xs text-[var(--color-text-muted)]">THREAT SCORE</div>
                 <div
@@ -251,6 +244,11 @@ export default function PhishingAnalyzer() {
                 >
                   {result.score}/100
                 </div>
+                {result.confidence !== undefined && (
+                  <div className="mt-1 text-[10px] text-[var(--color-text-muted)]">
+                    confidence: {(result.confidence * 100).toFixed(0)}%
+                  </div>
+                )}
               </div>
               <div
                 className="rounded border px-4 py-2 font-mono text-sm font-bold tracking-wider"
@@ -287,9 +285,50 @@ export default function PhishingAnalyzer() {
               ))}
             </div>
 
-            <p className="text-center text-[10px] text-[var(--color-text-muted)]/40 font-mono">
-              Pattern-based heuristic analysis running entirely in your browser. No data leaves your device.
-            </p>
+            {/* LLM reasoning (expandable) */}
+            {result.reasoning && (
+              <div>
+                <button
+                  onClick={() => setShowReasoning(!showReasoning)}
+                  className="font-mono text-xs text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
+                >
+                  {showReasoning ? "▼" : "▶"} model reasoning
+                </button>
+                <AnimatePresence>
+                  {showReasoning && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-2 overflow-hidden rounded-lg border border-[var(--color-border)]/50 bg-[var(--color-bg-primary)]/50 p-3 text-sm italic text-[var(--color-text-secondary)]"
+                    >
+                      "{result.reasoning}"
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
+
+            {/* Footer: model + mode badge */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2">
+              <div className="flex items-center gap-2">
+                <span
+                  className={`inline-block h-1.5 w-1.5 rounded-full ${
+                    result.mode === "llm" ? "bg-[var(--color-accent-green)]" : "bg-[var(--color-accent-amber)]"
+                  }`}
+                />
+                <span className="font-mono text-[10px] text-[var(--color-text-muted)]">
+                  {result.mode === "llm"
+                    ? `${result.model ?? "LLM"} via ${result.provider ?? "groq"}`
+                    : "local heuristic (offline)"}
+                </span>
+              </div>
+              <p className="font-mono text-[10px] text-[var(--color-text-muted)]/40">
+                {result.mode === "llm"
+                  ? "Analysis via serverless function. No data stored."
+                  : "Pattern-based analysis running in your browser."}
+              </p>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
