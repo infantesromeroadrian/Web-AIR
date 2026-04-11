@@ -2,7 +2,7 @@ export const SITE = {
   title: "Adrian Infantes | AI Security Engineer",
   description:
     "AI Security Engineer specializing in AI Safety, Red Teaming, and Adversarial ML. Building secure AI systems for financial crime at BBVA. Kaggle Master, HTB Top 800.",
-  url: "https://web-air-seven.vercel.app",
+  url: "https://adrian-infantes.vercel.app",
   author: "Adrian Infantes",
   email: "infantesromeroadrian@gmail.com",
   location: "Madrid, Spain",

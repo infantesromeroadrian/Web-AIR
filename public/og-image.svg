@@ -15,7 +15,7 @@
   <text x="600" y="380" text-anchor="middle" font-family="monospace, sans-serif" font-size="22" fill="#a1a1aa">AI Safety &middot; Red Teaming &middot; Adversarial ML &middot; Kaggle Master</text>
   <!-- Bottom bar -->
   <rect x="0" y="590" width="1200" height="40" fill="#12121a"/>
-  <text x="600" y="617" text-anchor="middle" font-family="monospace, sans-serif" font-size="16" fill="#71717a">web-air-seven.vercel.app</text>
+  <text x="600" y="617" text-anchor="middle" font-family="monospace, sans-serif" font-size="16" fill="#71717a">adrian-infantes.vercel.app</text>
   <!-- Shield icon -->
   <g transform="translate(560, 420)">
     <path d="M40 5 L75 18 L75 42 C75 58 58 72 40 78 C22 72 5 58 5 42 L5 18 Z"

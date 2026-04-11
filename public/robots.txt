@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://web-air-seven.vercel.app/sitemap-index.xml
+Sitemap: https://adrian-infantes.vercel.app/sitemap-index.xml
