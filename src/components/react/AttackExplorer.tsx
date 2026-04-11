@@ -1,8 +1,7 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const LatentSpaceGlobe = lazy(() => import("./LatentSpaceGlobe"));
-const NeuralBreach = lazy(() => import("./NeuralBreach"));
+import LatentSpaceGlobe from "./LatentSpaceGlobe";
+import NeuralBreach from "./NeuralBreach";
 
 type Tab = "space" | "breach";
 
@@ -31,12 +30,12 @@ const TABS: TabConfig[] = [
 const DESCRIPTIONS: Record<Tab, { intro: string; bullets: { num: string; title: string; body: string; accent: string }[] }> = {
   space: {
     intro:
-      "Every Foundation Model encodes its knowledge as points in a high-dimensional space. Attacks don't target text — they target the manifold.",
+      "Every Foundation Model encodes its knowledge as points in a high-dimensional space. Attacks don't target text -- they target the manifold.",
     bullets: [
       {
         num: "01",
         title: "Cluster topology",
-        body: "Skills and concepts group into semantic regions. NLP, CV, RAG, Agents, Safety — each is its own neighborhood in the embedding space.",
+        body: "Skills and concepts group into semantic regions. NLP, CV, RAG, Agents, Safety -- each is its own neighborhood in the embedding space.",
         accent: "var(--color-accent)",
       },
       {
@@ -60,7 +59,7 @@ const DESCRIPTIONS: Record<Tab, { intro: string; bullets: { num: string; title: 
       {
         num: "01",
         title: "Inference path",
-        body: "A request enters the network. Signals propagate through hidden layers. The model outputs a confident prediction — this is the happy path.",
+        body: "A request enters the network. Signals propagate through hidden layers. The model outputs a confident prediction -- this is the happy path.",
         accent: "var(--color-accent)",
       },
       {
@@ -72,22 +71,12 @@ const DESCRIPTIONS: Record<Tab, { intro: string; bullets: { num: string; title: 
       {
         num: "03",
         title: "Breach propagation",
-        body: "The adversarial signal cascades layer by layer, corrupting activations. The final output flips from SAFE to COMPROMISED — exactly what I document before it ships to production at BBVA.",
+        body: "The adversarial signal cascades layer by layer, corrupting activations. The final output flips from SAFE to COMPROMISED -- exactly what I document before it ships to production at BBVA.",
         accent: "var(--color-accent-red)",
       },
     ],
   },
 };
-
-function VizLoader() {
-  return (
-    <div className="flex aspect-[16/10] items-center justify-center rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)]/60">
-      <span className="font-mono text-xs text-[var(--color-text-muted)]">
-        loading visualization...
-      </span>
-    </div>
-  );
-}
 
 export default function AttackExplorer() {
   const [active, setActive] = useState<Tab>("space");
@@ -164,9 +153,7 @@ export default function AttackExplorer() {
             exit={{ opacity: 0, x: active === "space" ? 20 : -20 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Suspense fallback={<VizLoader />}>
-              {active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}
-            </Suspense>
+            {active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}
           </motion.div>
         </AnimatePresence>
 
