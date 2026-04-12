@@ -9,8 +9,8 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 ## Highlights
 
 - **Dual-language** -- English (`/`) and Spanish (`/es/`) with `hreflang` SEO, one-click toggle
-- **3D holographic hero card** -- CSS perspective tilt with parallax depth, mouse-tracked glare
-- **AI chatbot (ARCA / NULL)** -- dual-persona LLM chat powered by Llama 3.3 70B via Groq streaming; ARCA (professional) and NULL (red-team offensive persona)
+- **Hi-tech hero card** -- 3D parallax tilt with `inference: active` / `uptime: 6.2y` indicators, mouse-tracked glare, cyan radial glow
+- **AI chatbot (ARCA / NULL)** -- dual-persona LLM chat powered by Llama 3.3 70B via Groq streaming; ARCA (professional) and NULL (red-team offensive persona). NVIDIA Kimi K2.5-style ring graph FAB (44 nodes, nearest-neighbor edges, mode-colored triangle markers)
 - **Live phishing analyzer** -- paste a suspicious email, get an LLM-powered threat breakdown in real time
 - **3D Latent Space globe** -- 1800-point interactive embedding cloud (React Three Fiber) with "Inject Attack" button that visualizes adversarial perturbation propagation
 - **Neural Breach animation** -- canvas 2D 4-layer neural network breach sequence
