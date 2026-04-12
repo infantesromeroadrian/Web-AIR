@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { searchProfile, getChunksByTags } from "../../lib/profile-search";
+import { searchProfile, getChunksByTags, getAllChunks } from "../../lib/profile-search";
 import { tokenize } from "../../lib/tfidf";
 import type { JobMatchResponse, ProfileChunk } from "../../lib/job-match-types";
 
@@ -115,11 +115,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const keywords = tokenize(jd).slice(0, 20);
     const tagResults = getChunksByTags(keywords);
 
-    // Merge and deduplicate, prefer TF-IDF order
+    // Always include education + experience (core profile — prevents gaps like missing degrees)
+    const mandatoryChunks = getAllChunks().filter(
+      (c) => c.category === "education" || c.category === "experience" || c.category === "achievement"
+    );
+
+    // Merge: mandatory first, then TF-IDF, then tags — deduplicated
     const seen = new Set<string>();
     const chunks: ProfileChunk[] = [];
-    for (const c of [...tfidfResults, ...tagResults]) {
-      if (!seen.has(c.id) && chunks.length < 12) {
+    for (const c of [...mandatoryChunks, ...tfidfResults, ...tagResults]) {
+      if (!seen.has(c.id) && chunks.length < 15) {
         seen.add(c.id);
         chunks.push(c);
       }

@@ -36,6 +36,13 @@ const SYNONYMS: Record<string, string> = {
   aml: "anti money laundering",
   kyc: "know your customer",
   sagemaker: "aws sagemaker",
+  bs: "bachelor degree",
+  bsc: "bachelor degree",
+  bachelors: "bachelor bs degree",
+  bachelor: "bs bsc degree",
+  msc: "master degree",
+  masters: "master msc degree",
+  phd: "doctorate degree",
 };
 
 export function tokenize(text: string): string[] {
