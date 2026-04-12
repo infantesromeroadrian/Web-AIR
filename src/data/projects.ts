@@ -30,10 +30,30 @@ export const sectors: Sector[] = [
       },
       {
         title: "Drone GeoAnalysis",
+        slug: "drone-geoanalysis",
         headline: "Turning drone footage into actionable intelligence",
         description:
           "Enterprise ISR platform: drone control, geospatial analysis, real-time video processing, and LLM-powered autonomous missions. 107 tests, 95.3% coverage.",
-        tags: ["LLMs", "Computer Vision", "Geospatial", "Drones", "Flask"],
+        longDescription:
+          "The operator describes a mission in natural language. The LLM (Groq/Llama or OpenAI) generates GPS waypoints, altitudes, actions, and safety constraints. The drone executes the mission while streaming video processed by YOLO for real-time object detection and geographic change analysis.\n\nFeatures: Mission Control with satellite map (Mapbox) and real-time telemetry, YOLOv11 object detection on drone imagery, geographic triangulation and correlation, 52 planned ISR operations, Parrot ANAFI full drone control via Olympe SDK, multi-LLM support (Groq, OpenAI, Docker local), GeoJSON cartography with POIs and security boundaries, LangGraph ReAct agent for querying analysis results.\n\n107 tests with 95.3% success rate. Clean layered architecture: controllers, services, models, hardware abstraction. Factory pattern, Flask blueprints, rate limiting, CORS.",
+        screenshots: [
+          { src: "/projects/drone-geoanalysis/dashboard.png", alt: "Dashboard with 52 missions, YOLO status, Groq LLM provider" },
+          { src: "/projects/drone-geoanalysis/mission-control.png", alt: "Mission Control with Mapbox satellite map and AI mission planner" },
+          { src: "/projects/drone-geoanalysis/analysis.png", alt: "Image Analysis view with YOLO object detection upload" },
+          { src: "/projects/drone-geoanalysis/missions.png", alt: "Missions Library with 52 planned ISR operations" },
+        ],
+        techStack: [
+          { layer: "Backend", tech: "Flask + Waitress (production WSGI)" },
+          { layer: "LLM", tech: "Groq (Llama 4 Scout) / OpenAI / Docker Model Runner" },
+          { layer: "Object Detection", tech: "YOLOv11 (Ultralytics 8.3) + PyTorch 2.5" },
+          { layer: "Drone SDK", tech: "Parrot Olympe 7.7.5 (ANAFI)" },
+          { layer: "Maps", tech: "Leaflet + Mapbox (satellite tiles)" },
+          { layer: "Agent", tech: "LangGraph ReAct (mission planning + Q&A)" },
+          { layer: "Geo", tech: "GeoJSON, triangulation, correlation" },
+          { layer: "Deploy", tech: "Docker Compose (4GB limit, health checks)" },
+        ],
+        architecture: "Natural Language -> LLM Mission Planner -> GPS Waypoints + Actions -> Drone Execution -> Video Feed -> YOLO Detection -> Geo Correlation -> Change Detection",
+        tags: ["LLMs", "YOLOv11", "Geospatial", "Drones", "Flask", "LangGraph"],
         githubUrl:
           "https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs",
         videoSrc:
