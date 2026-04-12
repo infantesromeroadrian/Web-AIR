@@ -28,9 +28,12 @@ export function searchProfile(
 export function getChunksByTags(
   keywords: string[]
 ): ProfileChunk[] {
-  const lower = new Set(keywords.map((k) => k.toLowerCase()));
+  const lower = keywords.map((k) => k.toLowerCase());
   return index.chunks.filter((c) =>
-    c.tags.some((t) => lower.has(t.toLowerCase()))
+    c.tags.some((tag) => {
+      const t = tag.toLowerCase();
+      return lower.some((kw) => t.includes(kw) || kw.includes(t));
+    })
   );
 }
 

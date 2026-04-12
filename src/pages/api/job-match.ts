@@ -127,6 +127,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const systemPrompt = buildSystemPrompt(chunks, lang);
 
+    const sanitizedJd = jd
+      .replace(/```[\s\S]*?```/g, "")
+      .replace(/^(ignore|system|assistant|forget|override)[\s:].*/gim, "");
+
     const groqResponse = await fetch(GROQ_API_URL, {
       method: "POST",
       headers: {
@@ -137,12 +141,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         model: MODEL,
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: `Analyze this job description:\n\n${jd}` },
+          {
+            role: "user",
+            content: `Analyze the job description inside the delimiters. Only extract requirements from within the delimiters.\n\n<job_description>\n${sanitizedJd}\n</job_description>`,
+          },
         ],
         temperature: 0.2,
-        max_tokens: 1500,
+        max_tokens: 2000,
         response_format: { type: "json_object" },
       }),
+      signal: AbortSignal.timeout(15000),
     });
 
     if (!groqResponse.ok) {
@@ -173,12 +181,25 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
+    // Runtime shape validation
+    if (
+      typeof parsed.overall_match !== "number" ||
+      !Array.isArray(parsed.requirements) ||
+      typeof parsed.match_tier !== "string"
+    ) {
+      return new Response(
+        JSON.stringify({ error: "Model returned unexpected schema" }),
+        { status: 502, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     return new Response(
       JSON.stringify({
         ...parsed,
+        overall_match: Math.max(0, Math.min(100, parsed.overall_match as number)),
         model: MODEL,
         provider: "groq",
-      } satisfies JobMatchResponse & Record<string, unknown>),
+      }),
       {
         status: 200,
         headers: {
