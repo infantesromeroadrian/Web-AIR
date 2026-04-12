@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import LatentSpaceGlobe from "./LatentSpaceGlobe";
 import NeuralBreach from "./NeuralBreach";
+import PhishingAnalyzer from "./PhishingAnalyzer";
 
-type Tab = "space" | "breach";
+type Tab = "space" | "breach" | "detect";
 
 interface TabConfig {
   id: Tab;
@@ -24,6 +25,12 @@ const TABS: TabConfig[] = [
     label: "The Breach",
     sub: "how attacks propagate",
     command: "$ trace adversarial_pathway",
+  },
+  {
+    id: "detect",
+    label: "The Defense",
+    sub: "catch threats live",
+    command: "$ email_threat_analyzer --llm",
   },
 ];
 
@@ -72,6 +79,30 @@ const DESCRIPTIONS: Record<Tab, { intro: string; bullets: { num: string; title: 
         num: "03",
         title: "Breach propagation",
         body: "The adversarial signal cascades layer by layer, corrupting activations. The final output flips from SAFE to COMPROMISED -- exactly what I document before it ships to production at BBVA.",
+        accent: "var(--color-accent-red)",
+      },
+    ],
+  },
+  detect: {
+    intro:
+      "Paste a suspicious email and watch the LLM dissect it in real time -- urgency triggers, credential harvesting, spoofed domains, social engineering. This is the defense side of the equation.",
+    bullets: [
+      {
+        num: "01",
+        title: "Threat classification",
+        body: "Llama 3.3 70B analyzes the email for phishing indicators: urgency manipulation, financial bait, authority impersonation, suspicious URLs.",
+        accent: "var(--color-accent)",
+      },
+      {
+        num: "02",
+        title: "Structured verdict",
+        body: "Each threat gets a score (0-100), severity level (CLEAN to CRITICAL), and specific findings with evidence extracted from the text.",
+        accent: "var(--color-accent-amber)",
+      },
+      {
+        num: "03",
+        title: "Local fallback",
+        body: "If the LLM is unavailable, a client-side heuristic engine kicks in -- pattern matching on known phishing indicators, running entirely in your browser.",
         accent: "var(--color-accent-red)",
       },
     ],
@@ -144,66 +175,108 @@ export default function AttackExplorer() {
       </div>
 
       {/* Content */}
-      <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+      {active === "detect" ? (
         <AnimatePresence mode="wait">
           <motion.div
-            key={active}
-            initial={{ opacity: 0, x: active === "space" ? -20 : 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: active === "space" ? 20 : -20 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}
-          </motion.div>
-        </AnimatePresence>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            key="detect"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="space-y-6"
+            className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-start"
           >
-            <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
-              {activeDesc.intro}
-            </p>
-
-            <div className="space-y-5">
-              {activeDesc.bullets.map((b) => (
-                <div key={b.num} className="flex items-start gap-4">
-                  <div
-                    className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs"
-                    style={{
-                      color: b.accent,
-                      borderWidth: 1,
-                      borderStyle: "solid",
-                      borderColor: `${b.accent}33`,
-                      backgroundColor: `${b.accent}0D`,
-                    }}
-                  >
-                    {b.num}
+            <PhishingAnalyzer />
+            <div className="space-y-6">
+              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                {activeDesc.intro}
+              </p>
+              <div className="space-y-5">
+                {activeDesc.bullets.map((b) => (
+                  <div key={b.num} className="flex items-start gap-4">
+                    <div
+                      className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs"
+                      style={{
+                        color: b.accent,
+                        borderWidth: 1,
+                        borderStyle: "solid",
+                        borderColor: `${b.accent}33`,
+                        backgroundColor: `${b.accent}0D`,
+                      }}
+                    >
+                      {b.num}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[var(--color-text-primary)]">{b.title}</h3>
+                      <p className="mt-1 text-sm text-[var(--color-text-secondary)]">{b.body}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[var(--color-text-primary)]">
-                      {b.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
-                      {b.body}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-4 font-mono text-xs text-[var(--color-text-muted)]">
-              <span className="text-[var(--color-accent)]">206+</span> attack vectors documented.{" "}
-              <span className="text-[var(--color-accent)]">7</span> critical findings remediated pre-deploy at BBVA.
+                ))}
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
-      </div>
+      ) : (
+        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, x: active === "space" ? -20 : 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: active === "space" ? 20 : -20 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}
+            </motion.div>
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-6"
+            >
+              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                {activeDesc.intro}
+              </p>
+
+              <div className="space-y-5">
+                {activeDesc.bullets.map((b) => (
+                  <div key={b.num} className="flex items-start gap-4">
+                    <div
+                      className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-mono text-xs"
+                      style={{
+                        color: b.accent,
+                        borderWidth: 1,
+                        borderStyle: "solid",
+                        borderColor: `${b.accent}33`,
+                        backgroundColor: `${b.accent}0D`,
+                      }}
+                    >
+                      {b.num}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[var(--color-text-primary)]">
+                        {b.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-[var(--color-text-secondary)]">
+                        {b.body}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-4 font-mono text-xs text-[var(--color-text-muted)]">
+                <span className="text-[var(--color-accent)]">206+</span> attack vectors documented.{" "}
+                <span className="text-[var(--color-accent)]">7</span> critical findings remediated pre-deploy at BBVA.
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }
