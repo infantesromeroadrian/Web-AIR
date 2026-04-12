@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { JobMatchResponse, RequirementMatch } from "../../lib/job-match-types";
 
@@ -39,9 +39,15 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCitations, setShowCitations] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
 
   const handleAnalyze = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || analyzing) return;
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setAnalyzing(true);
     setResult(null);
     setError(null);
@@ -51,6 +57,7 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jobDescription: input, lang }),
+        signal: controller.signal,
       });
 
       if (!response.ok) {
@@ -59,11 +66,12 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
       }
 
       const data: JobMatchResponse = await response.json();
-      setResult(data);
+      if (!controller.signal.aborted) setResult(data);
     } catch (err) {
+      if (err instanceof DOMException && err.name === "AbortError") return;
       setError(err instanceof Error ? err.message : "Analysis failed");
     } finally {
-      setAnalyzing(false);
+      if (!controller.signal.aborted) setAnalyzing(false);
     }
   };
 
@@ -119,6 +127,7 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={labels.placeholder}
+        aria-label={lang === "es" ? "Descripcion del puesto" : "Job description"}
         className="w-full rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-4 font-mono text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)]/40 outline-none transition-colors focus:border-[var(--color-accent)]"
         rows={6}
         maxLength={6000}
@@ -131,13 +140,14 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
       <button
         onClick={handleAnalyze}
         disabled={!input.trim() || analyzing}
+        aria-busy={analyzing}
         className="mt-2 w-full rounded-lg bg-[var(--color-accent)] py-3 font-mono text-sm font-semibold text-[var(--color-bg-primary)] transition-all hover:bg-[var(--color-accent-glow)] disabled:cursor-not-allowed disabled:opacity-40"
       >
         {analyzing ? labels.buttonLoading : labels.button}
       </button>
 
       {error && (
-        <div className="mt-4 rounded-lg border border-[var(--color-accent-red)]/30 bg-[var(--color-accent-red)]/5 px-4 py-2 text-xs text-[var(--color-accent-red)]">
+        <div role="alert" className="mt-4 rounded-lg border border-[var(--color-accent-red)]/30 bg-[var(--color-accent-red)]/5 px-4 py-2 text-xs text-[var(--color-accent-red)]">
           {error}
         </div>
       )}
@@ -150,6 +160,7 @@ export default function JobMatchPanel({ lang = "en" }: Props) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="mt-6 space-y-5"
+            aria-live="polite"
           >
             {/* Match score + tier */}
             <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-5">

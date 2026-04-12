@@ -19,14 +19,45 @@ const STOPWORDS = new Set([
   "me", "hasta", "hay", "donde", "han", "quien", "estan", "estado", "desde",
 ]);
 
+const SYNONYMS: Record<string, string> = {
+  nlp: "natural language processing",
+  ml: "machine learning",
+  dl: "deep learning",
+  cv: "computer vision",
+  k8s: "kubernetes",
+  infosec: "security",
+  cybersec: "cybersecurity",
+  genai: "generative ai",
+  llm: "large language model",
+  rl: "reinforcement learning",
+  mlops: "machine learning operations",
+  devops: "development operations",
+  devsecops: "development security operations",
+  aml: "anti money laundering",
+  kyc: "know your customer",
+  sagemaker: "aws sagemaker",
+};
+
 export function tokenize(text: string): string[] {
-  return text
+  const tokens = text
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 1 && !STOPWORDS.has(w));
+
+  const expanded: string[] = [];
+  for (const t of tokens) {
+    expanded.push(t);
+    const syn = SYNONYMS[t];
+    if (syn) {
+      for (const s of syn.split(" ")) {
+        if (s.length > 1 && !STOPWORDS.has(s)) expanded.push(s);
+      }
+    }
+  }
+  return expanded;
 }
 
 export type SparseVector = [number, number][];
@@ -43,7 +74,6 @@ export function buildVocabulary(docs: string[][]): string[] {
     }
   }
   return Array.from(freq.entries())
-    .filter(([, count]) => count > 0)
     .sort((a, b) => b[1] - a[1])
     .map(([term]) => term);
 }

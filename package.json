@@ -7,7 +7,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run tests/tfidf.test.ts tests/profile-search.test.ts",
+    "test:api": "vitest run tests/job-match-api.test.ts",
+    "test:all": "vitest run tests/",
+    "build:index": "npx tsx scripts/build-profile-index.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.3",
@@ -32,6 +36,7 @@
     "vite": "^7"
   },
   "devDependencies": {
-    "vercel": "^50.44.0"
+    "vercel": "^50.44.0",
+    "vitest": "^4.1.4"
   }
 }
