@@ -14,8 +14,8 @@ interface Props {
 }
 
 export default function SectorTabs({ sectors }: Props) {
-  const [active, setActive] = useState(0);
-  const sector = sectors[active];
+  const [active, setActive] = useState<number | null>(null);
+  const sector = active !== null ? sectors[active] : null;
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default function SectorTabs({ sectors }: Props) {
         {sectors.map((s, i) => (
           <button
             key={s.id}
-            onClick={() => setActive(i)}
+            onClick={() => setActive(active === i ? null : i)}
             className={`flex items-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition-all duration-200 ${
               active === i
                 ? "bg-[var(--color-accent)]/10 text-[var(--color-accent)] border border-[var(--color-accent)]/30"
@@ -48,8 +48,9 @@ export default function SectorTabs({ sectors }: Props) {
         ))}
       </div>
 
-      {/* Sector description */}
+      {/* Sector content — only visible when a tab is selected */}
       <AnimatePresence mode="wait">
+        {sector && (
         <motion.div
           key={sector.id}
           initial={{ opacity: 0, y: 10 }}
@@ -140,6 +141,7 @@ export default function SectorTabs({ sectors }: Props) {
             ))}
           </div>
         </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );
