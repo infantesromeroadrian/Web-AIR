@@ -116,8 +116,16 @@ export default function SectorTabs({ sectors }: Props) {
                     )}
                   </div>
 
-                  {/* Link */}
-                  <div className="mt-4 border-t border-[var(--color-border)] pt-4">
+                  {/* Links */}
+                  <div className="mt-4 flex items-center gap-4 border-t border-[var(--color-border)] pt-4">
+                    {project.slug && (
+                      <a
+                        href={`/projects/${project.slug}`}
+                        className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] transition-colors hover:text-[var(--color-accent-glow)]"
+                      >
+                        View Details &rarr;
+                      </a>
+                    )}
                     <a
                       href={project.githubUrl}
                       target="_blank"
@@ -125,9 +133,6 @@ export default function SectorTabs({ sectors }: Props) {
                       className="inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)] transition-colors hover:text-[var(--color-accent)]"
                     >
                       GitHub
-                      <span className="inline-block transition-transform group-hover:translate-x-0.5">
-                        &rarr;
-                      </span>
                     </a>
                   </div>
                 </div>

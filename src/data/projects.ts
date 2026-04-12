@@ -129,10 +129,30 @@ export const sectors: Sector[] = [
     projects: [
       {
         title: "Hospital Center AI",
+        slug: "hospital-center",
         headline: "9 AI specialists triaging emergency patients",
         description:
           "LangGraph multi-agent medical system: 8 parallel specialists (Cardiology, Neurology, Oncology...) evaluate cases simultaneously. Consensus routing, PostgreSQL memory, WebSocket streaming, prompt injection defense.",
-        tags: ["LangGraph", "PostgreSQL", "WebSocket", "Flask", "D3.js"],
+        longDescription:
+          "A patient describes symptoms. The triage agent analyzes urgency and routes to 8 medical specialists evaluating simultaneously. A consensus agent selects the best match, then the patient enters a conversational chat with that specialist -- all backed by persistent PostgreSQL memory and LangGraph checkpointing.\n\nSpecialists: General Medicine, Cardiology, Neurology, Pediatrics, Dermatology, Traumatology, Psychiatry, Oncology.\n\n48 source files, ~6300 LOC. Strict mypy, parametrized SQL (zero injection surface), retry with exponential backoff, structured logging, JWT + HMAC cookie auth, HIPAA/GDPR consent flow, non-root Docker containers, 70%+ test coverage enforced.",
+        screenshots: [
+          { src: "/projects/hospital-center/landing.png", alt: "Patient admission form with HIPAA/GDPR consent" },
+          { src: "/projects/hospital-center/dashboard.png", alt: "Consultation room dashboard with specialist sidebar" },
+          { src: "/projects/hospital-center/triage.png", alt: "Triage agent emergency protocol response" },
+          { src: "/projects/hospital-center/fullpage.png", alt: "Full platform view with 8 specialties listed" },
+        ],
+        techStack: [
+          { layer: "Orchestration", tech: "LangGraph 1.0 (parallel state machine)" },
+          { layer: "LLM", tech: "Groq API (Llama 4 Scout / OpenAI-compatible)" },
+          { layer: "Backend", tech: "FastAPI + Uvicorn (async, 4 workers)" },
+          { layer: "Database", tech: "PostgreSQL 15 (conversations + checkpoints)" },
+          { layer: "Real-time", tech: "WebSocket (Socket.IO)" },
+          { layer: "Auth", tech: "JWT + HMAC session cookies" },
+          { layer: "Frontend", tech: "Jinja2 + D3.js graph visualization" },
+          { layer: "Deploy", tech: "Docker Compose (multi-stage, non-root)" },
+        ],
+        architecture: "Patient -> Triage -> [8 Specialists in Parallel] -> Consensus -> Selected Specialist -> Conversational Chat",
+        tags: ["LangGraph", "PostgreSQL", "WebSocket", "FastAPI", "D3.js"],
         githubUrl:
           "https://github.com/infantesromeroadrian/LangGraph-Agents-HospitalCenter",
         videoSrc: "/videos/Video_Generado_y_Centro_Médico.mp4",

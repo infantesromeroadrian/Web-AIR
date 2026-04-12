@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/astro/Header.astro";
+import Footer from "../../../components/astro/Footer.astro";
+import { projects } from "../../../data/projects";
+import type { Project } from "../../../lib/types";
+
+export function getStaticPaths() {
+  return projects
+    .filter((p) => p.slug)
+    .map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const title = `${project.title} | Adrian Infantes`;
+const description = project.headline;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main class="relative z-10 px-6 py-24">
+    <div class="mx-auto max-w-4xl">
+
+      <a
+        href="/es/#projects"
+        class="mb-8 inline-flex items-center gap-2 text-sm text-text-muted transition-colors hover:text-accent"
+      >
+        <span>&larr;</span> Volver a Proyectos
+      </a>
+
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">
+        {project.title}
+      </h1>
+      <p class="mt-3 font-mono text-lg text-accent">{project.headline}</p>
+
+      <div class="mt-4 flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span class="rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-accent">
+            {tag}
+          </span>
+        ))}
+      </div>
+
+      <div class="mt-6 flex items-center gap-4">
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-bg-primary transition-all hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
+        >
+          Repositorio GitHub &rarr;
+        </a>
+        {project.demoUrl && (
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-text-primary transition-all hover:border-accent hover:text-accent"
+          >
+            Demo en Vivo
+          </a>
+        )}
+      </div>
+
+      {project.screenshots && project.screenshots.length > 0 && (
+        <div class="mt-12">
+          <h2 class="mb-6 text-xl font-semibold text-text-primary">Capturas</h2>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {project.screenshots.map((shot) => (
+              <a href={shot.src} target="_blank" rel="noopener" class="group overflow-hidden rounded-xl border border-border transition-all hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
+                <img
+                  src={shot.src}
+                  alt={shot.alt}
+                  loading="lazy"
+                  class="w-full transition-transform duration-300 group-hover:scale-[1.02]"
+                />
+                <p class="bg-bg-secondary/50 px-3 py-2 text-xs text-text-muted">{shot.alt}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.architecture && (
+        <div class="mt-12">
+          <h2 class="mb-4 text-xl font-semibold text-text-primary">Arquitectura</h2>
+          <div class="overflow-x-auto rounded-lg border border-border bg-bg-secondary/50 p-4">
+            <pre class="font-mono text-sm text-accent"><code>{project.architecture}</code></pre>
+          </div>
+        </div>
+      )}
+
+      {project.longDescription && (
+        <div class="mt-12">
+          <h2 class="mb-4 text-xl font-semibold text-text-primary">Descripcion</h2>
+          <div class="space-y-4 text-text-secondary leading-relaxed">
+            {project.longDescription.split("\n\n").map((para) => (
+              <p>{para}</p>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {project.techStack && project.techStack.length > 0 && (
+        <div class="mt-12">
+          <h2 class="mb-4 text-xl font-semibold text-text-primary">Stack Tecnologico</h2>
+          <div class="overflow-hidden rounded-xl border border-border">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-border bg-bg-secondary/50">
+                  <th class="px-4 py-3 text-left font-medium text-text-muted">Capa</th>
+                  <th class="px-4 py-3 text-left font-medium text-text-muted">Tecnologia</th>
+                </tr>
+              </thead>
+              <tbody>
+                {project.techStack.map((row, i) => (
+                  <tr class={i % 2 === 0 ? "bg-bg-secondary/20" : ""}>
+                    <td class="px-4 py-2.5 font-mono text-xs text-accent">{row.layer}</td>
+                    <td class="px-4 py-2.5 text-text-secondary">{row.tech}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {project.videoSrc && (
+        <div class="mt-12">
+          <h2 class="mb-4 text-xl font-semibold text-text-primary">Video Demo</h2>
+          <div class="overflow-hidden rounded-xl border border-border">
+            <video
+              controls
+              preload="metadata"
+              class="w-full"
+              poster={project.screenshots?.[0]?.src}
+            >
+              <source src={project.videoSrc} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      )}
+
+      <div class="mt-16 border-t border-border pt-8">
+        <a
+          href="/es/#projects"
+          class="inline-flex items-center gap-2 text-sm text-text-muted transition-colors hover:text-accent"
+        >
+          <span>&larr;</span> Volver a todos los proyectos
+        </a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

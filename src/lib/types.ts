@@ -11,10 +11,25 @@ export interface Experience {
   tags: string[];
 }
 
+export interface ProjectTechRow {
+  layer: string;
+  tech: string;
+}
+
+export interface ProjectScreenshot {
+  src: string;
+  alt: string;
+}
+
 export interface Project {
   title: string;
+  slug?: string;
   headline: string;
   description: string;
+  longDescription?: string;
+  screenshots?: ProjectScreenshot[];
+  techStack?: ProjectTechRow[];
+  architecture?: string;
   tags: string[];
   githubUrl: string;
   demoUrl?: string;
