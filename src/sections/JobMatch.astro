@@ -1,0 +1,23 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import ScrollReveal from "../components/react/ScrollReveal";
+import JobMatchPanel from "../components/react/JobMatchPanel";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<section id="job-match" class="px-6 py-24">
+  <div class="mx-auto max-w-[var(--max-w-content)]">
+    <SectionTitle
+      title={t("jobmatch.title", lang)}
+      subtitle={t("jobmatch.subtitle", lang)}
+    />
+
+    <ScrollReveal client:visible>
+      <div class="mx-auto max-w-3xl">
+        <JobMatchPanel client:visible lang={lang} />
+      </div>
+    </ScrollReveal>
+  </div>
+</section>

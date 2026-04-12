@@ -202,6 +202,16 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "El mensaje debe tener al menos 10 caracteres",
   },
 
+  // ==================== JOB MATCH ====================
+  "jobmatch.title": {
+    en: "Does Adrian Fit Your Role?",
+    es: "Adrian encaja en tu puesto?",
+  },
+  "jobmatch.subtitle": {
+    en: "Paste a job description and our AI analyzes the match against Adrian's real profile -- projects, experience, skills, and certifications.",
+    es: "Pega una descripcion del puesto y nuestra IA analiza el encaje contra el perfil real de Adrian -- proyectos, experiencia, skills y certificaciones.",
+  },
+
   // ==================== FOOTER ====================
   "footer.built": { en: "Built with Astro.", es: "Hecho con Astro." },
   "footer.rights": {
