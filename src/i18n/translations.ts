@@ -13,6 +13,25 @@ export const TRANSLATIONS: Record<string, Entry> = {
   "nav.demo": { en: "Demo", es: "Demo" },
   "nav.skills": { en: "Skills", es: "Skills" },
   "nav.contact": { en: "Contact", es: "Contacto" },
+  "nav.roadmap": { en: "Roadmap", es: "Roadmap" },
+
+  // ==================== ROADMAP ====================
+  "roadmap.meta.title": { en: "AI Security Roadmap | Adrian Infantes", es: "Roadmap AI Security | Adrian Infantes" },
+  "roadmap.meta.description": { en: "Interactive game-style roadmap tracking my journey to the top 1% of AI Security Engineers.", es: "Roadmap interactivo tipo juego rastreando mi camino al top 1% de AI Security Engineers." },
+  "roadmap.hud.towards": { en: "towards the 1%", es: "hacia el 1%" },
+  "roadmap.hud.done": { en: "Done", es: "Hecho" },
+  "roadmap.hud.prog": { en: "Prog", es: "Prog" },
+  "roadmap.hud.pend": { en: "Pend", es: "Pend" },
+  "roadmap.hud.certs": { en: "Certs", es: "Certs" },
+  "roadmap.hud.streak": { en: "Streak", es: "Racha" },
+  "roadmap.modal.cycle": { en: "Study cycle:", es: "Ciclo de estudio:" },
+  "roadmap.modal.hours": { en: "estimated", es: "estimadas" },
+  "roadmap.modal.feynman": { en: "Feynman: Explain to Claude before continuing", es: "Feynman: Explica a Claude antes de continuar" },
+  "roadmap.goal": { en: "TOP 1% — Apply to Anthropic, OpenAI, Google", es: "TOP 1% — Aplica a Anthropic, OpenAI, Google" },
+  "roadmap.export": { en: "Export", es: "Exportar" },
+  "roadmap.import": { en: "Import", es: "Importar" },
+  "roadmap.reset": { en: "Reset", es: "Reiniciar" },
+  "roadmap.reset.confirm": { en: "Reset all progress?", es: "Reiniciar todo el progreso?" },
 
   // ==================== HERO ====================
   "hero.pretitle": {

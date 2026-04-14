@@ -8,7 +8,7 @@ const otherPath = pathForLang(Astro.url, lang === "es" ? "en" : "es");
 
 const navItems = NAV_ITEMS.map((item) => ({
   label: t(`nav.${item.label.toLowerCase()}`, lang),
-  href: item.href,
+  href: item.href.startsWith("/") ? (lang === "es" ? `/es${item.href}` : item.href) : item.href,
 }));
 ---
 
