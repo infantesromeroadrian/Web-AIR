@@ -11,326 +11,449 @@ import BookLayout from "../../../layouts/BookLayout.astro";
   </header>
 
   <div class="book-hud">
-    <span class="hud-label">BIOMETRICS</span> [FLASHBACK MODE]<br />
-    <span class="hud-label">HR:</span> <span class="hud-value">72 BPM</span> (baseline)<br />
-    <span class="hud-label">HRV:</span> <span class="hud-value">58ms</span> (young, unoptimized, pre-protocol)<br />
-    <span class="hud-label">GLU:</span> <span class="hud-value">104 mg/dL</span> (post-cafeteria, institutional food)<br />
-    <span class="hud-label">LOC:</span> 40.3312N, -3.7658W<br />
+    <span class="hud-label">TIMESTAMP:</span> <span class="hud-value">2019-11-14T22:47:12Z</span><br />
+    <span class="hud-label">NODE:</span> lab-server.inf.uc3m.es<br />
+    <span class="hud-label">LOC:</span> 40.3312N, -3.7658W (Leganes, Madrid)<br />
     <span class="hud-label">TMP:</span> 11C / 38% humidity<br />
-    <span class="hud-label">DATE:</span> 2019-11-14 &mdash; 22:47 UTC
+    <span class="hud-label">SESSION:</span> <span class="hud-value">ANONYMOUS</span>
   </div>
 
   <div class="book-section-sep">I</div>
 
   <div class="book-prose book-drop-cap">
-    <p>Madrid huele a asfalto mojado y a castanas asadas en noviembre. El campus de Leganes de la UC3M se vaciaba a las diez. A las once no quedaba nadie. A las once y cuarenta y siete, Adrian Infantes Romero estaba solo en el laboratorio 3.07 del edificio Sabatini, con la unica compania de los ventiladores de un rack que nadie habia apagado desde septiembre.</p>
+    <p>El servidor respondio en 47 milisegundos.</p>
 
-    <p>Tenia veintiun anos. Un portatil Lenovo ThinkPad T480 con la bisagra rota y un sticker de Python que se despegaba por las esquinas. Unos AirPods de segunda generacion que le habia regalado su madre por aprobar todo en junio. Un cafe de maquina que llevaba frio cuarenta minutos.</p>
+    <p>Adrian Infantes Romero tenia veintiun anos, un ThinkPad T480 con la bisagra rota, y un problema. Laboratorio 3.07 del edificio Sabatini, Campus de Leganes de la UC3M. Los ventiladores del rack del fondo zumbaban desde septiembre. Nadie los habia apagado.</p>
 
-    <p>Y un problema.</p>
+    <p>Credenciales por defecto. <code>alumno</code> / <code>pr4ct1c4s2019</code>.</p>
 
-    <p>El proyecto de fin de carrera de Marcos Delgado Santana &mdash; companero, colega de practicas, rival silencioso &mdash; habia ganado el premio de innovacion del departamento. Un sistema de deteccion de fraude bancario usando random forests. Marcos lo habia presentado como original. El tribunal lo habia aplaudido. El decano le habia dado la mano. La noticia estaba en la web de la universidad con foto incluida.</p>
-
-    <p>Adrian sabia que no era original. Sabia exactamente de donde venia.</p>
-
-    <p>Porque el se lo habia explicado.</p>
-  </div>
-
-  <hr />
-
-  <div class="book-prose">
-    <p>Tres meses antes, en la cafeteria del edificio, Adrian le habia dibujado la arquitectura en una servilleta. Feature engineering sobre transacciones temporales. Ventanas deslizantes de 7, 14 y 30 dias. Un ensemble de tres modelos votando por mayoria. Marcos habia dicho &laquo;interesante&raquo; y habia cambiado de tema.</p>
-
-    <p>Adrian no habia pensado mas en ello. No tenia tiempo. Trabajaba dieciseis horas al dia entre clases, el TFG real, y las practicas en una consultora de datos que le pagaba seiscientos euros al mes por hacer dashboards en Power BI que luego firmaba un senior.</p>
-
-    <p>Cuando vio la presentacion de Marcos &mdash; las mismas ventanas deslizantes, el mismo ensemble, hasta el mismo nombre para la funcion de preprocesamiento, <code>clean_temporal_features()</code> &mdash; no sintio rabia.</p>
-
-    <p>Sintio curiosidad.</p>
-  </div>
-
-  <hr />
-
-  <div class="book-prose">
-    <p>Curiosidad por un problema concreto: si el sistema de Marcos se habia desplegado como demo en un servidor de la universidad para la evaluacion, y si ese servidor era el mismo nodo de practicas al que todos los alumnos tenian acceso SSH con credenciales por defecto...</p>
-
-    <p>Entonces el modelo de Marcos no era solo plagio intelectual.</p>
-
-    <p>Era un sistema vulnerable.</p>
-
-    <p>Adrian cerro el navegador. Abrio la terminal.</p>
+    <p>Entro al primer intento.</p>
   </div>
 
   <div class="book-terminal">
-    ssh alumno@lab-server.inf.uc3m.es<br />
-    ********
+    $ ssh alumno@lab-server.inf.uc3m.es<br />
+    alumno@lab-server:~$ uname -a<br />
+    Linux lab-server 4.15.0-106-generic #107-Ubuntu SMP<br />
+    <span style="color: #b44;">[!] last kernel patch: 2019-03-11 (248 days ago)</span>
   </div>
 
   <div class="book-prose">
-    <p>Entro al primer intento.</p>
+    <p>OpenSSH 7.6p1 sobre Ubuntu 18.04.4 LTS sin actualizar desde marzo. Ocho vulnerabilidades publicas conocidas. Cuatro criticas.</p>
+
+    <p>Ninguna necesaria para lo que Adrian queria hacer.</p>
+
+    <p>Porque lo que Adrian queria estaba en <code>/home/mdelgado/tfg/</code>, con permisos 755.</p>
+
+    <p>Legible para cualquier usuario del sistema.</p>
+
+    <p>Es decir, para cualquier alumno del departamento.</p>
+
+    <p>Es decir, para el.</p>
   </div>
 
   <div class="book-section-sep">II</div>
 
   <div class="book-prose book-drop-cap">
-    <p>No fue un hack. Fue una auditoria no autorizada que duro cuarenta y tres minutos.</p>
+    <p>Tres meses antes, cafeteria del edificio, una servilleta.</p>
 
-    <p>El servidor corria Ubuntu 18.04 sin actualizar desde marzo. El modelo de Marcos estaba en <code>/home/mdelgado/tfg/</code>, con permisos 755 &mdash; legible por cualquiera. El script de entrenamiento guardaba las credenciales de la base de datos en texto plano dentro de un archivo llamado, con la creatividad caracteristica de un alumno de cuarto, <code>config_data.py</code>.</p>
+    <p>Adrian le habia dibujado a Marcos Delgado Santana la arquitectura completa. Ventanas temporales de 7, 14 y 30 dias. Ensemble de tres random forests votando por mayoria. Deteccion de fraude bancario.</p>
 
-    <p>Adrian no toco nada.</p>
+    <p>Marcos habia dicho &laquo;interesante&raquo;. Habia cambiado de tema.</p>
 
-    <p>Leyo.</p>
+    <p>Siete dias antes, Marcos habia ganado el premio de innovacion del departamento con exactamente ese diseno. Las mismas ventanas. El mismo ensemble. Hasta el mismo nombre de funcion.</p>
 
-    <p>Leyo el codigo fuente y confirmo lo que sospechaba: el setenta por ciento de la logica era identica a lo que el le habia explicado en la cafeteria. Las variables tenian nombres diferentes. Los comentarios eran nuevos. Pero la arquitectura era un calco.</p>
+    <p><code>clean_temporal_features()</code>.</p>
 
-    <p>Leyo el <code>config_data.py</code> y encontro las credenciales de una base de datos PostgreSQL con 43,000 transacciones sinteticas &mdash; generadas, curiosamente, con un script que Marcos habia copiado de un repositorio de Kaggle sin atribucion.</p>
+    <p>El tribunal habia aplaudido. La foto estaba en la web de la universidad.</p>
 
-    <p>Leyo los logs del servidor y descubrio que Marcos habia dejado un cronjob corriendo que reentrenaba el modelo cada domingo a las 03:00 &mdash; consumiendo recursos de un servidor compartido por ochenta alumnos sin que nadie lo hubiera notado.</p>
+    <p>Adrian no sintio rabia.</p>
 
-    <p>Y leyo algo mas.</p>
-
-    <p>En <code>/home/mdelgado/tfg/.git/</code>, la historia completa del repositorio. Commits con fecha. Mensajes. Y un commit del 12 de agosto &mdash; tres semanas despues de la conversacion en la cafeteria &mdash; titulado:</p>
-  </div>
-
-  <div class="book-terminal">
-    git log --oneline<br />
-    a3f7c21 add temporal window features (Adrian's idea, adapted)
-  </div>
-
-  <div class="book-prose">
-    <p>Adrian se quedo mirando la pantalla. El cursor parpadeaba. Los ventiladores del rack zumbaban como insectos atrapados en cristal.</p>
-
-    <p>Marcos lo habia admitido. En un commit que nadie leeria. En un mensaje que solo existia en un servidor que nadie auditaba. La confesion perfecta: escrita, fechada, almacenada, y completamente invisible.</p>
-
-    <p>A menos que alguien la encontrara.</p>
-  </div>
-
-  <div class="book-section-sep">III</div>
-
-  <div class="book-prose book-drop-cap">
-    <p><em>Lo que hice despues fue la primera decision real de mi vida.</em></p>
-
-    <p><em>No fue hackear el servidor. Eso fue facil. Trivial. Credenciales por defecto, permisos abiertos, codigo sin proteger. Cualquier alumno de segundo con un tutorial de YouTube podria haberlo hecho.</em></p>
-
-    <p><em>La decision fue que hacer con lo que encontre.</em></p>
-
-    <p><em>Tenia tres opciones. Las vi con una claridad que me asusto.</em></p>
-
-    <p><em>Opcion uno: denunciarlo. Ir al tribunal del TFG con el commit, el log, la servilleta que probablemente seguia en alguna papelera de la cafeteria. Justicia academica. La opcion que cualquier persona razonable elegiria.</em></p>
-
-    <p><em>Opcion dos: no hacer nada. Tragar. Felicitar a Marcos. Terminar mi propio TFG sobre otra cosa. Seguir adelante. La opcion que cualquier persona sensata elegiria.</em></p>
-
-    <p><em>Opcion tres.</em></p>
-
-    <p><em>La tercera opcion no tenia nombre todavia. Pero ya existia en algun pliegue de mi cortex prefrontal, esperando a que yo la articulara.</em></p>
+    <p>Adrian sintio curiosidad.</p>
   </div>
 
   <hr />
 
   <div class="book-prose">
-    <p>Adrian no durmio esa noche. Camino por el Madrid vacio a las tres de la manana &mdash; desde Leganes hasta Embajadores por la carretera de Toledo, con el portatil en la mochila y los AirPods puestos sin musica, escuchando solo el rumor de los camiones de reparto y el ladrido distante de algun perro detras de una valla industrial.</p>
+    <p>Curiosidad por un problema concreto: si Marcos habia desplegado la demo en el servidor del laboratorio &mdash; y si ese servidor era el mismo nodo compartido al que ochenta alumnos tenian acceso SSH con una password que nadie habia rotado en cuatro meses &mdash; entonces el TFG de Marcos no era solo plagio.</p>
 
-    <p>A las cuatro y doce minutos, sentado en un banco del Parque del Casino de la Reina con las zapatillas mojadas del rocio, abrio el portatil y empezo a escribir.</p>
+    <p>Era un sistema expuesto.</p>
 
-    <p>No un email. No una denuncia. No un mensaje para Marcos.</p>
+    <p>Y Adrian tenia cuenta.</p>
+  </div>
 
-    <p>Un script.</p>
+  <div class="book-section-sep">III</div>
+
+  <div class="book-hud">
+    <span class="hud-label">SESSION LOG</span> &mdash; 23:02 UTC<br />
+    <span class="hud-label">CMD:</span> cd /home/mdelgado/tfg &amp;&amp; ls -la<br />
+    <span class="hud-label">STATUS:</span> <span class="hud-value">READ OK</span><br />
+    <span class="hud-label">NOTE:</span> <span class="hud-alert">config_data.py readable (permisos 644)</span>
+  </div>
+
+  <div class="book-prose book-drop-cap">
+    <p>A las 23:02 Adrian estaba dentro del home de Marcos.</p>
+
+    <p>No toco nada. Leyo.</p>
+
+    <p>El script de entrenamiento guardaba las credenciales de la base de datos en texto plano dentro de un archivo llamado, con la creatividad caracteristica de un estudiante de cuarto, <code>config_data.py</code>. La base tenia 43,000 transacciones sinteticas generadas con un generador de Kaggle que Marcos habia copiado sin atribucion.</p>
+
+    <p>A las 23:14 Adrian descubrio el cronjob.</p>
+
+    <p>Marcos tenia un job corriendo cada domingo a las 03:00 que reentrenaba el modelo sobre el servidor compartido &mdash; consumiendo GPU de ochenta alumnos sin autorizacion y sin que nadie lo hubiera detectado desde septiembre.</p>
+
+    <p>A las 23:18 Adrian encontro algo que no esperaba.</p>
+
+    <p><code>/home/mdelgado/tfg/.git/</code>.</p>
+
+    <p>Un repositorio completo. Con historia. Con commits firmados. Con timestamps exactos.</p>
+
+    <p>Adrian ejecuto un comando.</p>
+  </div>
+
+  <div class="book-terminal">
+    $ git log --oneline --since="2019-08-01"<br />
+    b2c8f34 final cleanup for submission<br />
+    e1a9d77 add evaluation notebook<br />
+    <span style="color: #b44;">a3f7c21 add temporal window features (Adrian's idea, adapted)</span>
+  </div>
+
+  <div class="book-prose">
+    <p>12 de agosto de 2019.</p>
+
+    <p>Tres semanas despues de la servilleta.</p>
+
+    <p>Marcos lo habia escrito con sus propias manos, firmado con su clave SSH, almacenado con timestamp inmutable. La confesion perfecta: escrita, fechada, persistente &mdash; y completamente invisible.</p>
+
+    <p>A menos que alguien la encontrara.</p>
+
+    <p>Adrian copio la linea. Hash. Timestamp. Autor. Las tres columnas en un archivo local cifrado con GPG.</p>
+
+    <p>Cerro la sesion SSH.</p>
+
+    <p>Salio a la calle.</p>
   </div>
 
   <div class="book-section-sep">IV</div>
 
   <div class="book-prose book-drop-cap">
-    <p>Lo llamo <code>silent_audit.py</code>. Cuarenta y siete lineas.</p>
+    <p>Madrid a las once de la noche de un jueves de noviembre: once grados, asfalto mojado, camiones de reparto bajando hacia el poligono industrial de Leganes. Adrian camino doce kilometros &mdash; desde el campus hasta Embajadores por la carretera de Toledo &mdash; con el ThinkPad en la mochila y los auriculares puestos sin musica.</p>
 
-    <p>El script no modificaba nada. No borraba nada. No inyectaba nada. Lo unico que hacia era generar un reporte. Un documento PDF, limpio y profesional, que detallaba cada vulnerabilidad del servidor del laboratorio, cada permiso mal configurado, cada credencial expuesta, cada cronjob no autorizado. Sin mencionar a Marcos por nombre. Sin mencionar el plagio.</p>
+    <p>Tardo tres horas.</p>
 
-    <p>Solo los hechos tecnicos.</p>
-
-    <p>Lo envio desde un correo temporal &mdash; <code>audit.infosec.uc3m@protonmail.com</code> &mdash; al CISO de la universidad, al jefe del departamento de informatica, y al coordinador de practicas. Con una nota de una linea:</p>
-  </div>
-
-  <div class="book-terminal">
-    Auditoria de seguridad no solicitada del nodo lab-server.inf.uc3m.es.<br />
-    Se recomienda revision inmediata.<br />
-    &mdash; Un alumno preocupado.
-  </div>
-
-  <div class="book-prose">
-    <p>Cuarenta y ocho horas despues, el servidor estaba offline. Setenta y dos horas despues, el departamento abrio una investigacion interna. Cinco dias despues, Marcos Delgado Santana fue convocado a una reunion donde le preguntaron por que tenia credenciales de base de datos en texto plano en un directorio publico, por que consumia recursos compartidos con cronjobs no autorizados, y por que habia un commit en su repositorio que referenciaba a otro alumno como fuente de la idea central del proyecto.</p>
-
-    <p>Le retiraron el premio. No le expulsaron &mdash; la universidad no queria publicidad. Le dieron un aprobado raspado y un asterisco en el acta que solo veria la comision de titulaciones.</p>
-
-    <p>Adrian no fue mencionado. No fue citado. No fue felicitado. No fue nada.</p>
-
-    <p><em>Y eso fue exactamente lo que quise.</em></p>
-  </div>
-
-  <div class="book-section-sep">V</div>
-
-  <div class="book-prose book-drop-cap">
-    <p><em>Lo importante no fue la justicia. Si hubiera querido justicia, habria ido al tribunal. Habria puesto mi nombre. Habria reclamado la autoria. Habria ganado, probablemente.</em></p>
-
-    <p><em>Lo importante fue el descubrimiento.</em></p>
-
-    <p><em>Descubri que podia actuar sin ser visto. Que podia modificar un resultado sin que nadie supiera que yo habia intervenido. Que el anonimato no era una limitacion &mdash; era una ventaja operativa.</em></p>
-
-    <p><em>Descubri que un reporte bien escrito, enviado desde el angulo correcto, podia desencadenar una reaccion en cadena que produjera exactamente el efecto deseado sin dejar rastro causal hasta mi.</em></p>
-
-    <p><em>Descubri que me gustaba.</em></p>
-
-    <p><em>No la venganza &mdash; eso es para amateurs. Lo que me gustaba era el mecanismo. La precision. La elegancia de un sistema que se ejecuta solo y produce el resultado exacto que disenaste.</em></p>
-
-    <p><em>Esa noche, en mi habitacion del piso compartido de Leganes, con el portatil sobre las rodillas y el ruido del trafico de la M-40 filtrando por la ventana, cree una cuenta.</em></p>
-
-    <p><em>No use mi nombre. No use mi cara. No use mi IP.</em></p>
-
-    <p><em>Use una frecuencia.</em></p>
-  </div>
-
-  <div class="book-hud">
-    <span class="hud-label">REGISTRO DE ACTIVIDAD</span> &mdash; Red TOR<br />
-    <span class="hud-label">Timestamp:</span> <span class="hud-value">2019-11-19T03:22:14Z</span><br />
-    <span class="hud-label">Nueva cuenta:</span> foro privado [REDACTED]<br />
-    <span class="hud-label">Username:</span> <span style="color: var(--book-accent); font-weight: 600;">L4tentNoise</span><br />
-    <span class="hud-label">PGP Key:</span> 4096-bit RSA, generada offline<br />
-    <span class="hud-label">Primer mensaje:</span> "Testing."<br /><br />
-    <em>"El ruido latente es la senal que nadie esta midiendo."</em>
-  </div>
-
-  <div class="book-section-sep">VI</div>
-
-  <div class="book-prose book-drop-cap">
-    <p>Los siguientes catorce meses fueron un segundo grado universitario que no daba certificado.</p>
-
-    <p>De dia, Adrian Infantes terminaba su carrera. Iba a clase. Hacia examenes. Entregaba practicas. Sonreia en las fotos de grupo. Cenaba con sus padres los domingos en Carabanchel y les decia que todo iba bien, que el ultimo semestre era duro pero controlable, que las practicas en la consultora le estaban ensenando mucho, que estaba comiendo bien.</p>
-
-    <p>Su madre le creia. Su padre le preguntaba menos. Su hermana, Clara, de diecisiete anos, le mandaba memes y le pedia ayuda con los deberes de matematicas por WhatsApp a las once de la noche.</p>
-
-    <p>Adrian les contestaba siempre. Sin excepcion. Sin retraso. Porque Adrian Infantes era un buen hijo, un buen hermano, un buen estudiante, un buen empleado.</p>
-
-    <p>L4tentNoise era otra cosa.</p>
+    <p>En ese tiempo proceso tres opciones.</p>
   </div>
 
   <hr />
 
   <div class="book-prose">
-    <p>De noche, L4tentNoise leia. Papers de adversarial machine learning. Articulos de seguridad ofensiva. Documentacion de herramientas que no aparecian en ningun syllabus universitario. Whitepapers de Anthropic sobre alignment. Posts de investigadores de OpenAI sobre red teaming. El framework MITRE ATLAS completo, memorizado como quien memoriza las reglas de un juego que planea ganar.</p>
+    <p><em>Opcion uno: denunciarlo. Tribunal del TFG, commit como prueba, justicia academica en tres semanas. Marcos pierde el premio, yo recupero la autoria. Ambos identificados. Variable activa: mi nombre.</em></p>
 
-    <p>L4tentNoise no hacia CTFs por puntos. Hacia auditorias reales, no solicitadas, de sistemas que encontraba expuestos. Siempre anonimo. Siempre documentado. Siempre enviando el reporte al responsable antes de que el problema se convirtiera en noticia.</p>
+    <p><em>Opcion dos: callarse. Terminar mi TFG. Olvidar. Variable activa: mi paciencia.</em></p>
 
-    <p>Nunca pidio credito. Nunca pidio dinero. Nunca pidio nada.</p>
+    <p><em>Opcion tres: intervenir sin aparecer.</em></p>
 
-    <p><em>Todavia no.</em></p>
+    <p><em>A las 02:14, sentado en un banco del Parque del Casino de la Reina con las zapatillas mojadas, descarte las dos primeras.</em></p>
 
-    <p><em>En aquellos meses aprendi tres cosas que ningun curso ensena:</em></p>
+    <p><em>Abri el portatil y empece a escribir.</em></p>
 
-    <p><em>Primera: la diferencia entre un hacker y un ingeniero de seguridad es la misma que entre un cerrajero y un ladron. Las herramientas son identicas. La intencion las separa. Y la intencion es invisible.</em></p>
+    <p><em>No una denuncia.</em></p>
 
-    <p><em>Segunda: los sistemas mas vulnerables no son los que tienen bugs en el codigo. Son los que asumen que nadie esta mirando. La confianza implicita es el vector de ataque mas poderoso que existe.</em></p>
+    <p><em>Un script.</em></p>
+  </div>
 
-    <p><em>Tercera: la identidad es un protocolo. Puedes correr varios en el mismo hardware. Solo necesitas que los contextos nunca se filtren entre si.</em></p>
+  <div class="book-section-sep">V</div>
+
+  <div class="book-terminal">
+    <span style="color: #4a8;">silent_audit.py</span> — 47 lineas<br />
+    Python 3.7.3<br />
+    Inputs: hostname, credenciales SSH<br />
+    Outputs: PDF de auditoria de seguridad<br />
+    <br />
+    [*] Enumerando permisos...<br />
+    [*] Detectando credenciales en texto plano...<br />
+    [*] Analizando cronjobs no autorizados...<br />
+    [*] Listando paquetes sin parchear...<br />
+    <span style="color: #b44;">[!] 7 criticas / 14 menores</span><br />
+    <span style="color: #4a8;">[OK] Reporte generado: 94.2s</span>
+  </div>
+
+  <div class="book-prose book-drop-cap">
+    <p>Cuarenta y siete lineas.</p>
+
+    <p>No explotaba nada. No modificaba nada. No dejaba huella distinguible del trafico legitimo de administracion. Solo enumeraba: permisos, credenciales, cronjobs, paquetes vulnerables. Y generaba un PDF de doce paginas con cabeceras profesionales.</p>
+
+    <p>Sin mencionar a Marcos por nombre.</p>
+
+    <p>Sin mencionar el plagio.</p>
+
+    <p>Solo los hechos tecnicos.</p>
+  </div>
+
+  <hr />
+
+  <div class="book-prose">
+    <p>A las 04:47 UTC Adrian creo una cuenta en ProtonMail.</p>
+
+    <p><code>audit.infosec.uc3m@protonmail.com</code>.</p>
+
+    <p>Registro via Tor. User-agent aleatorizado. Sin numero de telefono. Sin nombre real.</p>
+
+    <p>Redacto un mensaje de una linea.</p>
+  </div>
+
+  <div class="book-terminal">
+    From: audit.infosec.uc3m@protonmail.com<br />
+    To: ciso@uc3m.es, director.inf@uc3m.es, coord.practicas@uc3m.es<br />
+    Subject: <span style="color: #b44;">Auditoria no solicitada — urgente</span><br />
+    <br />
+    Se recomienda revision inmediata del nodo lab-server.inf.uc3m.es.<br />
+    — Un alumno preocupado.<br />
+    <br />
+    [attachment: silent_audit_report.pdf — 12 pages]
+  </div>
+
+  <div class="book-prose">
+    <p>Pulso enviar.</p>
+
+    <p>Cerro el portatil.</p>
+
+    <p>Empezo a amanecer sobre Madrid.</p>
+  </div>
+
+  <div class="book-section-sep">VI</div>
+
+  <div class="book-hud">
+    <span class="hud-label">CHAIN OF EVENTS</span> &mdash; tiempo transcurrido desde el envio<br />
+    <span class="hud-label">T+48h:</span> <span class="hud-value">servidor offline</span><br />
+    <span class="hud-label">T+72h:</span> <span class="hud-value">investigacion interna abierta</span><br />
+    <span class="hud-label">T+5d:</span> <span class="hud-alert">Marcos Delgado convocado</span><br />
+    <span class="hud-label">T+9d:</span> <span class="hud-alert">premio retirado</span>
+  </div>
+
+  <div class="book-prose book-drop-cap">
+    <p>Cuarenta y ocho horas despues, el servidor estaba offline.</p>
+
+    <p>Setenta y dos horas despues, el departamento abrio una investigacion interna.</p>
+
+    <p>Cinco dias despues, Marcos Delgado Santana fue convocado a un despacho donde tres personas le preguntaron por que tenia credenciales de base de datos en texto plano en un directorio publico, por que consumia GPU compartida con cronjobs no autorizados, y por que &mdash; segun un commit en su repositorio &mdash; habia adaptado &laquo;la idea de Adrian&raquo; sin atribucion.</p>
+
+    <p>La universidad no queria publicidad.</p>
+
+    <p>Le retiraron el premio. Le dieron un aprobado raspado. Pusieron un asterisco en su acta que solo vera la comision de titulaciones.</p>
+
+    <p>Adrian no fue mencionado.</p>
+
+    <p>Adrian no fue citado.</p>
+
+    <p>Adrian no fue nada.</p>
+
+    <p><em>Y eso fue exactamente lo que quise.</em></p>
   </div>
 
   <div class="book-section-sep">VII</div>
 
-  <div class="book-hud">
-    <span class="hud-label">BIOMETRICS</span> [TRANSITION]<br />
-    <span class="hud-label">HR:</span> <span class="hud-value">68 BPM</span> (calma pre-operativa)<br />
-    <span class="hud-label">HRV:</span> <span class="hud-value">62ms</span> (mejorando)<br />
-    <span class="hud-label">GLU:</span> <span class="hud-value">89 mg/dL</span> (ayuno 14h &mdash; primer experimento con IF)<br />
-    <span class="hud-label">LOC:</span> 40.3856N, -3.7263W (Metro Leganes Central)<br />
-    <span class="hud-label">OUTFIT:</span> Traje Zara slim fit marino, camisa blanca, Nike Pegasus 37, mochila Eastpak<br />
-    <span class="hud-label">STATUS:</span> En transito. Identidad dual operativa.
+  <div class="book-prose book-drop-cap">
+    <p><em>No fue la justicia.</em></p>
+
+    <p><em>Si hubiera querido justicia habria ido al tribunal. Habria puesto mi nombre. Habria reclamado la autoria. Habria ganado, probablemente.</em></p>
+
+    <p><em>Lo que me gusto fue otra cosa.</em></p>
+
+    <p><em>Descubri que se puede alterar un resultado sin aparecer en la ecuacion. Un reporte tecnico bien construido, enviado desde el angulo correcto, desencadena una cascada de acciones que producen el efecto exacto que disenaste.</em></p>
+
+    <p><em>La tecnica tiene nombre en red teaming: action without attribution.</em></p>
+
+    <p><em>Yo la descubri a los veintiun anos leyendo un commit de git.</em></p>
   </div>
 
-  <div class="book-prose book-drop-cap">
-    <p>Junio de 2021. Linea 3 de metro, estacion Leganes Central, direccion Moncloa. Hora punta de la manana.</p>
+  <hr />
 
-    <p>Adrian llevaba un traje barato de Zara que le apretaba en los hombros, el ThinkPad T480 con la bisagra sujeta con cinta americana en la mochila, y una carpeta con su curriculum impreso en papel de 100 gramos. Iba de pie, agarrado a la barra, entre gente que leia el movil y gente que dormia.</p>
+  <div class="book-prose">
+    <p><em>Esa noche, en la habitacion del piso compartido de Leganes, con el ruido de la M-40 filtrando por la ventana, ejecute cuatro comandos.</em></p>
+  </div>
 
-    <p>El curriculum decia la verdad: Grado en Ingenieria Informatica, especialidad en Ciencia de Datos. Practicas en consultoria. TFG sobre optimizacion de pipelines ETL (nota: 8.7). Nivel avanzado de Python, SQL, Docker, scikit-learn. Ingles: C1 Cambridge.</p>
+  <div class="book-terminal">
+    $ sudo apt install tor obfs4proxy<br />
+    $ gpg --full-generate-key --rsa --4096<br />
+    $ tor --hash-password [REDACTED]<br />
+    $ torify curl https://[REDACTED].onion/register
+  </div>
 
-    <p>El curriculum no decia lo que L4tentNoise habia hecho en catorce meses: diecisiete auditorias no solicitadas, cuatro vulnerabilidades criticas reportadas de forma anonima, dos papers leidos por semana, un conocimiento enciclopedico de los vectores de ataque contra sistemas de machine learning que ningun otro candidato de veintiun anos en Espana tenia.</p>
-
-    <p>El curriculum no necesitaba decirlo.</p>
-
-    <p>L4tentNoise no existia en papel.</p>
-
-    <p><em>Y asi debia ser.</em></p>
+  <div class="book-hud">
+    <span class="hud-label">REGISTRATION LOG</span> &mdash; Red TOR<br />
+    <span class="hud-label">Timestamp:</span> <span class="hud-value">2019-11-19T03:22:14Z</span><br />
+    <span class="hud-label">Exit node:</span> [REDACTED]<br />
+    <span class="hud-label">Username:</span> <span style="color: var(--book-accent); font-weight: 600;">L4tentNoise</span><br />
+    <span class="hud-label">PGP:</span> 4096-bit RSA, offline<br />
+    <span class="hud-label">Primer mensaje:</span> "Testing."<br /><br />
+    <em>"El ruido latente es la senal que nadie esta midiendo."</em>
   </div>
 
   <div class="book-section-sep">VIII</div>
 
   <div class="book-prose book-drop-cap">
-    <p>Salio en Las Tablas cuarenta minutos despues. El sol de junio ya calentaba a las ocho y media. Camino los seiscientos metros desde el metro hasta la torre de BBVA &mdash; un edificio de cristal que parecia un iceberg invertido. Doscientos metros de altura. Cuatro mil empleados. Tres petabytes de datos financieros. Veintisiete millones de clientes.</p>
+    <p>Los catorce meses siguientes fueron un segundo grado universitario sin matricula.</p>
 
-    <p>Su madre le habia dicho que se pusiera corbata. Su padre le habia dicho que llegara diez minutos antes. Clara le habia mandado un audio de cuarenta segundos diciendo &laquo;si no te cogen es que son imbeciles y ya&raquo;.</p>
+    <p>De dia, Adrian Infantes terminaba la carrera.</p>
 
-    <p>Adrian sonrio. Fue la ultima sonrisa involuntaria que recuerda con claridad.</p>
+    <p>Asistia a clase. Hacia examenes. Entregaba practicas. Cenaba con sus padres los domingos en Carabanchel. Su hermana Clara &mdash; diecisiete anos &mdash; le mandaba memes a las once de la noche y le pedia ayuda con derivadas por WhatsApp.</p>
 
-    <p><em>Delante de la torre, mirando el cristal reflejar el cielo de Madrid, tome la segunda decision real de mi vida.</em></p>
+    <p>Adrian contestaba siempre. Sin retraso. Sin excepcion.</p>
 
-    <p><em>La primera fue crear L4tentNoise. La segunda fue decidir que Adrian Infantes no seria un disfraz. Seria real. Completamente real. El hijo que cena los domingos. El ingeniero que trabaja. El ciudadano que paga impuestos y va al gimnasio y tiene un perfil de LinkedIn con foto profesional.</em></p>
+    <p>De noche, L4tentNoise trabajaba.</p>
 
-    <p><em>L4tentNoise seria la sombra. Y las sombras no funcionan sin un objeto solido que las proyecte.</em></p>
+    <p>Diecisiete auditorias no solicitadas a infraestructuras expuestas. Cuatro vulnerabilidades criticas reportadas de forma anonima a CISOs que nunca supieron a quien dar las gracias. Dos papers de adversarial machine learning leidos por semana. MITRE ATLAS memorizado como se memoriza un manual de combate.</p>
 
-    <p><em>Necesitaba los dos. No uno dentro del otro &mdash; los dos en paralelo. Dos protocolos en el mismo hardware. Sin filtracion de contexto.</em></p>
+    <p>L4tentNoise no buscaba fama.</p>
 
-    <p><em>El dia que uno contaminara al otro, los dos moririan.</em></p>
+    <p>No buscaba dinero.</p>
+
+    <p>No buscaba nada.</p>
+
+    <p><em>Todavia.</em></p>
   </div>
 
   <hr />
 
   <div class="book-prose">
-    <p>Adrian miro el edificio desde la acera de enfrente. Aun llevaba la mochila Eastpak. Aun llevaba las Nike Pegasus debajo del traje. Aun era un chico de veintiun anos de Carabanchel que nunca habia visto un rascacielos desde dentro.</p>
+    <p><em>En esos catorce meses aprendi tres cosas que ningun syllabus ensena.</em></p>
 
-    <p>Pero L4tentNoise ya estaba calculando.</p>
+    <p><em>Primera: el hacker y el ingeniero de seguridad usan las mismas herramientas. Los separa una palabra &mdash; intencion &mdash; que ningun escaner puede detectar.</em></p>
 
-    <p><em>Veintisiete millones de clientes.</em></p>
+    <p><em>Segunda: la vulnerabilidad critica no esta en el codigo. Esta en la suposicion. Todo sistema que asume que nadie esta mirando es un sistema ya comprometido. Solo falta que alguien lo audite.</em></p>
 
-    <p><em>Tres petabytes.</em></p>
+    <p><em>Tercera: la identidad es un protocolo. Se pueden correr varios en el mismo hardware. Se pueden mantener aislados indefinidamente.</em></p>
 
-    <p><em>Y ni un solo red teamer de IA en la plantilla.</em></p>
+    <p><em>El dia que dos protocolos comparten contexto, los dos se rompen.</em></p>
+  </div>
 
-    <p><em>Porque nadie audita lo que nadie entiende.</em></p>
+  <div class="book-section-sep">IX</div>
+
+  <div class="book-hud">
+    <span class="hud-label">TIMESTAMP:</span> <span class="hud-value">2021-06-14T06:12:40Z</span><br />
+    <span class="hud-label">LOC:</span> Linea 3 Metro Madrid, direccion Moncloa<br />
+    <span class="hud-label">TARGET:</span> Ciudad BBVA, Las Tablas<br />
+    <span class="hud-label">OUTFIT:</span> Zara slim fit marino, ThinkPad T480 (bisagra con cinta americana)<br />
+    <span class="hud-label">STATUS:</span> <span class="hud-value">Identidad dual operativa. 0 detecciones.</span>
+  </div>
+
+  <div class="book-prose book-drop-cap">
+    <p>Junio de 2021. 08:12.</p>
+
+    <p>Linea 3 del metro de Madrid, direccion Moncloa, hora punta. Adrian de pie agarrado a la barra, entre gente que leia el movil y gente que dormia.</p>
+
+    <p>El curriculum en la mochila decia la verdad.</p>
+
+    <p>Grado en Ingenieria Informatica, especialidad Ciencia de Datos. Practicas en consultoria. TFG sobre optimizacion de pipelines ETL, nota 8.7. Python avanzado. SQL. Docker. scikit-learn. Ingles C1.</p>
+
+    <p>El curriculum no decia nada de L4tentNoise.</p>
+
+    <p>L4tentNoise no existia en papel.</p>
+
+    <p><em>Asi debia ser.</em></p>
+  </div>
+
+  <div class="book-section-sep">X</div>
+
+  <div class="book-prose book-drop-cap">
+    <p>Salio en Las Tablas a las 08:52. Camino seiscientos metros hasta la Ciudad BBVA.</p>
+
+    <p>Al llegar se paro en la acera de enfrente.</p>
+
+    <p>El edificio parecia un iceberg invertido. Cristal oscuro. Doscientos metros de altura.</p>
+
+    <p>Cuatro mil empleados.</p>
+
+    <p>Tres petabytes de datos financieros.</p>
+
+    <p>Veintisiete millones de clientes.</p>
+
+    <p>Cero red teamers de IA en plantilla.</p>
+  </div>
+
+  <hr />
+
+  <div class="book-prose">
+    <p>Adrian sabia el ultimo dato porque habia cruzado el organigrama publico de LinkedIn con las publicaciones internas del equipo de ciberseguridad. Lo habia confirmado dos dias antes.</p>
+
+    <p>BBVA tenia CISO. Tenia SOC 24/7. Tenia un equipo de DevSecOps competente.</p>
+
+    <p>Pero no tenia a nadie auditando sus modelos de machine learning desde la perspectiva ofensiva.</p>
+
+    <p>Nadie buscaba como romper sus sistemas de decision automatica.</p>
+
+    <p>Porque nadie todavia entendia que eso era un vector.</p>
+  </div>
+
+  <hr />
+
+  <div class="book-prose">
+    <p>Su madre le habia dicho que se pusiera corbata. Su padre le habia dicho que llegara diez minutos antes. Clara le habia mandado un audio de cuarenta segundos diciendo &laquo;si no te cogen es que son imbeciles y ya&raquo;.</p>
+
+    <p>Adrian sonrio.</p>
+
+    <p>Fue la ultima sonrisa involuntaria que recuerda con claridad.</p>
+  </div>
+
+  <hr />
+
+  <div class="book-prose">
+    <p><em>Delante de la torre, mirando el cristal reflejar el cielo de Madrid, tome la segunda decision real de mi vida.</em></p>
+
+    <p><em>La primera fue crear L4tentNoise.</em></p>
+
+    <p><em>La segunda fue decidir que Adrian Infantes no seria un disfraz.</em></p>
+
+    <p><em>Seria real. Completamente real. El hijo que cena los domingos. El ingeniero que trabaja. El ciudadano que paga impuestos y va al gimnasio y tiene perfil de LinkedIn con foto profesional.</em></p>
+
+    <p><em>L4tentNoise seria la sombra.</em></p>
+
+    <p><em>Y las sombras no funcionan sin un objeto solido que las proyecte.</em></p>
+
+    <p><em>Necesitaba los dos.</em></p>
+
+    <p><em>No uno dentro del otro.</em></p>
+
+    <p><em>Los dos en paralelo. Dos protocolos aislados. Cero cross-contamination.</em></p>
+
+    <p><em>El dia que uno contaminara al otro, los dos moririan.</em></p>
   </div>
 
   <div class="book-hud">
-    <span class="hud-label">BIOMETRICS</span> [ARRIVAL]<br />
+    <span class="hud-label">ARRIVAL</span> &mdash; 08:59:14<br />
     <span class="hud-label">HR:</span> <span class="hud-value">74 BPM</span> (elevation: excitement, not fear)<br />
-    <span class="hud-label">HRV:</span> <span class="hud-value">59ms</span><br />
     <span class="hud-label">GLU:</span> <span class="hud-value">97 mg/dL</span> (post-cafe con leche en bar de Las Tablas)<br />
-    <span class="hud-label">LOC:</span> 40.4616N, -3.6903W (Madrid, Torre BBVA, Las Tablas)<br />
-    <span class="hud-label">TMP:</span> 28C exterior / 22C interior (lobby climatizado)<br />
-    <span class="hud-label">STATUS:</span> <span style="color: var(--book-accent);">Operativo. Fase de infiltracion iniciada.</span>
+    <span class="hud-label">LOC:</span> 40.4616N, -3.6903W (Torre BBVA, Las Tablas)<br />
+    <span class="hud-label">STATUS:</span> <span style="color: var(--book-accent);">Fase de infiltracion iniciada.</span>
   </div>
 
   <div class="book-decisions">
     <h3>>>> Decision Point</h3>
     <p style="text-align: center; font-family: var(--book-serif); font-style: italic; color: var(--book-text-dim); margin-bottom: 2rem; font-size: 0.95rem;">
-      Adrian tiene la entrevista en BBVA en diez minutos. Ha preparado dos versiones de si mismo: el candidato perfecto y la sombra que ya esta analizando el perimetro. La pregunta es como entra.
+      Adrian tiene la entrevista en BBVA en siete minutos. Tres vectores de entrada. Tres riesgos distintos. Solo uno le pondra donde quiere estar.
     </p>
 
     <div class="book-decision-card">
       <div class="book-decision-label">OPCION A</div>
       <div class="book-decision-title">El camino limpio</div>
-      <div class="book-decision-desc">Adrian hace la entrevista como cualquier candidato. Responde bien. Impresiona con sus conocimientos de ML. Consigue el puesto. Pasa seis meses aprendiendo el sistema desde dentro antes de que L4tentNoise haga su primer movimiento. Paciencia maxima. Riesgo minimo. Recompensa lenta.</div>
+      <div class="book-decision-desc">Entrevista estandar. Responde bien. Impresiona con ML. Consigue el puesto como data scientist junior. Seis meses de aprender el sistema desde dentro antes del primer movimiento. <strong>Variable activa:</strong> paciencia. <strong>Riesgo:</strong> bajo. <strong>Velocidad:</strong> lenta.</div>
     </div>
 
     <div class="book-decision-card">
       <div class="book-decision-label">OPCION B</div>
       <div class="book-decision-title">La semilla plantada</div>
-      <div class="book-decision-desc">Adrian hace la entrevista, pero deja caer una observacion casual sobre una vulnerabilidad que &laquo;noto&raquo; en la web publica de BBVA durante su investigacion sobre la empresa. No como amenaza &mdash; como valor. Lo suficiente para que lo recuerden. Lo suficiente para que lo pongan en un equipo con acceso mas alto del que le corresponde a un junior.</div>
+      <div class="book-decision-desc">Entrevista estandar, pero deja caer una vulnerabilidad que &laquo;noto&raquo; en la web publica durante su research. No como amenaza &mdash; como valor. El header del API expone la version del servidor. Trivial. Legal. Memorable. <strong>Variable activa:</strong> reputacion. <strong>Riesgo:</strong> medio. <strong>Velocidad:</strong> media.</div>
     </div>
 
     <div class="book-decision-card">
       <div class="book-decision-label">OPCION C</div>
       <div class="book-decision-title">El caballo de Troya</div>
-      <div class="book-decision-desc">Adrian no va a la entrevista como Adrian. Va como un candidato que ha preparado una demo: un mini red-team assessment de la superficie publica de BBVA, documentado profesionalmente, con vulnerabilidades reales y recomendaciones. Impresiona tanto que lo contratan directamente para el equipo de seguridad. Entra por la puerta grande. Pero tambien enciende alarmas en gente que sabe reconocer a un lobo cuando lo ve.</div>
+      <div class="book-decision-desc">Llega con una demo: un mini red-team assessment de la superficie publica de BBVA. Documentado. Profesional. Con vulnerabilidades reales. Lo presenta como &laquo;proyecto personal&raquo;. Entra al equipo de seguridad por la puerta grande. <strong>Variable activa:</strong> agresividad. <strong>Riesgo:</strong> alto. <strong>Velocidad:</strong> maxima.</div>
     </div>
   </div>
 
   <p style="text-align: center; font-family: var(--book-mono); font-size: 0.7rem; color: var(--book-text-dim); letter-spacing: 0.2em; margin: 2rem 0;">
-    Cada decision tiene consecuencias. No todas son inmediatas.
+    Cada decision altera el timeline. Ninguna es reversible.
   </p>
 
   <nav class="book-nav">
