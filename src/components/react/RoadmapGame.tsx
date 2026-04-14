@@ -171,7 +171,7 @@ function seedIfEmpty() {
 }
 
 // ═══════ PIN GATE ═══════
-const PIN = "l4tentNoise";
+const PIN = "L4tentNoise";
 const PIN_KEY = "rmv5_auth";
 function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   const [authed, setAuthed] = useState(() => isClient && sessionStorage.getItem(PIN_KEY) === "1");
