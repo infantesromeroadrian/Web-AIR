@@ -222,6 +222,49 @@ function seedIfEmpty() {
 
 // ═══════ COMPONENT ═══════
 const isClient = typeof window !== "undefined";
+const PIN = "41R2026";
+const PIN_KEY = "rmv5_auth";
+
+function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) {
+  const [authed, setAuthed] = useState(() => isClient && sessionStorage.getItem(PIN_KEY) === "1");
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
+
+  if (authed) return <>{children}</>;
+
+  const check = () => {
+    if (input === PIN) {
+      sessionStorage.setItem(PIN_KEY, "1");
+      setAuthed(true);
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 1500);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-[60vh] px-4">
+      <div className="text-center max-w-xs">
+        <div className="text-4xl mb-4">&#128274;</div>
+        <h2 className="text-lg font-bold text-text-primary mb-1">{lang === "es" ? "Zona privada" : "Private area"}</h2>
+        <p className="text-sm text-text-muted mb-4">{lang === "es" ? "Introduce el PIN para acceder" : "Enter PIN to access"}</p>
+        <input
+          type="password"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && check()}
+          placeholder="PIN"
+          autoFocus
+          className={`w-full px-4 py-2 rounded-lg bg-bg-tertiary border ${error ? "border-accent-red shake" : "border-border"} text-text-primary text-center font-mono text-lg tracking-widest focus:outline-none focus:border-accent transition-colors`}
+        />
+        <button onClick={check} className="mt-3 px-6 py-2 rounded-lg bg-accent/20 border border-accent/30 text-accent text-sm font-semibold hover:bg-accent/30 transition-colors">
+          {lang === "es" ? "Acceder" : "Enter"}
+        </button>
+        {error && <p className="text-accent-red text-xs mt-2">{lang === "es" ? "PIN incorrecto" : "Wrong PIN"}</p>}
+      </div>
+    </div>
+  );
+}
 
 const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
   const [state, setState] = useState<AppState>(() => {
@@ -313,6 +356,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
   };
 
   return (
+    <PinGate lang={lang}>
     <div className="relative">
       {/* ═══ HUD ═══ */}
       <div className="sticky top-16 z-40 flex items-center justify-between px-4 py-2 bg-bg-primary/90 backdrop-blur-md border-b border-border">
@@ -449,6 +493,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
         </div>
       )}
     </div>
+    </PinGate>
   );
 };
 
