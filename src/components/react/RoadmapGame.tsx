@@ -222,7 +222,7 @@ function seedIfEmpty() {
 
 // ═══════ COMPONENT ═══════
 const isClient = typeof window !== "undefined";
-const PIN = "41R2026";
+const PIN = "l4tentNoise";
 const PIN_KEY = "rmv5_auth";
 
 function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) {
