@@ -181,7 +181,11 @@ function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) 
   return (
     <div className="flex items-center justify-center min-h-[60vh] px-4">
       <div className="text-center max-w-xs">
-        <div className="text-5xl mb-4 font-mono text-accent opacity-60">[&gt;_]</div>
+        <div className="relative w-32 h-32 mx-auto mb-4 rounded-xl overflow-hidden border border-border opacity-80">
+          <img src="/roadmap/l4-real.png" alt="" className="w-full h-full object-cover object-top" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+          <div className="absolute bottom-2 left-0 right-0 text-center font-mono text-accent text-xs tracking-[4px]">[&gt;_]</div>
+        </div>
         <h2 className="text-lg font-mono font-bold text-text-primary mb-1 tracking-wider">CLASSIFIED ACCESS</h2>
         <p className="text-xs text-text-muted mb-4 font-mono">Enter clearance code</p>
         <input type="password" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && check()} placeholder="..." autoFocus
@@ -230,6 +234,17 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
   return (
     <PinGate lang={lang}>
     <div className="relative font-mono" style={{ fontSize: "103%" }}>
+
+      {/* ═══ HERO ═══ */}
+      <div className="relative h-48 overflow-hidden">
+        <img src="/roadmap/l4-real.png" alt="" className="absolute inset-0 w-full h-full object-cover object-center opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/60 to-bg-primary" />
+        <div className="relative z-10 flex flex-col items-center justify-end h-full pb-4">
+          <div className="text-[10px] tracking-[6px] text-accent/60 font-mono uppercase">Operational Dashboard</div>
+          <h1 className="text-2xl font-mono font-black tracking-tight text-text-primary mt-1">L4tentNoise</h1>
+          <p className="text-[10px] text-text-muted font-mono tracking-wider mt-0.5">AI Security Engineer Roadmap // {lang === "es" ? "Clasificado" : "Classified"}</p>
+        </div>
+      </div>
 
       {/* ═══ HUD ═══ */}
       <div className="sticky top-16 z-40 flex items-center justify-between px-4 py-2.5 bg-bg-primary/90 backdrop-blur-md border-b border-border">

@@ -1,0 +1,113 @@
+L4TENTNOISE — INTERACTIVE FICTION
+==================================
+Status: In progress (Chapters 1-5)
+Last updated: 2026-04-14
+Format: Choose-your-own-adventure thriller
+
+PREMISE:
+Adrian Infantes, AI engineer at BBVA by day.
+L4tentNoise, AI Red Teamer by night.
+When an internal audit reveals a critical vulnerability, the two identities collide.
+
+CHARACTERS:
+- Adrian Infantes / L4tentNoise — protagonist, dual identity
+- Alpha-Centauri — external security consultant hunting L4tentNoise
+- Younes — recruited asset in Casablanca (compromised, sacrificed)
+- Mai — honey trap / double agent in Saigon (framed as L4tentNoise)
+
+EQUIPMENT (canonical):
+- TUXEDO Stellaris 16 + Aquatics cooling module
+- Aer Travel Pack 3 (X-Pac VX42)
+- Garmin MARQ Athlete Gen 2 Carbon Edition (Stealth Mode)
+- Ultrahuman Ring Air (Asteroid Grey) + Libre 3 patch
+- Salomon Pulsar Advanced (escape) / S/Lab XT-6 (urban)
+- Arc'teryx Veilance (Nemis jacket, Frame polo, Secant pants)
+- Volquartsen Viper .22 LR custom (titanium suppressor, Trijicon RMRcc)
+- Titanium straw (blue cobalt) + MIRON violet glass bottle
+
+SUPPLEMENTS (stack):
+- Omega-3 ultra-concentrated (EPA/DHA 2000mg+)
+- Procom Max: Alpha-GPC + Bacopa Monnieri + L-Theanine
+- BrocoMax (sulforaphane / Nrf2 activator)
+- Magnesium L-Threonate
+- Hydration: osmosis-filtered water + trace electrolytes
+
+BIOMETRICS:
+- Resting HR: 55-62 BPM (operational target)
+- HRV: High (monitored via Ultrahuman Ring)
+- Glucose: Stable (Libre 3 CGM modified firmware)
+- VO2 Max: 64 (Garmin MARQ)
+- Diet: Paleo-ketogenic, 16:8 IF, grass-fed protein, wild salmon
+
+CHAPTER TIMELINE:
+=================
+
+CHAPTER 1: MADRID — The Poisoned Dart
+- Location: Penthouse, Torre Emperador (Cuatro Torres)
+- Action: Injects adversarial noise vector into BBVA credit risk model
+- Funds: Synthetic identities auto-approved, funds to Monero wallets
+- Escape: Maintenance elevator -> BiciMAD -> Chamartin -> AVE to Valencia
+- Payment: Hong Kong prepaid card (funded via Monero months prior)
+
+CHAPTER 2: VALENCIA -> CASABLANCA — Maritime Extraction
+- Transport: Cargo ship M/V Corvus (Liberian flag), Dock 14, Valencia port
+- Payment: 50,000 USDT cold wallet to contact
+- Tech: Pixel + GrapheneOS, 5G pocket router (Russian eSIM via Monero)
+- Burst transmission: 4.2 seconds to confirm botnet status
+
+CHAPTER 3: CASABLANCA — The Cell
+- Base: Penthouse, Anfa district, floor 12
+- Infrastructure: Parasitic fiber optic from neighboring office, Aquatics cooling
+- Recruitment: Younes (22, Hassan II University, Kaggle talent)
+  - Anonymous meeting: cap + sunglasses, voice distorted
+  - Gift: TUXEDO Aura 15 (pre-backdoored) + 10K EUR Monero
+  - Tool: Bash Bunny + modified Keycroc
+- DGST infiltration: Via Younes installing Keycroc in post office (DGST node)
+  - Accessed via Younes' laptop remotely (Wake-on-LAN)
+  - Modified Interpol request: REJECTED: INSUFFICIENT DATA
+  - Redirected IP trace to Marseille subnet
+
+CHAPTER 4: CASABLANCA — The Siege
+- Alpha-Centauri triangulates L4tentNoise traffic
+- Fiber connection cut (selective, not outage)
+- SDR agents at door + Younes compromised (HR 160 BPM)
+- Escape: Rooftop extraction via AC maintenance hatch
+- Revenge: Doxxed agents (Pastebin + X + Dark Web)
+- Sacrifice: Thermal_Runaway.sh — overloaded Younes' Aura 15 battery
+- False flag: Delayed ransomware attack on Tangier Med port (blamed on Younes)
+- Destination: Ho Chi Minh City via private jet (Nouaceur airstrip)
+
+CHAPTER 5: SAIGON — Mai and the Panic Room
+- Base: Vinhomes Central Park, District 1 (custom panic room installed)
+- Mai: Data Scientist cover, Stanford grad, actual intelligence asset
+  - Attempted USB keylogger on Stellaris
+  - Honeypot reverse: InfinityBook planted with BBVA attack code + Monero keys
+  - Framed as L4tentNoise via DGST channel to Alpha-Centauri
+- Crisis: BBVA emergency video call + Alpha-Centauri latency trace + police at door
+- Resolution:
+  - Coerced Mai with family photos + mercenary in Da Nang
+  - Mai declares herself as L4tentNoise to police
+  - Adrian hides in panic room (Faraday cage, HEPA, 72h O2)
+  - Eliminated Alpha-Centauri consultant via Viper .22 LR through mirror slot
+  - Mai takes blame for murder (defense claim)
+  - Adrian emerges as "victim" — plays shocked corporate engineer
+  - BBVA resignation sent (privacy violation accusation)
+  - Indemnification paid by BBVA (afraid of lawsuit)
+
+CHAPTER 6: DUBAI — The Crystal Fortress (current)
+- Base: Index Tower, DIFC, floor 64
+- Infrastructure: Modified AC (18.5C, 40% humidity), private chef, 04:00 gym
+- Threat: Mysterious package (black titanium straw + note referencing Casablanca)
+- Dark Web: Message "Dubai is too hot for someone who prefers 18 degrees"
+- BBVA: Requesting testimony via video call for Mai's trial
+- Status: L4tentNoise established, identity intact, next target pending
+
+PENDING DECISIONS:
+- Handle mysterious third party (who sent the straw?)
+- Video testimony for BBVA (risk of exposure)
+- Next target: Big Tech AI model attack or shadow consulting empire?
+- Cell expansion: Dubai assets or solo operation?
+
+TONE: Tech-noir, ultra-detailed (gear, brands, supplements, routes, biometrics)
+STYLE: Reader chooses between 3 options at each chapter end
+RULE: Every detail must be specific (brand, model, route, time, GPS, HR)
