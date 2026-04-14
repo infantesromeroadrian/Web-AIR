@@ -283,79 +283,17 @@ const { title = "L4tentNoise", chapter = "", subtitle = "" } = Astro.props;
     </style>
   </head>
   <body class="book-body">
-    <!-- Gate overlay -->
-    <div id="l4gate" style="position:fixed;inset:0;z-index:9999;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;">
-      <div style="width:100%;max-width:440px;padding:0 1.5rem;">
-        <div style="border:1px solid rgba(255,255,255,0.08);border-radius:8px;background:rgba(18,18,26,0.9);padding:2rem;">
-          <div style="font-size:0.6rem;letter-spacing:0.3em;color:#ef4444;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;">
-            <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;animation:gatepulse 2s ease-in-out infinite;"></span>
-            RESTRICTED ACCESS
-          </div>
-          <div style="font-size:0.75rem;color:#71717a;margin-bottom:0.5rem;line-height:1.6;">
-            <span style="color:#06b6d4;">$</span> ssh root@l4tentnoise.local<br/>
-            <span style="color:#10b981;">Connection established.</span><br/>
-            <span>Enter access code to continue:</span>
-          </div>
-          <form id="l4form" style="margin-top:1rem;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="color:#06b6d4;font-size:0.8rem;">></span>
-              <input id="l4input" type="password" placeholder="access_code" autocomplete="off" style="flex:1;background:transparent;border:none;outline:none;color:#e4e4e7;font-family:inherit;font-size:0.85rem;caret-color:#06b6d4;"/>
-            </div>
-            <div id="l4line" style="height:1px;background:rgba(255,255,255,0.08);margin-top:4px;transition:background 0.3s;"></div>
-          </form>
-          <div id="l4error" style="margin-top:0.75rem;font-size:0.65rem;color:#ef4444;letter-spacing:0.1em;display:none;">ACCESS DENIED</div>
-          <div style="margin-top:1.5rem;font-size:0.55rem;color:rgba(113,113,122,0.4);text-align:center;">This session is monitored.</div>
-        </div>
-      </div>
-      <style>@keyframes gatepulse{0%,100%{opacity:1}50%{opacity:0.3}}</style>
+    <div class="book-progress" id="readingProgress"></div>
+
+    <div class="book-topbar">
+      <a href="/l4tentnoise/book">L4TENTNOISE</a>
+      <span id="chapterIndicator">{chapter}</span>
+      <span id="readTime"></span>
     </div>
 
-    <!-- Actual content (hidden until auth) -->
-    <div id="l4content" style="display:none;">
-      <div class="book-progress" id="readingProgress"></div>
-
-      <div class="book-topbar">
-        <a href="/l4tentnoise/book">L4TENTNOISE</a>
-        <span id="chapterIndicator">{chapter}</span>
-        <span id="readTime"></span>
-      </div>
-
-      <div class="book-page">
-        <slot />
-      </div>
+    <div class="book-page">
+      <slot />
     </div>
-
-    <script is:inline>
-      (function(){
-        var K="l4tent_access",H="a7f3b2c1d4e5";
-        var E=[76,52,116,101,110,116,78,111,105,115,101,55,49,51,52];
-        if(sessionStorage.getItem(K)===H){
-          document.getElementById("l4gate").style.display="none";
-          document.getElementById("l4content").style.display="block";
-        } else {
-          document.getElementById("l4input").focus();
-        }
-        document.getElementById("l4form").addEventListener("submit",function(e){
-          e.preventDefault();
-          var v=document.getElementById("l4input").value;
-          var ok=v.length===E.length;
-          if(ok){for(var i=0;i<E.length;i++){if(v.charCodeAt(i)!==E[i])ok=false;}}
-          if(ok){
-            sessionStorage.setItem(K,H);
-            document.getElementById("l4gate").style.display="none";
-            document.getElementById("l4content").style.display="block";
-          } else {
-            document.getElementById("l4error").style.display="block";
-            document.getElementById("l4line").style.background="#ef4444";
-            document.getElementById("l4input").value="";
-            setTimeout(function(){
-              document.getElementById("l4error").style.display="none";
-              document.getElementById("l4line").style.background="rgba(255,255,255,0.08)";
-            },1500);
-          }
-        });
-      })();
-    </script>
 
     <script>
       function updateProgress() {
