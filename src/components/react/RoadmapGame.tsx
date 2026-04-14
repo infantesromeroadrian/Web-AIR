@@ -11,10 +11,10 @@ type Lang = "en" | "es";
 
 // ═══════ L4TENTNOISE EVOLUTION ═══════
 const EVOLUTIONS = [
-  { tag: "AI", name: "Adrian Infantes", title: "Estudiante", min: 0, max: 20, color: "#3b82f6", glow: "rgba(59,130,246,.4)", desc: { en: "Learning the fundamentals. Building the foundation.", es: "Aprendiendo los fundamentos. Construyendo la base." } },
-  { tag: "AI", name: "Adrian Infantes", title: "Ingeniero BBVA", min: 20, max: 45, color: "#06b6d4", glow: "rgba(6,182,212,.4)", desc: { en: "Corporate engineer. Building AI systems by day.", es: "Ingeniero corporativo. Construyendo sistemas AI de dia." } },
-  { tag: "L4", name: "L4tentNoise", title: "Shadow Operative", min: 45, max: 75, color: "#a855f7", glow: "rgba(168,85,247,.4)", desc: { en: "The alter ego emerges. Breaking what others build.", es: "El alter ego emerge. Rompiendo lo que otros construyen." } },
-  { tag: "L4", name: "L4tentNoise", title: "The Architect", min: 75, max: 101, color: "#ef4444", glow: "rgba(239,68,68,.5)", desc: { en: "Full spectrum. Builder and breaker. The 1%.", es: "Espectro completo. Constructor y destructor. El 1%." } },
+  { tag: "AI", name: "Adrian Infantes", title: "Estudiante", min: 0, max: 20, color: "#3b82f6", glow: "rgba(59,130,246,.4)", img: "/roadmap/l4-deeplearning.png", desc: { en: "Learning the fundamentals. Building the foundation.", es: "Aprendiendo los fundamentos. Construyendo la base." } },
+  { tag: "AI", name: "Adrian Infantes", title: "Ingeniero", min: 20, max: 45, color: "#06b6d4", glow: "rgba(6,182,212,.4)", img: "/roadmap/l4-teaching.png", desc: { en: "Corporate engineer. Building AI systems by day.", es: "Ingeniero corporativo. Construyendo sistemas AI de dia." } },
+  { tag: "L4", name: "L4tentNoise", title: "Shadow Operative", min: 45, max: 75, color: "#a855f7", glow: "rgba(168,85,247,.4)", img: "/roadmap/l4-redteam-analysis.png", desc: { en: "The alter ego emerges. Breaking what others build.", es: "El alter ego emerge. Rompiendo lo que otros construyen." } },
+  { tag: "L4", name: "L4tentNoise", title: "The Architect", min: 75, max: 101, color: "#ef4444", glow: "rgba(239,68,68,.5)", img: "/roadmap/l4-aws-redteam.png", desc: { en: "Full spectrum. Builder and breaker. The 1%.", es: "Espectro completo. Constructor y destructor. El 1%." } },
 ];
 const getEvo = (p: number) => { for (let i = EVOLUTIONS.length - 1; i >= 0; i--) if (p >= EVOLUTIONS[i].min) return { ...EVOLUTIONS[i], idx: i }; return { ...EVOLUTIONS[0], idx: 0 }; };
 
@@ -234,9 +234,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
       {/* ═══ HUD ═══ */}
       <div className="sticky top-16 z-40 flex items-center justify-between px-4 py-2.5 bg-bg-primary/90 backdrop-blur-md border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-sm font-black tracking-tighter border-2" style={{ borderColor: evo.color, color: evo.color, boxShadow: `0 0 12px ${evo.glow}`, background: `${evo.color}15` }}>
-            {evo.tag}
-          </div>
+          <img src={evo.img} alt={evo.name} className="w-11 h-11 rounded-lg object-cover border-2" style={{ borderColor: evo.color, boxShadow: `0 0 12px ${evo.glow}` }} />
           <div>
             <div className="text-[10px] tracking-[3px] uppercase" style={{ color: evo.color }}>{evo.title}</div>
             <div className="flex items-baseline gap-1.5">
@@ -266,9 +264,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
       {/* ═══ EVOLUTION CARD ═══ */}
       <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="border border-border rounded-lg p-4 bg-bg-secondary/50 flex items-center gap-5">
-          <div className="w-20 h-20 rounded-lg border-2 flex items-center justify-center text-2xl font-black tracking-tighter shrink-0" style={{ borderColor: evo.color, color: evo.color, boxShadow: `0 0 20px ${evo.glow}`, background: `${evo.color}10` }}>
-            {evo.tag}
-          </div>
+          <img src={evo.img} alt={evo.name} className="w-20 h-20 rounded-lg object-cover border-2 shrink-0" style={{ borderColor: evo.color, boxShadow: `0 0 20px ${evo.glow}` }} />
           <div className="flex-1 min-w-0">
             <div className="text-xs tracking-[4px] uppercase" style={{ color: evo.color }}>{evo.name} // {evo.title}</div>
             <div className="text-text-muted text-[10px] mt-0.5 italic">{evo.desc[lang]}</div>
@@ -330,8 +326,8 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
                         <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-[6px] text-text-muted whitespace-nowrap max-w-[65px] truncate pointer-events-none text-center tracking-wider uppercase">{n.name}</div>
                         {/* Agent marker */}
                         {isCurrent && (
-                          <div className="absolute -top-5 left-1/2 -translate-x-1/2 pointer-events-none animate-bounce">
-                            <div className="w-6 h-6 rounded border-2 flex items-center justify-center text-[7px] font-black" style={{ borderColor: evo.color, color: evo.color, boxShadow: `0 0 8px ${evo.glow}`, background: `${evo.color}30` }}>{evo.tag}</div>
+                          <div className="absolute -top-7 left-1/2 -translate-x-1/2 pointer-events-none animate-bounce">
+                            <img src="/roadmap/l4-base.png" alt="L4tentNoise" className="w-8 h-8 rounded-md object-cover border border-accent" style={{ boxShadow: `0 0 10px ${evo.glow}`, filter: "drop-shadow(0 3px 6px rgba(0,0,0,.6))" }} />
                           </div>
                         )}
                       </div>
