@@ -1,0 +1,67 @@
+---
+import BookLayout from "../../../layouts/BookLayout.astro";
+
+const chapters = [
+  { num: 0, id: "genesis", title: "Genesis", subtitle: "El origen de L4tentNoise", location: "Madrid, 2019", status: "available", readTime: "13 min" },
+  { num: 1, id: null, title: "El dardo venenoso", subtitle: "Torre BBVA, Madrid", location: "Madrid", status: "coming", readTime: null },
+  { num: 2, id: null, title: "Extraccion maritima", subtitle: "Valencia — Casablanca", location: "Mediterraneo", status: "coming", readTime: null },
+  { num: 3, id: null, title: "La celula", subtitle: "Anfa, Casablanca", location: "Casablanca", status: "coming", readTime: null },
+  { num: 4, id: null, title: "El cerco", subtitle: "Casablanca — la huida", location: "Casablanca", status: "coming", readTime: null },
+  { num: 5, id: null, title: "La habitacion del panico", subtitle: "Saigon", location: "Ho Chi Minh City", status: "coming", readTime: null },
+  { num: 6, id: null, title: "La fortaleza de cristal", subtitle: "Dubai, DIFC", location: "Dubai", status: "coming", readTime: null },
+  { num: 7, id: null, title: "El tercer hombre", subtitle: "???", location: "???", status: "coming", readTime: null },
+];
+---
+
+<BookLayout title="L4tentNoise" chapter="Libro">
+
+  <header class="book-header">
+    <div class="book-chapter-label">Interactive Fiction</div>
+    <h1 class="book-chapter-title">L4tentNoise</h1>
+    <p class="book-chapter-subtitle">Tech-noir. Choose your path. Every decision has consequences.</p>
+  </header>
+
+  <div style="font-family: var(--book-serif); color: var(--book-text-dim); text-align: center; max-width: 500px; margin: 0 auto 3rem; line-height: 1.8; font-size: 1rem;">
+    Adrian Infantes, AI engineer de dia.<br />
+    L4tentNoise, AI Red Teamer de noche.<br />
+    Cuando una auditoria interna revela una vulnerabilidad critica, las dos identidades colisionan.
+  </div>
+
+  <div style="margin-bottom: 3rem;">
+    {chapters.map((ch) => (
+      ch.status === "available" ? (
+        <a href={`/l4tentnoise/book/${ch.id}`} class="book-decision-card" style="display: block; text-decoration: none; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="book-decision-label">Capitulo {ch.num}</div>
+            <span style="font-family: var(--book-mono); font-size: 0.6rem; color: var(--book-green);">{ch.readTime} &rarr;</span>
+          </div>
+          <div class="book-decision-title">{ch.title}</div>
+          <div class="book-decision-desc">{ch.subtitle} &mdash; {ch.location}</div>
+        </a>
+      ) : (
+        <div style="display: block; border: 1px solid rgba(255,255,255,0.04); border-radius: 4px; padding: 1.25rem 1.5rem; margin-bottom: 0.75rem; opacity: 0.35;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: var(--book-mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--book-text-dim);">Capitulo {ch.num}</span>
+            <span style="font-family: var(--book-mono); font-size: 0.55rem; color: var(--book-text-dim);">PROXIMAMENTE</span>
+          </div>
+          <div style="font-family: var(--book-serif); font-size: 1.1rem; font-weight: 600; color: var(--book-text-dim); margin-top: 0.3rem;">{ch.title}</div>
+          <div style="font-size: 0.85rem; color: var(--book-text-dim); margin-top: 0.2rem;">{ch.subtitle}</div>
+        </div>
+      )
+    ))}
+  </div>
+
+  <div style="text-align: center; margin: 3rem 0; padding: 2rem 0; border-top: 1px solid var(--book-border);">
+    <p style="font-family: var(--book-mono); font-size: 0.65rem; color: var(--book-text-dim); letter-spacing: 0.2em; margin-bottom: 1rem;">ADVERTENCIA</p>
+    <p style="font-family: var(--book-serif); font-size: 0.95rem; color: var(--book-text-dim); font-style: italic; max-width: 400px; margin: 0 auto; line-height: 1.7;">
+      Esta es una obra de ficcion. Los personajes, eventos, empresas y vulnerabilidades descritas son ficticios. Cualquier parecido con la realidad es parte del juego.
+    </p>
+  </div>
+
+  <nav class="book-nav">
+    <a href="/l4tentnoise">&larr; L4tentNoise</a>
+    <span></span>
+    <span style="color: var(--book-text-dim);">8 capitulos</span>
+  </nav>
+
+</BookLayout>
