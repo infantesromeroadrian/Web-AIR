@@ -229,7 +229,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
 
   return (
     <PinGate lang={lang}>
-    <div className="relative font-mono">
+    <div className="relative font-mono" style={{ fontSize: "103%" }}>
 
       {/* ═══ HUD ═══ */}
       <div className="sticky top-16 z-40 flex items-center justify-between px-4 py-2.5 bg-bg-primary/90 backdrop-blur-md border-b border-border">
