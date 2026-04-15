@@ -304,12 +304,49 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
           const prevTier = ri > 0 ? rows[ri - 1][0].tier : 0;
           const showSector = firstTier !== prevTier;
 
+          // Compute tier completion %
+          const tierPct = (() => {
+            let total = 0, pts = 0;
+            let pi3 = 0;
+            R.forEach(t => t.phases.forEach(ph => {
+              ph.topics.forEach((tp2, i2) => {
+                const items2 = tp2.items || [];
+                if (items2.length) {
+                  items2.forEach((_, j2) => {
+                    if (t.tier === firstTier) { total++; const v = iSt(state, pi3, i2, j2); if (v === 2) pts += 1; else if (v === 1) pts += 0.5; }
+                  });
+                } else if (t.tier === firstTier) {
+                  total++; const stx = tSt(state, pi3, i2, tp2);
+                  if (stx === "done") pts += 1; else if (stx === "prog") pts += 0.5;
+                }
+              });
+              pi3++;
+            }));
+            return total ? Math.round((pts / total) * 100) : 0;
+          })();
+          const tierPhases = R.find(t => t.tier === firstTier)?.phases.length || 0;
+
           return (
             <div key={ri}>
               {showSector && (
                 <div className={`relative py-3 bg-gradient-to-b ${sectorColors[firstTier]}`}>
-                  <div className={`text-[10px] font-black tracking-[5px] uppercase px-4 ${sectorText[firstTier]}`}>
-                    {R.find(t => t.tier === firstTier)?.sub} // {R.find(t => t.tier === firstTier)?.name}
+                  <div className={`flex items-center justify-between px-4 gap-3`}>
+                    <div className={`text-[10px] font-black tracking-[5px] uppercase ${sectorText[firstTier]}`}>
+                      {R.find(t => t.tier === firstTier)?.sub} // {R.find(t => t.tier === firstTier)?.name}
+                    </div>
+                    <div className="flex items-center gap-2 text-[9px] font-mono">
+                      <span className={sectorText[firstTier].replace("/30","/60")}>
+                        {tierPhases} fases
+                      </span>
+                      <div className="w-16 h-1 rounded-full bg-white/5 overflow-hidden">
+                        <div className="h-full rounded-full transition-all"
+                             style={{ width: `${tierPct}%`,
+                                      background: firstTier === 1 ? "#10b981" : firstTier === 2 ? "#06b6d4" : firstTier === 3 ? "#ef4444" : "#a855f7" }} />
+                      </div>
+                      <span className={`font-black ${sectorText[firstTier].replace("/30","")}`} style={{ minWidth: "2.5em", textAlign: "right" }}>
+                        {tierPct}%
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
