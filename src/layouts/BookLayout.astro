@@ -164,6 +164,49 @@ const { title = "L4tentNoise", chapter = "", subtitle = "" } = Astro.props;
         overflow-x: auto;
       }
 
+      .book-voice {
+        font-family: var(--book-mono);
+        font-size: 0.78rem;
+        line-height: 1.75;
+        background: rgba(8, 8, 12, 0.85);
+        border: 1px solid rgba(180, 68, 68, 0.2);
+        border-left: 3px solid var(--book-red);
+        padding: 1.25rem 1.5rem;
+        margin: 2.5rem 0;
+        color: #b8a898;
+        border-radius: 2px;
+        position: relative;
+      }
+      .book-voice::before {
+        content: 'VOICE_LOG :: ???';
+        position: absolute;
+        top: -9px;
+        left: 16px;
+        background: var(--book-bg);
+        padding: 0 8px;
+        font-size: 0.55rem;
+        letter-spacing: 0.3em;
+        color: var(--book-red);
+        font-weight: 600;
+      }
+      .book-voice.named::before {
+        content: 'VOICE_LOG :: L4TENTNOISE';
+        color: var(--book-accent);
+      }
+      .book-voice p {
+        margin: 0 0 0.35rem 0;
+        text-align: left;
+        hyphens: none;
+      }
+      .book-voice p:last-child { margin-bottom: 0; }
+      .book-voice .v-prompt {
+        color: var(--book-red);
+        margin-right: 0.4rem;
+      }
+      .book-voice.named .v-prompt {
+        color: var(--book-accent);
+      }
+
       .book-decisions {
         margin: 3rem 0;
         padding: 2rem 0;
