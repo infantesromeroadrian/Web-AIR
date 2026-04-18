@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { checkRateLimit, getClientIp, rateLimitHeaders } from "../../lib/rate-limit";
 
 export const prerender = false;
 
@@ -6,19 +7,7 @@ const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 const MAX_INPUT_LENGTH = 4000;
 const MAX_REQUESTS_PER_MINUTE = 5;
-
-// Simple in-memory rate limiter (resets on cold start, acceptable for demo)
-const rateLimitStore = new Map<string, number[]>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const windowStart = now - 60_000;
-  const timestamps = (rateLimitStore.get(ip) ?? []).filter((t) => t > windowStart);
-  if (timestamps.length >= MAX_REQUESTS_PER_MINUTE) return false;
-  timestamps.push(now);
-  rateLimitStore.set(ip, timestamps);
-  return true;
-}
+const RATE_WINDOW_MS = 60_000;
 
 const SYSTEM_PROMPT = `You are a security analyst specialized in detecting phishing, social engineering, and fraudulent communications.
 
@@ -53,12 +42,19 @@ Always provide at least one finding, even for CLEAN verdicts (explain why it's c
 Respond with JSON only.`;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const ip = clientAddress ?? request.headers.get("x-forwarded-for") ?? "unknown";
+  const ip = getClientIp(request, clientAddress);
 
-  if (!checkRateLimit(ip)) {
+  const rl = await checkRateLimit("phishing", ip, MAX_REQUESTS_PER_MINUTE, RATE_WINDOW_MS);
+  if (!rl.allowed) {
     return new Response(
       JSON.stringify({ error: "Rate limit exceeded. Max 5 requests per minute." }),
-      { status: 429, headers: { "Content-Type": "application/json" } }
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          ...rateLimitHeaders(rl),
+        },
+      }
     );
   }
 

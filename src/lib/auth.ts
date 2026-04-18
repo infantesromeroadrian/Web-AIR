@@ -1,22 +1,27 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHmac, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
 const COOKIE_NAME = "air_admin_session";
-const SESSION_DURATION_MS = 8 * 60 * 60 * 1000; // 8 hours
+const SESSION_DURATION_MS = 8 * 60 * 60 * 1000;
 
-function getSecret(): string | null {
-  return (
-    import.meta.env.ADMIN_SECRET ??
-    process.env.ADMIN_SECRET ??
-    import.meta.env.ADMIN_PASSWORD ??
-    process.env.ADMIN_PASSWORD ??
-    null
-  );
+const SCRYPT_N = 16384;
+const SCRYPT_R = 8;
+const SCRYPT_P = 1;
+const SCRYPT_KEYLEN = 32;
+const SCRYPT_SALT_LEN = 16;
+
+function env(key: string): string | null {
+  const viteEnv = (import.meta as { env?: Record<string, string | undefined> }).env;
+  return viteEnv?.[key] ?? process.env[key] ?? null;
 }
 
-function getPassword(): string | null {
-  return (
-    import.meta.env.ADMIN_PASSWORD ?? process.env.ADMIN_PASSWORD ?? null
-  );
+function getSecret(): string | null {
+  const secret = env("ADMIN_SECRET");
+  if (!secret || secret.length < 32) return null;
+  return secret;
+}
+
+function getPasswordHash(): string | null {
+  return env("ADMIN_PASSWORD_HASH");
 }
 
 function sign(payload: string, secret: string): string {
@@ -63,23 +68,59 @@ export function verifyAuth(request: Request): AuthResult {
   return { ok: true };
 }
 
+export function hashPassword(plain: string): string {
+  const salt = randomBytes(SCRYPT_SALT_LEN);
+  const derived = scryptSync(plain, salt, SCRYPT_KEYLEN, {
+    N: SCRYPT_N,
+    r: SCRYPT_R,
+    p: SCRYPT_P,
+  });
+  return [
+    "scrypt",
+    SCRYPT_N,
+    SCRYPT_R,
+    SCRYPT_P,
+    salt.toString("hex"),
+    derived.toString("hex"),
+  ].join("$");
+}
+
 export function verifyPassword(submitted: string): boolean {
-  const password = getPassword();
-  if (!password) return false;
-  if (submitted.length !== password.length) return false;
+  const stored = getPasswordHash();
+  if (!stored) return false;
+
+  const parts = stored.split("$");
+  if (parts.length !== 6 || parts[0] !== "scrypt") return false;
+
+  const N = parseInt(parts[1], 10);
+  const r = parseInt(parts[2], 10);
+  const p = parseInt(parts[3], 10);
+  if (!Number.isFinite(N) || !Number.isFinite(r) || !Number.isFinite(p)) return false;
+
+  let salt: Buffer;
+  let expected: Buffer;
   try {
-    return timingSafeEqual(
-      Buffer.from(submitted, "utf8"),
-      Buffer.from(password, "utf8")
-    );
+    salt = Buffer.from(parts[4], "hex");
+    expected = Buffer.from(parts[5], "hex");
   } catch {
     return false;
   }
+  if (salt.length === 0 || expected.length === 0) return false;
+
+  let derived: Buffer;
+  try {
+    derived = scryptSync(submitted, salt, expected.length, { N, r, p });
+  } catch {
+    return false;
+  }
+
+  if (derived.length !== expected.length) return false;
+  return timingSafeEqual(derived, expected);
 }
 
 export function createSessionCookie(): string {
   const secret = getSecret();
-  if (!secret) throw new Error("ADMIN_SECRET not configured");
+  if (!secret) throw new Error("ADMIN_SECRET not configured or too short (min 32 chars)");
 
   const exp = Date.now() + SESSION_DURATION_MS;
   const payload = String(exp);

@@ -1,29 +1,26 @@
 import type { APIRoute } from "astro";
 import { verifyPassword, createSessionCookie } from "../../../lib/auth";
+import { checkRateLimit, getClientIp, rateLimitHeaders } from "../../../lib/rate-limit";
 
 export const prerender = false;
 
-const loginAttempts = new Map<string, number[]>();
 const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000;
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const windowStart = now - WINDOW_MS;
-  const attempts = (loginAttempts.get(ip) ?? []).filter((t) => t > windowStart);
-  if (attempts.length >= MAX_ATTEMPTS) return false;
-  attempts.push(now);
-  loginAttempts.set(ip, attempts);
-  return true;
-}
-
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const ip = clientAddress ?? request.headers.get("x-forwarded-for") ?? "unknown";
+  const ip = getClientIp(request, clientAddress);
 
-  if (!checkRateLimit(ip)) {
+  const rl = await checkRateLimit("admin-login", ip, MAX_ATTEMPTS, WINDOW_MS);
+  if (!rl.allowed) {
     return new Response(
       JSON.stringify({ error: "Too many attempts. Try again later." }),
-      { status: 429, headers: { "Content-Type": "application/json" } }
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          ...rateLimitHeaders(rl),
+        },
+      }
     );
   }
 

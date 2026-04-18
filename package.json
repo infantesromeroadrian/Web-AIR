@@ -10,8 +10,10 @@
     "astro": "astro",
     "test": "vitest run tests/tfidf.test.ts tests/profile-search.test.ts",
     "test:api": "vitest run tests/job-match-api.test.ts",
-    "test:all": "vitest run tests/",
-    "build:index": "npx tsx scripts/build-profile-index.ts"
+    "test:all": "vitest run",
+    "test:watch": "vitest",
+    "build:index": "npx tsx scripts/build-profile-index.ts",
+    "hash:password": "npx tsx scripts/hash-password.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.3",

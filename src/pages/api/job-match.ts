@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { searchProfile, getChunksByTags, getAllChunks } from "../../lib/profile-search";
 import { tokenize } from "../../lib/tfidf";
 import type { JobMatchResponse, ProfileChunk } from "../../lib/job-match-types";
+import { checkRateLimit, getClientIp, rateLimitHeaders } from "../../lib/rate-limit";
 
 export const prerender = false;
 
@@ -9,18 +10,7 @@ const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 const MAX_INPUT_LENGTH = 6000;
 const MAX_REQUESTS_PER_MINUTE = 3;
-
-const rateLimitStore = new Map<string, number[]>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const windowStart = now - 60_000;
-  const timestamps = (rateLimitStore.get(ip) ?? []).filter((t) => t > windowStart);
-  if (timestamps.length >= MAX_REQUESTS_PER_MINUTE) return false;
-  timestamps.push(now);
-  rateLimitStore.set(ip, timestamps);
-  return true;
-}
+const RATE_WINDOW_MS = 60_000;
 
 function buildSystemPrompt(chunks: ProfileChunk[], lang: string): string {
   const evidence = chunks
@@ -65,12 +55,19 @@ RULES:
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const ip = clientAddress ?? request.headers.get("x-forwarded-for") ?? "unknown";
+  const ip = getClientIp(request, clientAddress);
 
-  if (!checkRateLimit(ip)) {
+  const rl = await checkRateLimit("job-match", ip, MAX_REQUESTS_PER_MINUTE, RATE_WINDOW_MS);
+  if (!rl.allowed) {
     return new Response(
       JSON.stringify({ error: "Rate limit exceeded. Max 3 requests per minute." }),
-      { status: 429, headers: { "Content-Type": "application/json" } }
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          ...rateLimitHeaders(rl),
+        },
+      }
     );
   }
 

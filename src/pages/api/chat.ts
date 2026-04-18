@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { ADRIAN_CONTEXT } from "../../data/chat-context";
+import { checkRateLimit, getClientIp, rateLimitHeaders } from "../../lib/rate-limit";
 
 export const prerender = false;
 
@@ -8,18 +9,7 @@ const MODEL = "llama-3.3-70b-versatile";
 const MAX_INPUT_LENGTH = 2000;
 const MAX_HISTORY = 10;
 const MAX_REQUESTS_PER_MINUTE = 10;
-
-const rateLimitStore = new Map<string, number[]>();
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const windowStart = now - 60_000;
-  const timestamps = (rateLimitStore.get(ip) ?? []).filter((t) => t > windowStart);
-  if (timestamps.length >= MAX_REQUESTS_PER_MINUTE) return false;
-  timestamps.push(now);
-  rateLimitStore.set(ip, timestamps);
-  return true;
-}
+const RATE_WINDOW_MS = 60_000;
 
 const ARCA_PROMPT = `You are ARCA (Assistant Recruiter Chat Adrian), the professional AI spokesperson for Adrian Infantes.
 
@@ -114,12 +104,19 @@ function sanitizeHistory(history: unknown): ChatMessage[] {
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  const ip = clientAddress ?? request.headers.get("x-forwarded-for") ?? "unknown";
+  const ip = getClientIp(request, clientAddress);
 
-  if (!checkRateLimit(ip)) {
+  const rl = await checkRateLimit("chat", ip, MAX_REQUESTS_PER_MINUTE, RATE_WINDOW_MS);
+  if (!rl.allowed) {
     return new Response(
       JSON.stringify({ error: "Rate limit exceeded. Max 10 messages per minute." }),
-      { status: 429, headers: { "Content-Type": "application/json" } }
+      {
+        status: 429,
+        headers: {
+          "Content-Type": "application/json",
+          ...rateLimitHeaders(rl),
+        },
+      }
     );
   }
 
