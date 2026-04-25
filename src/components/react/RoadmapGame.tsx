@@ -148,14 +148,60 @@ function seedIfEmpty() {
   saveState(s);
 }
 
-// ═══════ PIN GATE ═══════
-const PIN = "L4tentNoise";
-const PIN_KEY = "rmv5_auth";
+const TOKEN_KEY = "rmv5_auth_token";
+
+function isTokenValid(raw: string | null): boolean {
+  if (!raw) return false;
+  const dot = raw.indexOf(".");
+  if (dot <= 0 || dot === raw.length - 1) return false;
+  const exp = Number(raw.slice(0, dot));
+  if (!Number.isFinite(exp)) return false;
+  return exp > Date.now();
+}
+
 function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) {
-  const [authed, setAuthed] = useState(() => isClient && sessionStorage.getItem(PIN_KEY) === "1");
-  const [input, setInput] = useState(""); const [error, setError] = useState(false);
+  const [authed, setAuthed] = useState(() => isClient && isTokenValid(sessionStorage.getItem(TOKEN_KEY)));
+  const [input, setInput] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
   if (authed) return <>{children}</>;
-  const check = () => { if (input === PIN) { sessionStorage.setItem(PIN_KEY, "1"); setAuthed(true); } else { setError(true); setTimeout(() => setError(false), 1500); } };
+
+  const check = async () => {
+    if (busy) return;
+    if (!input.trim()) { setError("ACCESS DENIED"); setTimeout(() => setError(null), 1500); return; }
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/l4-gate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: input }),
+      });
+      if (res.status === 200) {
+        const data = await res.json();
+        if (typeof data.token === "string" && isTokenValid(data.token)) {
+          sessionStorage.setItem(TOKEN_KEY, data.token);
+          setAuthed(true);
+          return;
+        }
+        setError("ACCESS DENIED");
+      } else if (res.status === 429) {
+        setError("RATE LIMITED");
+      } else if (res.status === 503) {
+        setError("GATE OFFLINE");
+      } else {
+        setError("ACCESS DENIED");
+      }
+    } catch {
+      setError("NETWORK ERROR");
+    } finally {
+      setBusy(false);
+      setInput("");
+      setTimeout(() => setError(null), 2000);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-[60vh] px-4">
       <div className="text-center max-w-xs">
@@ -166,10 +212,10 @@ function PinGate({ lang, children }: { lang: Lang; children: React.ReactNode }) 
         </div>
         <h2 className="text-lg font-mono font-bold text-text-primary mb-1 tracking-wider">CLASSIFIED ACCESS</h2>
         <p className="text-xs text-text-muted mb-4 font-mono">Enter clearance code</p>
-        <input type="password" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && check()} placeholder="..." autoFocus
-          className={`w-full px-4 py-2 rounded bg-bg-tertiary border ${error ? "border-accent-red" : "border-border"} text-text-primary text-center font-mono text-lg tracking-[.3em] focus:outline-none focus:border-accent transition-colors`} />
-        <button onClick={check} className="mt-3 px-6 py-2 rounded bg-accent/10 border border-accent/30 text-accent text-xs font-mono font-bold hover:bg-accent/20 transition-colors tracking-wider">ACCESS</button>
-        {error && <p className="text-accent-red text-xs mt-2 font-mono">ACCESS DENIED</p>}
+        <input type="password" value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && check()} placeholder="..." autoFocus disabled={busy}
+          className={`w-full px-4 py-2 rounded bg-bg-tertiary border ${error ? "border-accent-red" : "border-border"} text-text-primary text-center font-mono text-lg tracking-[.3em] focus:outline-none focus:border-accent transition-colors disabled:opacity-50`} />
+        <button onClick={check} disabled={busy} className="mt-3 px-6 py-2 rounded bg-accent/10 border border-accent/30 text-accent text-xs font-mono font-bold hover:bg-accent/20 transition-colors tracking-wider disabled:opacity-50">{busy ? "VERIFYING..." : "ACCESS"}</button>
+        {error && <p className="text-accent-red text-xs mt-2 font-mono">{error}</p>}
       </div>
     </div>
   );

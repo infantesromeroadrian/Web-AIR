@@ -12,66 +12,9 @@ const lang = getLangFromUrl(Astro.url);
   title="L4tentNoise — Roadmap"
   description="AI Security Engineer Roadmap — Game Map"
 >
-  <!-- Gate -->
-  <div id="l4gate" style="position:fixed;inset:0;z-index:9999;background:#0a0a0f;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;">
-    <div style="width:100%;max-width:440px;padding:0 1.5rem;">
-      <div style="border:1px solid rgba(255,255,255,0.08);border-radius:8px;background:rgba(18,18,26,0.9);padding:2rem;">
-        <div style="font-size:0.6rem;letter-spacing:0.3em;color:#ef4444;margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;">
-          <span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;animation:gatepulse 2s ease-in-out infinite;"></span>
-          RESTRICTED ACCESS
-        </div>
-        <div style="font-size:0.75rem;color:#71717a;margin-bottom:0.5rem;line-height:1.6;">
-          <span style="color:#06b6d4;">$</span> ssh root@l4tentnoise.local<br/>
-          <span style="color:#10b981;">Connection established.</span><br/>
-          <span>Enter access code to continue:</span>
-        </div>
-        <form id="l4form" style="margin-top:1rem;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span style="color:#06b6d4;font-size:0.8rem;">></span>
-            <input id="l4input" type="password" placeholder="access_code" autocomplete="off" style="flex:1;background:transparent;border:none;outline:none;color:#e4e4e7;font-family:inherit;font-size:0.85rem;caret-color:#06b6d4;"/>
-          </div>
-          <div id="l4line" style="height:1px;background:rgba(255,255,255,0.08);margin-top:4px;transition:background 0.3s;"></div>
-        </form>
-        <div id="l4error" style="margin-top:0.75rem;font-size:0.65rem;color:#ef4444;letter-spacing:0.1em;display:none;">ACCESS DENIED</div>
-        <div style="margin-top:1.5rem;font-size:0.55rem;color:rgba(113,113,122,0.4);text-align:center;">This session is monitored.</div>
-      </div>
-    </div>
-    <style>@keyframes gatepulse{0%,100%{opacity:1}50%{opacity:0.3}}</style>
-  </div>
-
-  <!-- Content (hidden until auth) -->
-  <div id="l4content" style="display:none;">
-    <Header />
-    <main id="main" class="pt-20 min-h-screen">
-      <RoadmapGame client:load lang={lang} />
-    </main>
-    <Footer />
-  </div>
-
-  <script is:inline define:vars={{ pwd: "L4tentNoise7134", key: "l4tent_access", hash: "a7f3b2c1d4e5" }}>
-    (function(){
-      function unlock(){
-        document.getElementById("l4gate").style.display="none";
-        document.getElementById("l4content").style.display="block";
-      }
-      if(sessionStorage.getItem(key)===hash){ unlock(); return; }
-      var input = document.getElementById("l4input");
-      input.focus();
-      document.getElementById("l4form").addEventListener("submit", function(e){
-        e.preventDefault();
-        if(input.value === pwd){
-          sessionStorage.setItem(key, hash);
-          unlock();
-        } else {
-          document.getElementById("l4error").style.display="block";
-          document.getElementById("l4line").style.background="#ef4444";
-          input.value="";
-          setTimeout(function(){
-            document.getElementById("l4error").style.display="none";
-            document.getElementById("l4line").style.background="rgba(255,255,255,0.08)";
-          }, 1500);
-        }
-      });
-    })();
-  </script>
+  <Header />
+  <main id="main" class="pt-20 min-h-screen">
+    <RoadmapGame client:load lang={lang} />
+  </main>
+  <Footer />
 </BaseLayout>
