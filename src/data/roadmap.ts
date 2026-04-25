@@ -169,8 +169,8 @@ export const ROADMAP: Tier[] = [
         name: "AWS",
         topics: [
           { name: "Certs Cloud", st: "done", h: 0, detail: "3 certs existentes", tags: [{ t: "cert", l: "3x" }], items: ["AWS AI Practitioner Mar 2026", "MS AI-900 Oct 2023", "MS AI-102 Mar 2024"] },
-          { name: "AWS CCP", st: "pend", h: 25, detail: "Unica obligatoria", tags: [{ t: "v5", l: "CCP" }], items: ["Curso Stephane Maarek", "4+ practice exams Tutorials Dojo", "Aprobar CLF-C02 $100", "Shared responsibility"] },
-          { name: "AWS Hands-on", st: "pend", h: 30, detail: "Deploy, Bedrock", items: ["EC2 GPU g5 spot", "Lambda+SageMaker pipeline", "ECR+ECS container", "IAM+KMS encryption", "Bedrock Claude/Llama"] },
+          { name: "AWS CCP", st: "pend", h: 25, detail: "Cert CLF-C02. Baseline obligatorio.", tags: [{ t: "v5", l: "CCP" }], items: ["Curso Stephane Maarek (Udemy)", "4+ practice exams Tutorials Dojo", "Aprobar CLF-C02 ($100)", "Dominar shared responsibility model"] },
+          { name: "AWS Hands-on", st: "pend", h: 40, detail: "Deploy LLM en AWS con IaC + monitoring + cost control.", res: "AWS docs + Bedrock cookbook + Terraform Registry", tags: [{ t: "v5", l: "DEPLOY" }], items: ["EC2 GPU g5/g6 spot instance + ssh + nvidia-smi check", "Lambda + SageMaker async inference pipeline", "ECR + ECS Fargate con container ML", "IAM least-privilege + KMS encryption en S3", "Bedrock: invoke Claude + Llama desde Python SDK", "Bedrock Knowledge Bases: 1 RAG E2E con Bedrock", "Terraform o AWS CDK: stack reproducible (no consola)", "CloudWatch metrics + alarms + log retention policy", "Cost Explorer + budget alert + savings plan analysis", "Blog post EN o repo publico documentando el deploy"], boss: true },
         ],
       },
       {
