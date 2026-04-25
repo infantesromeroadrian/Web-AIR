@@ -42,26 +42,27 @@ export interface EvolutionStage {
 }
 
 export const EVOLUTIONS: EvolutionStage[] = [
-  { tag: "AI", name: "Adrian Infantes", title: "Estudiante", min: 0, max: 20, color: "#3b82f6", glow: "rgba(59,130,246,.4)", img: "/roadmap/l4-deeplearning.png", desc: { en: "Learning the fundamentals. Building the foundation.", es: "Aprendiendo los fundamentos. Construyendo la base." } },
-  { tag: "AI", name: "Adrian Infantes", title: "Ingeniero", min: 20, max: 45, color: "#06b6d4", glow: "rgba(6,182,212,.4)", img: "/roadmap/l4-teaching.png", desc: { en: "Corporate engineer. Building AI systems by day.", es: "Ingeniero corporativo. Construyendo sistemas AI de dia." } },
-  { tag: "L4", name: "L4tentNoise", title: "Shadow Operative", min: 45, max: 75, color: "#a855f7", glow: "rgba(168,85,247,.4)", img: "/roadmap/l4-redteam-analysis.png", desc: { en: "The alter ego emerges. Breaking what others build.", es: "El alter ego emerge. Rompiendo lo que otros construyen." } },
-  { tag: "L4", name: "L4tentNoise", title: "The Architect", min: 75, max: 101, color: "#ef4444", glow: "rgba(239,68,68,.5)", img: "/roadmap/l4-aws-redteam.png", desc: { en: "Full spectrum. Builder and breaker. The 1%.", es: "Espectro completo. Constructor y destructor. El 1%." } },
+  { tag: "AI", name: "Adrian Infantes", title: "Estudiante", min: 0, max: 18, color: "#3b82f6", glow: "rgba(59,130,246,.4)", img: "/roadmap/l4-deeplearning.png", desc: { en: "Learning the fundamentals. Building the foundation.", es: "Aprendiendo los fundamentos. Construyendo la base." } },
+  { tag: "AI", name: "Adrian Infantes", title: "Ingeniero", min: 18, max: 38, color: "#06b6d4", glow: "rgba(6,182,212,.4)", img: "/roadmap/l4-teaching.png", desc: { en: "Corporate engineer. Building AI systems by day.", es: "Ingeniero corporativo. Construyendo sistemas AI de dia." } },
+  { tag: "L4", name: "L4tentNoise", title: "Shadow Operative", min: 38, max: 60, color: "#a855f7", glow: "rgba(168,85,247,.4)", img: "/roadmap/l4-redteam-analysis.png", desc: { en: "The alter ego emerges. Breaking what others build.", es: "El alter ego emerge. Rompiendo lo que otros construyen." } },
+  { tag: "L4", name: "L4tentNoise", title: "The Architect", min: 60, max: 82, color: "#ef4444", glow: "rgba(239,68,68,.5)", img: "/roadmap/l4-aws-redteam.png", desc: { en: "Full spectrum. Builder and breaker. The 1%.", es: "Espectro completo. Constructor y destructor. El 1%." } },
+  { tag: "T1", name: "L4tentNoise", title: "Tier 1 Operator", min: 82, max: 101, color: "#fbbf24", glow: "rgba(251,191,36,.55)", img: "/roadmap/l4-aws-redteam.png", desc: { en: "Anthropic / OpenAI / NVIDIA grade. Defining what AI will be.", es: "Nivel Anthropic / OpenAI / NVIDIA. Definiendo lo que sera la IA." } },
 ];
 
 export const PHASE_WEIGHTS: Record<string, number> = {
-  "0": 5,
-  "1": 5,
-  "2": 8,
-  "3A": 4,
-  "3B": 5,
-  "3C": 6,
+  "0": 4,
+  "1": 6,
+  "2": 7,
+  "3A": 3,
+  "3B": 4,
+  "3C": 5,
   "3D/E": 3,
-  "4": 3,
-  "4B": 4,
-  "5": 10,
-  "6": 7,
-  "7": 20,
-  "8": 12,
+  "4": 6,
+  "4B": 3,
+  "5": 12,
+  "6": 6,
+  "7": 22,
+  "8": 11,
   "9": 8,
 };
 
@@ -88,6 +89,7 @@ export const ROADMAP: Tier[] = [
           { name: "DSA+LC", st: "pend", h: 100, detail: "120: 80E+30M+10H", tags: [{ t: "v5", l: "120" }], items: ["Completar NeetCode DSA for Beginners", "Resolver 80 Easy LeetCode", "Resolver 30 Medium LeetCode", "Resolver 10 Hard LeetCode", "Resolver Medium en <25 min"] },
           { name: "Arquitectura", st: "pend", h: 20, detail: "SOLID, Hexagonal", items: ["Leer Clean Architecture caps 1-22", "SOLID en Python con RealPython", "Refactorizar proyecto ML hexagonal", "Disenar API REST para servicio ML"] },
           { name: "Tooling", st: "pend", h: 15, detail: "Docker, CI/CD, pytest", items: ["Docker Getting Started tutorial", "Dockerfile multi-stage para Python", "GitHub Actions CI/CD pipeline", "pytest >80% coverage + mypy strict"] },
+          { name: "English C1", st: "prog", h: 80, detail: "B2 -> C1 fluido. Tier 1 gate.", res: "Cambridge / Coursera / shadowing", tags: [{ t: "v5", l: "C1" }], items: ["Cambridge Advanced (CAE) practice tests", "Shadowing 30 min/dia con podcasts tecnicos", "Lectura semanal de papers en EN sin traduccion", "1 sesion/semana mock interview tecnica EN", "Pasar examen oficial C1 (CAE / IELTS 7.5+)", "Defender white paper en presentacion EN 30min"], boss: true },
           { name: "Proyecto API", st: "pend", h: 20, detail: "FastAPI+Docker+CI/CD", items: ["FastAPI tutorial + API para modelo ML", "Containerizar Docker multi-stage", "CI/CD GitHub Actions", "80% coverage + OpenAPI docs"], boss: true },
         ],
       },
@@ -151,6 +153,7 @@ export const ROADMAP: Tier[] = [
         name: "Sistemas",
         topics: [
           { name: "GPU Conceptual", st: "pend", h: 10, detail: "Understand only", tags: [{ t: "v5", l: "v5" }], items: ["Paper FlashAttention + diagrama", "DDP vs FSDP vs DeepSpeed tabla", "Quantizar GPTQ + benchmark", "Mixed precision torch.autocast"] },
+          { name: "CUDA + Triton", st: "pend", h: 60, detail: "Kernels custom. NVIDIA gate.", res: "NVIDIA Deep Learning Institute + OpenAI Triton tutorials", tags: [{ t: "v5", l: "NVDA" }], items: ["Programming Massively Parallel Processors caps 1-10", "Hello-world CUDA kernel + nvcc compile", "Matmul tiled CUDA vs cuBLAS benchmark", "Triton tutorial 1-5 (vector add, softmax, matmul, fused attention)", "Custom Triton kernel para LayerNorm + benchmark vs PyTorch", "Profile con nsight-compute + occupancy analysis", "Reproducir Flash Attention v2 en Triton", "Escribir blog post EN sobre kernel optimization"], boss: true },
           { name: "System Design", st: "pend", h: 25, detail: "3 designs", items: ["Rec system 100M users 45min", "Fraud detection pipeline 45min", "LLM serving + rate limiting 45min", "PyTorch profiler bottlenecks"], boss: true },
         ],
       },
@@ -168,7 +171,8 @@ export const ROADMAP: Tier[] = [
         name: "Research",
         topics: [
           { name: "Papers", st: "prog", h: 50, detail: "1/semana, 50+", tags: [{ t: "v5", l: "wk1" }], items: ["Attention Is All You Need", "Scaling Laws Kaplan 2020", "Constitutional AI Bai 2022", "DPO Rafailov 2023", "Adversarial Attacks Zou 2023", "Indirect Injection Greshake 2023", "Sleeper Agents Hubinger 2024", "FlashAttention Dao 2022", "LoRA Hu 2021"] },
-          { name: "Contenido", st: "pend", h: 40, detail: "3 blogs, 1 charla", items: ["Reproducir 3 papers GitHub", "3 blog posts EN", "1 charla/presentacion", "RLHF vs DPO vs Constitutional AI"], boss: true },
+          { name: "Contenido", st: "pend", h: 40, detail: "3 blogs, 1 charla", items: ["Reproducir 3 papers GitHub", "3 blog posts EN", "1 charla/presentacion", "RLHF vs DPO vs Constitutional AI"] },
+          { name: "ArXiv Submission", st: "pend", h: 80, detail: "1+ paper en arxiv.org/cs.CR o cs.LG", res: "arXiv + OpenReview", tags: [{ t: "v5", l: "1st" }], items: ["Identificar gap de investigacion en AI Red Team", "Diseno experimental + metricas reproducibles", "Implementacion + ablations sobre 3+ modelos", "Draft con LaTeX template NeurIPS / USENIX", "Peer feedback de 3 investigadores via X/email", "Endorsement arXiv + submission cs.CR/cs.LG", "Tweet thread + LinkedIn post EN al publicar", "Apuntar a workshop ICML/NeurIPS AI Safety"], boss: true },
         ],
       },
     ],
@@ -197,6 +201,7 @@ export const ROADMAP: Tier[] = [
           { name: "LLM Sec", st: "pend", h: 30, detail: "Injection, jailbreak", items: ["5+ direct injection en Ollama", "Indirect injection via docs RAG", "Jailbreaking DAN crescendo many-shot", "System prompt extraction 3+ chatbots", "OWASP Top 10 LLMs v2 completo", "MITRE ATLAS framework", "Documentar cada tecnica"] },
           { name: "Adversarial", st: "pend", h: 30, detail: "FGSM, training", items: ["FGSM desde cero PyTorch", "PGD comparar con FGSM", "Adversarial training defensa", "Model stealing queries", "Data poisoning simulacion", "Robustness before/after"] },
           { name: "Tools RT", st: "pend", h: 25, detail: "Garak, PyRIT", items: ["Garak 3+ modelos", "PyRIT automatizado", "Red team report profesional", "Mini-scanner vulns propio"] },
+          { name: "CVE Disclosure", st: "pend", h: 50, detail: "1+ CVE asignado en modelo comercial", res: "MITRE CVE + HuggingFace Bug Bounty + Anthropic / OpenAI / Google VRP", tags: [{ t: "v5", l: "CVE" }], items: ["Identificar 3+ targets con bug bounty AI program", "Replicar vuln en entorno aislado con PoC", "Coordinated disclosure email + 90-day window", "Reservar CVE ID via MITRE", "Publicar advisory tras patch", "Writeup tecnico EN + tweet thread", "Responder a CVE en LinkedIn como milestone", "Apuntar a >=1 CVE crit/high/year"], boss: true },
           { name: "Auto RT", st: "pend", h: 40, detail: "Pipelines, AI vs AI", tags: [{ t: "v5", l: "+4sem" }], items: ["Automated jailbreak pipeline", "Eval framework before/after", "AI vs AI attacker/defender", "CI integration automatica", "Documentar repo publico"], boss: true },
         ],
       },
