@@ -24,13 +24,77 @@ const getEvo = (p: number) => {
 
 const R: Tier[] = ROADMAP;
 
-// ═══════ STATE ═══════
 const KEY = "rmv5";
 const isClient = typeof window !== "undefined";
 const emptyState = (): AppState => ({ items: {}, cycle: {}, activity: [] });
-const loadState = (): AppState => { if (!isClient) return emptyState(); try { return JSON.parse(localStorage.getItem(KEY) || "{}") as AppState; } catch { return emptyState(); } };
-const saveState = (s: AppState) => { if (isClient) localStorage.setItem(KEY, JSON.stringify(s)); };
-const getState = (): AppState => { const s = loadState(); if (!s.items) s.items = {}; if (!s.cycle) s.cycle = {}; if (!s.activity) s.activity = []; return s; };
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+function isPlainObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+function sanitizeItems(raw: unknown): Record<string, number> {
+  if (!isPlainObject(raw)) return {};
+  const out: Record<string, number> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof k !== "string" || k.length > 32) continue;
+    const n = typeof v === "number" ? Math.trunc(v) : NaN;
+    if (n === 0 || n === 1 || n === 2) out[k] = n;
+  }
+  return out;
+}
+
+function sanitizeCycle(raw: unknown): Record<string, number[]> {
+  if (!isPlainObject(raw)) return {};
+  const out: Record<string, number[]> = {};
+  for (const [k, v] of Object.entries(raw)) {
+    if (typeof k !== "string" || k.length > 32) continue;
+    if (!Array.isArray(v) || v.length !== 4) continue;
+    const arr = v.map((x) => (x === 1 ? 1 : 0));
+    out[k] = arr;
+  }
+  return out;
+}
+
+function sanitizeActivity(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const v of raw) {
+    if (typeof v !== "string" || !ISO_DATE.test(v) || seen.has(v)) continue;
+    seen.add(v);
+    out.push(v);
+    if (out.length >= 730) break;
+  }
+  return out;
+}
+
+function parseState(raw: unknown): AppState {
+  if (!isPlainObject(raw)) return emptyState();
+  return {
+    items: sanitizeItems(raw.items),
+    cycle: sanitizeCycle(raw.cycle),
+    activity: sanitizeActivity(raw.activity),
+  };
+}
+
+const loadState = (): AppState => {
+  if (!isClient) return emptyState();
+  const raw = localStorage.getItem(KEY);
+  if (!raw) return emptyState();
+  try {
+    return parseState(JSON.parse(raw));
+  } catch {
+    return emptyState();
+  }
+};
+
+const saveState = (s: AppState) => {
+  if (isClient) localStorage.setItem(KEY, JSON.stringify(s));
+};
+
+const getState = (): AppState => loadState();
 const iSt = (s: AppState, p: number, t: number, i: number) => s.items[`${p}-${t}-${i}`] || 0;
 const cSt = (s: AppState, p: number, t: number) => s.cycle[`${p}-${t}`] || [0, 0, 0, 0];
 function tSt(s: AppState, p: number, t: number, tp: Topic): string {
@@ -143,7 +207,26 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
 
   const modalNode = modalIdx !== null ? nodes[modalIdx] : null;
   const exportP = () => { const b = new Blob([JSON.stringify(getState(), null, 2)], { type: "application/json" }); const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = `l4tentnoise-${new Date().toISOString().slice(0, 10)}.json`; a.click(); };
-  const importP = (e: React.ChangeEvent<HTMLInputElement>) => { const f = e.target.files?.[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { saveState(JSON.parse(r.result as string)); location.reload(); } catch {} }; r.readAsText(f); };
+  const importP = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    if (f.size > 256 * 1024) {
+      alert("Import rejected: file exceeds 256 KB.");
+      e.target.value = "";
+      return;
+    }
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const validated = parseState(JSON.parse(r.result as string));
+        saveState(validated);
+        location.reload();
+      } catch {
+        alert("Import rejected: invalid JSON or schema.");
+      }
+    };
+    r.readAsText(f);
+  };
 
   return (
     <PinGate lang={lang}>
