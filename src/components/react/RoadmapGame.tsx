@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type FC } from "react";
+import { useState, useEffect, useCallback, useMemo, type FC } from "react";
 import React from "react";
 import {
   EVOLUTIONS,
@@ -228,6 +228,46 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
     r.readAsText(f);
   };
 
+  const tierStats = useMemo(() => {
+    const stats: Record<number, { pct: number; phases: number }> = {};
+    R.forEach(t => {
+      let total = 0, pts = 0;
+      let pi3 = 0;
+      R.forEach(t2 => t2.phases.forEach(ph => {
+        if (t2.tier === t.tier) {
+          ph.topics.forEach((tp2, i2) => {
+            const items2 = tp2.items || [];
+            if (items2.length) {
+              items2.forEach((_, j2) => {
+                total++;
+                const v = iSt(state, pi3, i2, j2);
+                if (v === 2) pts += 1;
+                else if (v === 1) pts += 0.5;
+              });
+            } else {
+              total++;
+              const stx = tSt(state, pi3, i2, tp2);
+              if (stx === "done") pts += 1;
+              else if (stx === "prog") pts += 0.5;
+            }
+          });
+        }
+        pi3++;
+      }));
+      stats[t.tier] = {
+        pct: total ? Math.round((pts / total) * 100) : 0,
+        phases: t.phases.length,
+      };
+    });
+    return stats;
+  }, [state]);
+
+  const tierMeta = useMemo(() => {
+    const meta: Record<number, { sub: string; name: string }> = {};
+    R.forEach(t => { meta[t.tier] = { sub: t.sub, name: t.name }; });
+    return meta;
+  }, []);
+
   return (
     <PinGate lang={lang}>
     <div className="relative font-mono" style={{ fontSize: "103%" }}>
@@ -301,27 +341,9 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
           const prevTier = ri > 0 ? rows[ri - 1][0].tier : 0;
           const showSector = firstTier !== prevTier;
 
-          // Compute tier completion %
-          const tierPct = (() => {
-            let total = 0, pts = 0;
-            let pi3 = 0;
-            R.forEach(t => t.phases.forEach(ph => {
-              ph.topics.forEach((tp2, i2) => {
-                const items2 = tp2.items || [];
-                if (items2.length) {
-                  items2.forEach((_, j2) => {
-                    if (t.tier === firstTier) { total++; const v = iSt(state, pi3, i2, j2); if (v === 2) pts += 1; else if (v === 1) pts += 0.5; }
-                  });
-                } else if (t.tier === firstTier) {
-                  total++; const stx = tSt(state, pi3, i2, tp2);
-                  if (stx === "done") pts += 1; else if (stx === "prog") pts += 0.5;
-                }
-              });
-              pi3++;
-            }));
-            return total ? Math.round((pts / total) * 100) : 0;
-          })();
-          const tierPhases = R.find(t => t.tier === firstTier)?.phases.length || 0;
+          const tierPct = tierStats[firstTier]?.pct ?? 0;
+          const tierPhases = tierStats[firstTier]?.phases ?? 0;
+          const tierLabel = tierMeta[firstTier];
 
           return (
             <div key={ri}>
@@ -329,7 +351,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
                 <div className={`relative py-3 bg-gradient-to-b ${sectorColors[firstTier]}`}>
                   <div className={`flex items-center justify-between px-4 gap-3`}>
                     <div className={`text-[10px] font-black tracking-[5px] uppercase ${sectorText[firstTier]}`}>
-                      {R.find(t => t.tier === firstTier)?.sub} // {R.find(t => t.tier === firstTier)?.name}
+                      {tierLabel?.sub} // {tierLabel?.name}
                     </div>
                     <div className="flex items-center gap-2 text-[9px] font-mono">
                       <span className={sectorText[firstTier].replace("/30","/60")}>
