@@ -197,9 +197,9 @@ export const ROADMAP: Tier[] = [
         name: "Security",
         topics: [
           { name: "Certs Sec", st: "done", h: 0, detail: "Linux+Cyber+OSINT", tags: [{ t: "cert", l: "3x" }], items: ["Linux 100 TCM cert", "Intro Cybersecurity Cisco cert", "OSINT TCM cert"] },
-          { name: "Net+HTB", st: "prog", h: 50, detail: "HTB en curso", items: ["HTB Academy networking modules", "15+ maquinas HTB+writeups", "Writeup completo cada maquina"] },
-          { name: "Web OWASP", st: "pend", h: 40, detail: "30+ labs", items: ["5+ labs SQLi PortSwigger", "5+ labs XSS PortSwigger", "5+ labs CSRF/SSRF", "5+ labs Auth/IDOR", "Dominar Burp Suite", "30+ labs total"] },
-          { name: "Hardening", st: "pend", h: 15, detail: "SSH, iptables", items: ["SSH hardening keys+fail2ban", "iptables/nftables firewall", "Wireshark 10 capturas", "PKI JWT OAuth en Python"], boss: true },
+          { name: "Web OWASP", st: "pend", h: 45, detail: "30+ labs PortSwigger Academy + Burp pro.", res: "PortSwigger Web Security Academy", items: ["5+ labs SQLi (Union, blind, time-based)", "5+ labs XSS (reflected, stored, DOM, mXSS)", "5+ labs CSRF / SSRF (incluyendo cloud metadata)", "5+ labs Auth / IDOR / session fixation", "5+ labs XXE / SSTI / deserialization", "Dominar Burp Suite Pro: scanner + intruder + extender", "30+ labs total + writeup tecnico EN al cerrar cada uno", "Pasar 1 lab Expert (PortSwigger Mystery Lab series)"] },
+          { name: "Hardening", st: "pend", h: 20, detail: "SSH, iptables, network forensics, crypto.", items: ["SSH hardening: keys + fail2ban + 2FA + bastion", "iptables / nftables firewall + zero-trust outbound", "Wireshark: 10 capturas reales analizadas + writeup", "PKI completo + JWT + OAuth flows en Python desde 0", "TLS 1.3 handshake explicado + mTLS para servicio interno", "Linux audit: auditd + osquery + rkhunter"] },
+          { name: "Net+HTB", st: "prog", h: 80, detail: "HTB Academy + CPTS exam (cert practica).", res: "HTB Academy: Pentesting Path + CPTS prep", tags: [{ t: "v5", l: "CPTS" }], items: ["Completar HTB Academy networking modules", "Completar HTB Academy CPTS path al 100%", "Pwn 25+ maquinas HTB Easy/Medium con writeup EN", "Pwn 5+ maquinas HTB Hard con writeup EN", "Pasar examen CPTS (24h pentest + 24h reporte)", "Publicar 3 writeups detallados en blog/medium", "Cross-link writeups con LinkedIn como milestone"], boss: true },
         ],
       },
       {
