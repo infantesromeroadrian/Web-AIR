@@ -130,9 +130,9 @@ export const ROADMAP: Tier[] = [
         name: "RAG",
         topics: [
           { name: "RAG Basics", st: "done", h: 5, detail: "2 certs", tags: [{ t: "cert", l: "2x" }], items: ["PDF + chunking + Chroma pipeline", "DL.AI LangChain Chat with Data", "DataCamp AI Engineer Track"] },
-          { name: "RAG Avanzado", st: "pend", h: 25, detail: "Reranking, agentic", items: ["Hybrid search dense+BM25", "Reranking cross-encoder", "Query transform HyDE", "Agentic RAG self-corrective", "RAG Security injection via docs", "RAGAS eval >0.7"] },
-          { name: "VectorDBs", st: "pend", h: 15, detail: "Chroma, FAISS, Qdrant", items: ["Probar Chroma, FAISS, Qdrant", "HNSW, IVF, PQ indexing", "Comparar 3 chunking con RAGAS"] },
-          { name: "Proyecto RAG", st: "pend", h: 30, detail: "UI+eval dashboard", items: ["Pipeline E2E completo", "UI Streamlit/Gradio", "RAGAS dashboard", "Publicar GitHub"], boss: true },
+          { name: "RAG Avanzado", st: "pend", h: 30, detail: "Reranking, agentic, eval rigor.", items: ["Hybrid search dense+BM25 con weighting tuneado", "Reranking cross-encoder (bge-reranker-v2-m3)", "Query transform HyDE + multi-query expansion", "Agentic RAG self-corrective (CRAG / Self-RAG)", "RAG Security: injection via docs, prompt smuggling", "Construir golden dataset 50+ Q/A con ground truth", "Metricas IR: recall@k, MRR, nDCG sobre golden set", "RAGAS faithfulness + answer_relevancy >0.8", "Ablation: chunking strategy vs metricas IR"] },
+          { name: "VectorDBs", st: "pend", h: 15, detail: "Chroma, FAISS, Qdrant, pgvector.", items: ["Probar Chroma, FAISS, Qdrant, pgvector con mismo dataset", "HNSW, IVF, PQ indexing: medir trade-off speed/recall", "Filtros metadatos + namespaces", "Comparar 3 chunking (token, semantic, recursive) con RAGAS"] },
+          { name: "Proyecto RAG", st: "pend", h: 40, detail: "Production-grade RAG con eval harness + observability.", items: ["Pipeline E2E con hybrid search + reranking + cite", "UI Streamlit/Gradio con citations clickables", "Eval harness automatizado en CI sobre golden set", "Dashboard live: RAGAS scores + latencia + costo", "Query analytics: top failures + fail mode taxonomy", "Red team: 10+ prompt injection via docs + mitigacion", "Deploy en Vercel/Fly.io con Upstash Redis cache", "Blog post EN + repo publico con README ejecutable"], boss: true },
         ],
       },
       {
