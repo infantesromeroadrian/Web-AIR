@@ -18,7 +18,7 @@ export function seedIfEmpty(): void {
   s.items["3-1-0"] = P; s.items["3-1-1"] = P; s.items["3-1-2"] = P; s.items["3-1-3"] = P; s.items["3-1-4"] = P; s.cycle["3-1"] = [1, 1, 0, 0];
   s.items["4-0-0"] = D; s.items["4-0-1"] = D; s.items["4-0-2"] = D; s.cycle["4-0"] = [1, 1, 1, 1];
   s.items["5-0-0"] = P; s.items["5-0-1"] = P; s.cycle["5-0"] = [1, 1, 0, 0];
-  s.items["6-1-0"] = P; s.items["6-1-1"] = P; s.items["6-1-4"] = P; s.cycle["6-1"] = [1, 0, 0, 0];
+  s.items["6-0-0"] = P; s.items["6-0-1"] = P; s.items["6-0-4"] = P; s.cycle["6-0"] = [1, 0, 0, 0];
   s.items["8-0-0"] = D; s.items["8-0-1"] = D; s.items["8-0-2"] = D; s.cycle["8-0"] = [1, 1, 1, 1];
   s.items["8-1-0"] = P; s.items["8-1-1"] = P;
   s.items["9-0-0"] = P; s.cycle["9-0"] = [1, 0, 0, 0];

@@ -56,9 +56,9 @@ export const PHASE_WEIGHTS: Record<string, number> = {
   "3A": 3,
   "3B": 4,
   "3C": 5,
-  "3D/E": 3,
+  "3D": 4,
   "4": 6,
-  "4B": 3,
+  "4B": 2,
   "5": 12,
   "6": 6,
   "7": 22,
@@ -147,11 +147,12 @@ export const ROADMAP: Tier[] = [
         ],
       },
       {
-        id: "3D/E",
-        name: "Multi+MLOps",
+        id: "3D",
+        name: "MLOps",
         topics: [
-          { name: "Multimodal", st: "pend", h: 15, detail: "Vision, audio", items: ["Claude/GPT-4V image understanding", "Whisper STT integration", "Multimodal RAG"] },
-          { name: "MLOps", st: "prog", h: 25, detail: "1 cert. vLLM pend.", tags: [{ t: "cert", l: "cert" }], items: ["MLflow 3 experimentos", "Model registry + DVC", "vLLM en RTX 2000 Ada", "ONNX export + benchmark", "Monitoring drift+alertas"] },
+          { name: "MLOps Foundations", st: "prog", h: 30, detail: "MLflow + DVC + vLLM + ONNX + drift.", tags: [{ t: "cert", l: "cert" }], items: ["MLflow tracking: 3 experiments con metrics + params + artifacts", "Model registry + DVC versioning del dataset", "vLLM serving en RTX 2000 Ada con paged attention", "ONNX export + benchmark latencia vs PyTorch", "Monitoring drift con EvidentlyAI o Aporia"] },
+          { name: "CI/CD ML", st: "pend", h: 25, detail: "Pipelines reproducibles, testing, registry promotion.", res: "MLOps Zoomcamp + Made With ML", items: ["Pipeline GitHub Actions: train + eval + register", "Tests automatizados: data quality + model quality", "Promotion automatica registry: staging -> production con gate", "Rollback automatico si drift > threshold", "Feature store basico (Feast) con offline + online"] },
+          { name: "MLOps E2E Production", st: "pend", h: 50, detail: "Modelo en prod con drift detection + retraining trigger.", res: "Made With ML + Designing ML Systems (Huyen)", tags: [{ t: "v5", l: "MAIN" }], items: ["Entrenar 1 modelo real (tabular o LLM fine-tune)", "Servir con FastAPI + vLLM o BentoML", "Deploy en cloud (AWS/GCP) con auto-scaling", "Drift detection: data drift + prediction drift + concept drift", "Alertas (Slack/email) cuando drift > threshold", "Retraining trigger automatico + validation gate", "Shadow deployment + canary release", "Cost tracking: $/inferencia + alerts si supera presupuesto", "Observability: Prometheus + Grafana dashboard", "Blog post EN documentando arquitectura completa"], boss: true },
         ],
       },
       {
