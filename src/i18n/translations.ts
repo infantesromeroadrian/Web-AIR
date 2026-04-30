@@ -231,6 +231,41 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "Pega una descripcion del puesto y nuestra IA analiza el encaje contra el perfil real de Adrian -- proyectos, experiencia, skills y certificaciones.",
   },
 
+  // ==================== ARCA (agentic system) ====================
+  "arca.pretitle": {
+    en: "The system behind every commit",
+    es: "El sistema detras de cada commit",
+  },
+  "arca.title": { en: "Powered by A.R.C.A.", es: "Operado por A.R.C.A." },
+  "arca.tagline": {
+    en: "I do not just talk about agentic adversarial AI -- I run on one.",
+    es: "No solo hablo de IA agentica adversarial -- opero con una.",
+  },
+  "arca.intro": {
+    en: "A.R.C.A. (Adversarial Research and Code Architect) is the personal agentic system I built and use every day. Every line of code on this site, every red-team exercise, every project below was audited, gated and shipped through it.",
+    es: "A.R.C.A. (Adversarial Research and Code Architect) es el sistema agentico personal que construi y uso a diario. Cada linea de codigo de este sitio, cada ejercicio de red team y cada proyecto de abajo paso por su auditoria, sus gates y su despliegue.",
+  },
+  "arca.metric.agents": { en: "specialized agents", es: "agentes especializados" },
+  "arca.metric.skills": { en: "skills catalog", es: "catalogo de skills" },
+  "arca.metric.cycles": { en: "ML pipeline cycles", es: "ciclos del pipeline ML" },
+  "arca.pillar1.title": { en: "Documented decisions", es: "Decisiones documentadas" },
+  "arca.pillar1.body": {
+    en: "Every architectural choice ships with a Nygard ADR. 9 accepted records, full rationale and alternatives.",
+    es: "Cada decision arquitectonica viaja con un ADR Nygard. 9 registros aceptados, con razon y alternativas.",
+  },
+  "arca.pillar2.title": { en: "Adversarial gate chain", es: "Cadena de gates adversarial" },
+  "arca.pillar2.body": {
+    en: "math-critic > debt-detector > code-critic > git-master. No code reaches main without explicit sign-off.",
+    es: "math-critic > debt-detector > code-critic > git-master. Nada llega a main sin firma explicita.",
+  },
+  "arca.pillar3.title": { en: "Honest disclosure", es: "Disclosure honesto" },
+  "arca.pillar3.body": {
+    en: "Inverted-style canary tests assert known bugs still occur, so a future change cannot silently mask a structural limit.",
+    es: "Tests canary invertidos verifican que los bugs conocidos siguen ocurriendo, para que un cambio futuro no enmascare en silencio un limite estructural.",
+  },
+  "arca.cta.live": { en: "View live system", es: "Ver el sistema" },
+  "arca.cta.source": { en: "Source on GitHub", es: "Codigo en GitHub" },
+
   // ==================== FOOTER ====================
   "footer.built": { en: "Built with Astro.", es: "Hecho con Astro." },
   "footer.rights": {
