@@ -1,9 +1,14 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
 import ScrollReveal from "../components/react/ScrollReveal";
 import { getLangFromUrl, t } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
+
+const highlightArca = (s: string): string =>
+  s.replaceAll(
+    "A.R.C.A.",
+    '<span class="font-semibold text-sky-300">A.R.C.A.</span>',
+  );
 
 const ARCA_LIVE_URL = "https://arca-agent-landing.vercel.app";
 const ARCA_REPO_URL = "https://github.com/infantesromeroadrian/arca-claude-code";
@@ -43,7 +48,13 @@ const pillars = [
       </p>
     </ScrollReveal>
 
-    <SectionTitle title={t("arca.title", lang)} />
+    <div class="mb-12">
+      <h2
+        class="text-3xl font-bold tracking-tight text-text-primary"
+        set:html={highlightArca(t("arca.title", lang))}
+      ></h2>
+      <div class="mt-4 h-px w-16 bg-accent"></div>
+    </div>
 
     <ScrollReveal client:visible delay={0.1}>
       <p class="max-w-3xl text-xl font-medium leading-snug text-text-primary">
@@ -52,9 +63,10 @@ const pillars = [
     </ScrollReveal>
 
     <ScrollReveal client:visible delay={0.15}>
-      <p class="mt-6 max-w-3xl text-base leading-relaxed text-text-secondary">
-        {t("arca.intro", lang)}
-      </p>
+      <p
+        class="mt-6 max-w-3xl text-base leading-relaxed text-text-secondary"
+        set:html={highlightArca(t("arca.intro", lang))}
+      ></p>
     </ScrollReveal>
 
     <!-- Metrics -->
