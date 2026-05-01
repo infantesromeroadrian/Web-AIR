@@ -7,21 +7,20 @@ export function seedIfEmpty(): void {
   const s: AppState = { items: {}, cycle: {}, activity: [] };
   const D = 2, P = 1;
 
-  // F0 ti=0 Algebra Lineal Mastery (13 items): 3B1B caps 1-8 (0-7), Khan Units 1-3 (8-10), Cert Coursera (11), Cert Khan (12)
-  s.items["0-0-0"] = D; s.items["0-0-1"] = D; s.items["0-0-2"] = D; s.items["0-0-3"] = P;
-  s.items["0-0-8"] = P; s.items["0-0-11"] = D;
+  // F0 ti=0 Algebra Lineal Mastery (7 items): 3B1B caps 1-3 (0-2), Khan Unit 1 (3), Imperial LA (4), Cert DL.AI LA (5), Cert Imperial Spec (6)
+  s.items["0-0-0"] = D; s.items["0-0-1"] = D; s.items["0-0-2"] = D;
+  s.items["0-0-3"] = P; s.items["0-0-5"] = D;
   s.cycle["0-0"] = [1, 1, 1, 0];
 
   // F0 ti=1 Algebra Lineal Capstone (5 items): all pending
   s.cycle["0-1"] = [1, 0, 0, 0];
 
-  // F0 ti=2 Calculo Mastery (11 items): 3B1B Calc (0), 3B1B NN caps 1-4 (1-4), Khan Units 1-5 (5-9), Cert Khan (10)
-  s.items["0-2-0"] = P; s.items["0-2-1"] = P; s.items["0-2-2"] = P;
-  s.cycle["0-2"] = [1, 1, 0, 0];
+  // F0 ti=2 Calculo Mastery (2 items): Imperial Multivariate (0), Imperial PCA (1) — sustituye Khan Multi + 3B1B Calc/NN forward
+  s.cycle["0-2"] = [1, 0, 0, 0];
 
-  // F0 ti=3 Calculo Capstone (6 items): GD numpy done, chain rule prog, rest pending
-  s.items["0-3-0"] = P; s.items["0-3-1"] = P;
-  s.cycle["0-3"] = [1, 0, 0, 0];
+  // F0 ti=3 Calculo Capstone (6 items): GD numpy done (0-3-0=D), chain rule a mano prog (0-3-1=P), rest pending
+  s.items["0-3-0"] = D; s.items["0-3-1"] = P;
+  s.cycle["0-3"] = [1, 1, 0, 0];
 
   // F0 ti=4 Probabilidad Mastery (17 items): Khan Units 1-16 (0-15), Cert Khan (16)
   s.items["0-4-0"] = P; s.items["0-4-1"] = P; s.items["0-4-2"] = P;
