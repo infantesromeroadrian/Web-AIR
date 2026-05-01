@@ -250,8 +250,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
   "arca.metric.cycles": { en: "ML pipeline cycles", es: "ciclos del pipeline ML" },
   "arca.pillar1.title": { en: "Documented decisions", es: "Decisiones documentadas" },
   "arca.pillar1.body": {
-    en: "Every architectural choice ships with a Nygard ADR. 10 accepted records, full rationale and alternatives.",
-    es: "Cada decision arquitectonica viaja con un ADR Nygard. 10 registros aceptados, con razon y alternativas.",
+    en: "Every architectural choice ships with a Nygard ADR. 11 accepted records, full rationale and alternatives.",
+    es: "Cada decision arquitectonica viaja con un ADR Nygard. 11 registros aceptados, con razon y alternativas.",
   },
   "arca.pillar2.title": { en: "Adversarial gate chain", es: "Cadena de gates adversarial" },
   "arca.pillar2.body": {
