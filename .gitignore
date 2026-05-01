@@ -9,3 +9,14 @@ dist/
 review-*.png
 .playwright-mcp/
 .vercel
+
+# ARCA hooks symlink (local, no commitable)
+hooks/
+hooks
+
+# Huion driver state files (regenerated at boot, never trackable)
+.DriverUI.pid
+.HuionCore.pid
+
+# LinkedIn profile scraping (personal data, never to public repo)
+linkedin/
