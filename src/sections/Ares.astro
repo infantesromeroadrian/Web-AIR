@@ -6,10 +6,10 @@ const lang = getLangFromUrl(Astro.url);
 
 /* Inline highlight of the brand wordmark for ::html injection.
    Same helper for both legacy "A.R.C.A." (in case any old translation
-   string still contains it) and the new "ARES Agent" identity. */
+   string still contains it) and the new "ARES" identity. */
 const highlightBrand = (s: string): string =>
   s
-    .replaceAll("ARES Agent", '<span class="ares-accent">ARES Agent</span>')
+    .replaceAll("ARES", '<span class="ares-accent">ARES</span>')
     .replaceAll("A.R.C.A.", '<span class="ares-accent">A.R.C.A.</span>');
 
 const ARES_LIVE_URL = "https://arca-agent-landing.vercel.app";
@@ -46,7 +46,7 @@ const pillars = [
         </ScrollReveal>
 
         <div class="ares-wordmark-row">
-          <span class="ares-wordmark">ARES Agent</span>
+          <span class="ares-wordmark">ARES</span>
           <span class="ares-version">v4.0</span>
         </div>
 
@@ -131,7 +131,7 @@ const pillars = [
 </section>
 
 <style>
-  /* ARES Agent identity — scoped to #arca within Web-AIR.
+  /* ARES identity — scoped to #arca within Web-AIR.
      Deep violet bg + magenta accent + fuchsia highlights + blush fg.
      Mirror of the palette used in arca-agent-landing (Next.js companion). */
   .ares-section {

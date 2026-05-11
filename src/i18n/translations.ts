@@ -231,22 +231,22 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "Pega una descripcion del puesto y nuestra IA analiza el encaje contra el perfil real de Adrian -- proyectos, experiencia, skills y certificaciones.",
   },
 
-  // ==================== ARES Agent (formerly A.R.C.A.) ====================
+  // ==================== ARES (formerly A.R.C.A.) ====================
   "arca.pretitle": {
     en: "The system behind every commit",
     es: "El sistema detras de cada commit",
   },
   "arca.title": {
-    en: "Powered by ARES Agent",
-    es: "Operado por ARES Agent",
+    en: "Powered by ARES",
+    es: "Operado por ARES",
   },
   "arca.tagline": {
     en: "I do not just talk about agentic adversarial AI -- I run on one.",
     es: "No solo hablo de IA agentica adversarial -- opero con una.",
   },
   "arca.intro": {
-    en: "ARES Agent (Adversarial Reasoning Engine & Strategist) is the personal agentic orchestration layer I built on top of Claude Code. 49 specialized agents (Opus + Sonnet), a 14-cycle ML pipeline across 47 phases, 45 enforcement hooks wired across 11 lifecycle events, 58 slash commands and 20 MCP servers — pure configuration, no runtime. Every line of code on this site, every red-team exercise, every project below passed through its gates before reaching main.",
-    es: "ARES Agent (Adversarial Reasoning Engine & Strategist) es la capa de orquestacion agentica personal que construi sobre Claude Code. 49 agentes especializados (Opus + Sonnet), un pipeline ML de 14 ciclos y 47 fases, 45 hooks de enforcement cabeados en 11 eventos del ciclo de vida, 58 slash commands y 20 servidores MCP -- pura configuracion, sin runtime. Cada linea de codigo de este sitio, cada ejercicio de red team y cada proyecto de abajo paso por sus gates antes de llegar a main.",
+    en: "ARES (Adversarial Research & Engineering Stack) is the personal agentic orchestration layer I built on top of Claude Code. 49 specialized agents (Opus + Sonnet), a 14-cycle ML pipeline across 47 phases, 45 enforcement hooks wired across 11 lifecycle events, 58 slash commands and 20 MCP servers — pure configuration, no runtime. Every line of code on this site, every red-team exercise, every project below passed through its gates before reaching main.",
+    es: "ARES (Adversarial Research & Engineering Stack) es la capa de orquestacion agentica personal que construi sobre Claude Code. 49 agentes especializados (Opus + Sonnet), un pipeline ML de 14 ciclos y 47 fases, 45 hooks de enforcement cabeados en 11 eventos del ciclo de vida, 58 slash commands y 20 servidores MCP -- pura configuracion, sin runtime. Cada linea de codigo de este sitio, cada ejercicio de red team y cada proyecto de abajo paso por sus gates antes de llegar a main.",
   },
   "arca.metric.agents": { en: "specialized agents", es: "agentes especializados" },
   "arca.metric.skills": { en: "skills catalog", es: "catalogo de skills" },
