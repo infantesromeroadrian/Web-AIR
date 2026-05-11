@@ -24,12 +24,10 @@ const pillars = [
 ];
 ---
 
-<!-- Fontshare: Clash Display (headings) + Satoshi (body) — openclaw.ai stack -->
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-<link
-  rel="stylesheet"
-  href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=satoshi@400,500,700&display=swap"
-/>
+<!-- openclaw.ai font stack — self-hosted to comply with vercel.json CSP.
+     CSP allows font-src 'self' data: and style-src 'self' 'unsafe-inline',
+     so Fontshare CDN is blocked. Files served from /fonts/*.woff2. -->
+<link rel="stylesheet" href="/fonts/openclaw.css" />
 
 <section id="arca" class="arca-openclaw">
   <div class="arca-inner">

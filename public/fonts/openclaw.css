@@ -1,0 +1,52 @@
+/* openclaw.ai font stack — self-hosted to comply with vercel.json CSP
+   (font-src 'self' data:, style-src 'self' 'unsafe-inline').
+   Originals from Fontshare (Free for commercial use, Indian Type Foundry).
+   Downloaded 2026-05-12 from cdn.fontshare.com — same .woff2 binaries. */
+
+@font-face {
+  font-family: "Clash Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/clash-display-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Clash Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/clash-display-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Clash Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/clash-display-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Satoshi";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/satoshi-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Satoshi";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/satoshi-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Satoshi";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/satoshi-700.woff2") format("woff2");
+}
