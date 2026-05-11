@@ -20,3 +20,6 @@ hooks
 
 # LinkedIn profile scraping (personal data, never to public repo)
 linkedin/
+
+# Engram MCP local state (chunks + manifest, regenerated per session)
+.engram/
