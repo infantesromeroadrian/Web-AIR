@@ -24,7 +24,7 @@ const BOT_PATTERNS = [
   /headlesschrome/i,
 ];
 
-const ALLOWED_PATH_PATTERN = /^\/(?:l4tentnoise|blog\/?[\w-]*|admin\/?[\w-]*)?$/;
+const ALLOWED_PATH_PATTERN = /^\/(?:blog\/?[\w-]*|admin\/?[\w-]*)?$/;
 
 function isBot(userAgent: string): boolean {
   return BOT_PATTERNS.some((p) => p.test(userAgent));
