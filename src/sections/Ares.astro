@@ -4,16 +4,14 @@ import { getLangFromUrl, t } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 
-/* Inline highlight of the brand wordmark for ::html injection.
-   Same helper for both legacy "A.R.C.A." (in case any old translation
-   string still contains it) and the new "ARES" identity. */
+/* Inline highlight of the brand wordmark for ::html injection. */
 const highlightBrand = (s: string): string =>
   s
-    .replaceAll("ARES", '<span class="ares-accent">ARES</span>')
-    .replaceAll("A.R.C.A.", '<span class="ares-accent">A.R.C.A.</span>');
+    .replaceAll("A.R.C.A", '<span class="ares-accent">A.R.C.A</span>')
+    .replaceAll("ARES", '<span class="ares-accent">A.R.C.A</span>');
 
-const ARES_LIVE_URL = "https://ares-agent-landing.vercel.app";
-const ARES_REPO_URL = "https://github.com/infantesromeroadrian/arca-claude-code";
+const ARCA_LIVE_URL = "https://ares-agent-landing.vercel.app";
+const ARCA_REPO_URL = "https://github.com/infantesromeroadrian/arca-claude-code";
 
 const metrics = [
   { value: "49", label: t("arca.metric.agents", lang) },
@@ -46,8 +44,7 @@ const pillars = [
         </ScrollReveal>
 
         <div class="ares-wordmark-row">
-          <span class="ares-wordmark">ARES</span>
-          <span class="ares-version">v4.0</span>
+          <span class="ares-wordmark">A.R.C.A</span>
         </div>
 
         <h2 class="ares-title" set:html={highlightBrand(t("arca.title", lang))}></h2>
@@ -64,12 +61,11 @@ const pillars = [
         </ScrollReveal>
       </div>
 
-      <!-- Ares throne illustration — visual identity asset (provisional,
-           replace before formal Anthropic Fellows submission) -->
+      <!-- A.R.C.A samurai chibi — visual identity asset -->
       <div class="ares-portrait-wrap">
         <img
-          src="/ares-hero.webp"
-          alt="ARES on his throne — adversarial reasoning engine"
+          src="/arca-hero.png"
+          alt="A.R.C.A — adversarial reasoning capability agent"
           loading="lazy"
           decoding="async"
           class="ares-portrait"
@@ -109,7 +105,7 @@ const pillars = [
       <div class="ares-ctas">
         <a
           class="ares-cta ares-cta-primary"
-          href={ARES_LIVE_URL}
+          href={ARCA_LIVE_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -118,7 +114,7 @@ const pillars = [
         </a>
         <a
           class="ares-cta ares-cta-ghost"
-          href={ARES_REPO_URL}
+          href={ARCA_REPO_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -131,20 +127,20 @@ const pillars = [
 </section>
 
 <style>
-  /* ARES identity — scoped to #arca within Web-AIR.
-     Deep violet bg + magenta accent + fuchsia highlights + blush fg.
-     Mirror of the palette used in arca-agent-landing (Next.js companion). */
+  /* A.R.C.A identity — scoped to #arca within Web-AIR.
+     Deep blue bg + samurai blue accent + cyan highlights + sky fg.
+     Palette derived from the A.R.C.A samurai chibi visual identity. */
   .ares-section {
-    --ares-bg: #1a0820;
-    --ares-surface: #1f0d2e;
-    --ares-border: #3a1f4a;
-    --ares-fg: #ffd9ea;
-    --ares-fg-muted: rgba(255, 217, 234, 0.62);
-    --ares-fg-faint: rgba(255, 217, 234, 0.36);
-    --ares-magenta: #ff2d8a;
-    --ares-fuchsia: #ff4488;
-    --ares-blush: #ffb4d8;
-    --ares-shadow: #0a0214;
+    --ares-bg: #0a1226;
+    --ares-surface: #0f1c3a;
+    --ares-border: #1e3a6e;
+    --ares-fg: #e0ecff;
+    --ares-fg-muted: rgba(224, 236, 255, 0.62);
+    --ares-fg-faint: rgba(224, 236, 255, 0.36);
+    --ares-magenta: #2563eb;
+    --ares-fuchsia: #3b82f6;
+    --ares-blush: #93c5fd;
+    --ares-shadow: #020410;
 
     position: relative;
     isolation: isolate;
@@ -159,15 +155,15 @@ const pillars = [
     border-bottom: 1px solid var(--ares-border);
   }
 
-  /* Aurora glow — radial magenta + violet + fuchsia at top */
+  /* Aurora glow — radial blue + deep blue + cyan at top */
   .ares-aurora {
     position: absolute;
     inset: -10% -5% 30% -5%;
     z-index: -1;
     background:
-      radial-gradient(ellipse 55% 45% at 50% 0%, rgba(255, 45, 138, 0.32), transparent 65%),
-      radial-gradient(ellipse 40% 35% at 25% 10%, rgba(107, 35, 130, 0.32), transparent 60%),
-      radial-gradient(ellipse 38% 32% at 78% 20%, rgba(255, 68, 136, 0.20), transparent 60%);
+      radial-gradient(ellipse 55% 45% at 50% 0%, rgba(37, 99, 235, 0.32), transparent 65%),
+      radial-gradient(ellipse 40% 35% at 25% 10%, rgba(30, 58, 110, 0.32), transparent 60%),
+      radial-gradient(ellipse 38% 32% at 78% 20%, rgba(59, 130, 246, 0.20), transparent 60%);
     filter: blur(40px);
     pointer-events: none;
   }
@@ -224,8 +220,8 @@ const pillars = [
     letter-spacing: -0.02em;
     color: var(--ares-fg);
     text-shadow:
-      0 0 24px rgba(255, 45, 138, 0.55),
-      0 0 64px rgba(107, 35, 130, 0.45);
+      0 0 24px rgba(37, 99, 235, 0.55),
+      0 0 64px rgba(30, 58, 110, 0.45);
   }
 
   .ares-version {
@@ -290,7 +286,7 @@ const pillars = [
     border-radius: 12px;
     border: 1px solid var(--ares-border);
     object-fit: cover;
-    box-shadow: 0 0 60px rgba(255, 45, 138, 0.25);
+    box-shadow: 0 0 60px rgba(37, 99, 235, 0.25);
   }
 
   .ares-portrait-glow {
@@ -299,7 +295,7 @@ const pillars = [
     z-index: -1;
     background: radial-gradient(
       ellipse at center,
-      rgba(255, 45, 138, 0.18),
+      rgba(37, 99, 235, 0.18),
       transparent 60%
     );
     filter: blur(30px);
@@ -367,7 +363,7 @@ const pillars = [
   }
 
   .ares-pillar-card:hover {
-    border-color: rgba(255, 45, 138, 0.45);
+    border-color: rgba(37, 99, 235, 0.45);
   }
 
   .ares-pillar-index {
