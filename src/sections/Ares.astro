@@ -61,15 +61,24 @@ const pillars = [
         </ScrollReveal>
       </div>
 
-      <!-- A.R.C.A samurai chibi (animated) — visual identity asset -->
+      <!-- A.R.C.A samurai chibi (animated) — H.264 MP4 with PNG poster for fast LCP.
+           GIF kept as legacy fallback. 4.5MB GIF → 205KB MP4 (96% smaller). -->
       <div class="ares-portrait-wrap">
-        <img
-          src="/arca-hero.gif"
-          alt="A.R.C.A — AI Research & Code Architect"
-          loading="lazy"
-          decoding="async"
+        <video
+          autoplay
+          loop
+          muted
+          playsinline
+          poster="/arca-hero.png"
+          aria-label="A.R.C.A — AI Research & Code Architect"
           class="ares-portrait"
-        />
+        >
+          <source src="/arca-hero.mp4" type="video/mp4" />
+          <img
+            src="/arca-hero.gif"
+            alt="A.R.C.A — AI Research & Code Architect"
+          />
+        </video>
         <div class="ares-portrait-glow" aria-hidden="true"></div>
       </div>
     </div>
