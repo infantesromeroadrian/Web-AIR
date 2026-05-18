@@ -17,7 +17,6 @@ import GitHubStats from "../sections/GitHubStats.astro";
 import Contact from "../sections/Contact.astro";
 import MiniTerminal from "../components/react/MiniTerminal";
 import ParticleNetwork from "../components/react/ParticleNetwork";
-import DeadPixel from "../components/react/DeadPixel";
 import AIChat from "../components/react/AIChat";
 import SecurityCursor from "../components/react/SecurityCursor";
 ---
@@ -27,9 +26,6 @@ import SecurityCursor from "../components/react/SecurityCursor";
   <div class="pointer-events-none fixed inset-0 z-0 hidden md:block" aria-hidden="true" transition:persist="particles">
     <ParticleNetwork client:load transition:persist />
   </div>
-
-  <!-- Dead pixel Easter egg - links to L4tentNoise -->
-  <DeadPixel client:idle />
 
   <Header />
   <main id="main" class="relative z-10">

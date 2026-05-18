@@ -7,11 +7,6 @@ export const achievements: Achievement[] = [
     url: "https://www.kaggle.com/adrininfantesromero",
   },
   {
-    title: "HackTheBox Top 800",
-    subtitle: "Global ranking (L4tentNoise)",
-    url: "https://app.hackthebox.com",
-  },
-  {
     title: "2nd Place Hack a Boss",
     subtitle: "Python Hackathon",
   },

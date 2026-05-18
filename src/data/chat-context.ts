@@ -45,7 +45,6 @@ Results: -20% latency, -35% costs.
 
 ## Achievements
 - Kaggle Master
-- HackTheBox Top 800 Global (alias: L4tentNoise, VIP+, 232 points, 69 flags, 37.88% content ownership)
 - 206+ attack vectors documented against Foundation Models
 - 7 critical findings remediated pre-deploy at BBVA
 - 2nd Place Hack a Boss Hackathon (Python)

@@ -14,7 +14,6 @@ const COMMANDS: Record<string, string> = {
   projects  - Featured projects
   contact   - Get in touch
   kaggle    - Kaggle profile
-  htb       - HackTheBox stats
   languages - Spoken languages
   clear     - Clear terminal
   exit      - Close terminal`,
@@ -79,10 +78,6 @@ Location : Madrid, Spain`,
   kaggle: `Kaggle Master
 Profile: kaggle.com/adrininfantesromero
 Rank: Top-tier competitive ML`,
-
-  htb: `HackTheBox — L4tentNoise
-Global Rank: Top 800
-Focus: AI/ML challenges, penetration testing`,
 
   languages: `Spanish  : Native
 English  : Full Professional
