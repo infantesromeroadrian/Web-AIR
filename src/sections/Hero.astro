@@ -1,6 +1,6 @@
 ---
 import TypewriterText from "../components/react/TypewriterText";
-import HolographicCard from "../components/react/HolographicCard";
+import profileImage from "../../assets/Gemini_Generated_Image_ne74yhne74yhne74.png";
 import { getLangFromUrl, t } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -8,8 +8,8 @@ const lang = getLangFromUrl(Astro.url);
 const phrases = lang === "es"
   ? [
       "206+ ataques a Foundation Models",
-      "Red Teaming de LLMs en banca de produccion",
-      "De la matematica del Transformer a la superficie de ataque",
+      "Red Teaming de LLMs en banca de producción",
+      "De la matemática del Transformer a la superficie de ataque",
       "Kaggle Master | HTB Top 800 Global",
     ]
   : [
@@ -22,65 +22,75 @@ const phrases = lang === "es"
 
 <section
   id="hero"
-  class="relative flex min-h-[70vh] items-center justify-center overflow-hidden px-6 py-20"
+  class="relative flex min-h-[86vh] items-center justify-center overflow-hidden px-6 pb-24 pt-28"
 >
-  <!-- Hero gradient overlay -->
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.08),transparent_50%)]"></div>
+  <img
+    src={profileImage.src}
+    alt=""
+    class="absolute inset-0 h-full w-full object-cover object-center opacity-20 md:opacity-30"
+    loading="eager"
+    decoding="async"
+  />
+  <div class="absolute inset-0 bg-[linear-gradient(90deg,var(--color-bg-primary)_0%,rgba(10,10,15,.78)_45%,rgba(10,10,15,.42)_100%)]"></div>
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_18%,rgba(6,182,212,0.16),transparent_55%)]"></div>
+  <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-bg-primary"></div>
 
-  <div class="relative z-10 mx-auto w-full max-w-3xl">
-    <HolographicCard client:load>
-      <div class="text-center">
-        <p class="mb-4 font-mono text-sm tracking-widest text-text-muted uppercase">
-          {t("hero.pretitle", lang)}
-        </p>
+  <div class="relative z-10 mx-auto w-full max-w-[var(--max-w-content)]">
+    <div class="max-w-3xl">
+      <p class="mb-5 font-mono text-xs tracking-[0.35em] text-accent/80 uppercase">
+        {t("hero.pretitle", lang)}
+      </p>
 
-        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          Adrian Infantes
-        </h1>
+      <h1 class="text-[44px] font-bold leading-none tracking-tight text-text-primary">
+        Adrian Infantes
+      </h1>
 
-        <p class="mt-4 font-mono text-lg text-accent sm:text-xl">
-          {t("hero.role", lang)}
-        </p>
+      <p class="mt-5 font-mono text-xl text-accent">
+        {t("hero.role", lang)}
+      </p>
 
-        <p class="mx-auto mt-6 max-w-xl text-base text-text-secondary sm:text-lg">
-          {t("hero.tagline", lang)}
-        </p>
+      <p class="mt-7 max-w-2xl text-lg leading-relaxed text-text-secondary">
+        {t("hero.tagline", lang)}
+      </p>
 
-        <!-- Typewriter - secondary layer for technical audience -->
-        <div class="mt-4 h-6">
-          <TypewriterText client:load phrases={phrases} />
+      <div class="mt-5 h-6 font-mono text-sm text-text-muted">
+        <TypewriterText client:load phrases={phrases} />
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <a
+          href="#projects"
+          class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
+        >
+          {t("hero.cta.work", lang)}
+          <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+        </a>
+        <a
+          href="#contact"
+          class="rounded-lg border border-border bg-bg-primary/40 px-6 py-3 text-sm font-semibold text-text-primary backdrop-blur-sm transition-all duration-200 hover:border-accent hover:text-accent"
+        >
+          {t("hero.cta.contact", lang)}
+        </a>
+      </div>
+
+      <div class="mt-12 grid max-w-3xl grid-cols-2 border-y border-border/70 bg-bg-primary/35 backdrop-blur-sm md:grid-cols-4">
+        <div class="px-4 py-4">
+          <div class="font-mono text-xs text-accent">{t("hero.badge.bbva", lang)}</div>
+          <div class="mt-1 text-xs text-text-muted">Production banking</div>
         </div>
-
-        <!-- Proof badges -->
-        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-            {t("hero.badge.bbva", lang)}
-          </span>
-          <span class="rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm text-accent backdrop-blur-sm">
-            {t("hero.badge.kaggle", lang)}
-          </span>
-          <span class="rounded-full border border-border bg-bg-secondary/50 px-4 py-1.5 text-sm text-text-secondary backdrop-blur-sm">
-            {t("hero.badge.htb", lang)}
-          </span>
+        <div class="border-l border-border/70 px-4 py-4">
+          <div class="font-mono text-xs text-accent">206+</div>
+          <div class="mt-1 text-xs text-text-muted">Attack vectors tested</div>
+        </div>
+        <div class="border-t border-border/70 px-4 py-4 md:border-l md:border-t-0">
+          <div class="font-mono text-xs text-accent">{t("hero.badge.kaggle", lang)}</div>
+          <div class="mt-1 text-xs text-text-muted">Competitive ML</div>
+        </div>
+        <div class="border-l border-t border-border/70 px-4 py-4 md:border-t-0">
+          <div class="font-mono text-xs text-accent">{t("hero.badge.htb", lang)}</div>
+          <div class="mt-1 text-xs text-text-muted">Security practice</div>
         </div>
       </div>
-    </HolographicCard>
-
-    <!-- CTAs — outside the 3D card so the rotation never blocks clicks -->
-    <div class="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4">
-      <a
-        href="#projects"
-        class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
-      >
-        {t("hero.cta.work", lang)}
-        <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
-      </a>
-      <a
-        href="#contact"
-        class="rounded-lg border border-border px-6 py-3 text-sm font-semibold text-text-primary transition-all duration-200 hover:border-accent hover:text-accent"
-      >
-        {t("hero.cta.contact", lang)}
-      </a>
     </div>
   </div>
 

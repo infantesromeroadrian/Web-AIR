@@ -9,15 +9,14 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 ## Highlights
 
 - **Dual-language** -- English (`/`) and Spanish (`/es/`) with `hreflang` SEO, one-click toggle
-- **Hi-tech hero card** -- 3D parallax tilt with `inference: active` / `uptime: 6.2y` indicators, mouse-tracked glare, cyan radial glow
-- **AI chatbot (ARCA / NULL)** -- dual-persona LLM chat powered by Llama 3.3 70B via Groq streaming; ARCA (professional) and NULL (red-team offensive persona). NVIDIA Kimi K2.5-style ring graph FAB (44 nodes, nearest-neighbor edges, mode-colored triangle markers)
+- **Editorial hero** -- full-bleed technical portrait backdrop, clear senior-positioning copy, primary CTAs, and a compact proof strip
+- **AI chatbot (ARCA)** -- recruiter-facing LLM chat powered by Llama 3.3 70B via Groq streaming. NVIDIA Kimi K2.5-style ring graph FAB (44 nodes, nearest-neighbor edges, cyan triangle markers)
 - **Live phishing analyzer** -- paste a suspicious email, get an LLM-powered threat breakdown in real time
 - **3D Latent Space globe** -- 1800-point interactive embedding cloud (React Three Fiber) with "Inject Attack" button that visualizes adversarial perturbation propagation
 - **Neural Breach animation** -- canvas 2D 4-layer neural network breach sequence
 - **3D Knowledge Graph** -- interactive skill topology rendered with R3F
 - **Particle network background** -- full-page canvas 2D particles, visible across all sections
 - **Security scanner cursor** -- custom cursor that detects DOM elements and displays their metadata
-- **Dead pixel Easter egg** -- find it and it takes you to `/l4tentnoise`
 - **Mini terminal** -- `Ctrl+K` opens a command palette
 
 ## Screenshots
@@ -54,7 +53,7 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 src/
   components/
     astro/        # Header, Footer, SectionTitle (server)
-    react/        # Islands: AIChat, HolographicCard, SkillGraph3D,
+    react/        # Islands: AIChat, SkillGraph3D,
                   #   LatentSpaceGlobe, NeuralBreach, AttackExplorer,
                   #   ParticleNetwork, SecurityCursor, MiniTerminal...
   sections/       # Astro page sections (Hero, About, Projects...)
@@ -62,7 +61,6 @@ src/
     index.astro   # English route
     es/index.astro # Spanish route
     api/          # chat.ts, phishing-analyze.ts, analytics/*
-    l4tentnoise.astro # Secret page
   i18n/           # translations.ts, utils.ts
   data/           # education.ts, experience.ts, projects.ts
   lib/            # constants.ts

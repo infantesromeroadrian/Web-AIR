@@ -7,7 +7,6 @@ import {
   type FC,
 } from "react";
 import { ROADMAP } from "../../data/roadmap";
-import PinGate from "./roadmap/PinGate";
 import RoadmapHud from "./roadmap/RoadmapHud";
 import EvolutionCard from "./roadmap/EvolutionCard";
 import RoadmapMap from "./roadmap/RoadmapMap";
@@ -161,7 +160,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
     const blob = new Blob([JSON.stringify(getState(), null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `l4tentnoise-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `ai-security-roadmap-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
   }, []);
 
@@ -187,73 +186,74 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
   }, []);
 
   const purgeState = useCallback(() => {
-    if (!confirm("PURGE ALL DATA?")) return;
+    if (!confirm(lang === "es" ? "¿Restablecer todo el progreso?" : "Reset all roadmap progress?")) return;
     localStorage.removeItem(KEY);
     location.reload();
-  }, []);
+  }, [lang]);
 
   const modalNode = modalIdx !== null ? nodes[modalIdx] : null;
 
   return (
-    <PinGate>
-      <div className="relative font-mono" style={{ fontSize: "103%" }}>
-        <div className="relative h-48 overflow-hidden">
-          <img
-            src="/roadmap/l4-real.png"
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/60 to-bg-primary" />
-          <div className="relative z-10 flex flex-col items-center justify-end h-full pb-4">
-            <div className="text-[10px] tracking-[6px] text-accent/60 font-mono uppercase">
-              Operational Dashboard
-            </div>
-            <h1 className="text-2xl font-mono font-black tracking-tight text-text-primary mt-1">
-              L4tentNoise
-            </h1>
-            <p className="text-[10px] text-text-muted font-mono tracking-wider mt-0.5">
-              AI Security Engineer Roadmap // {lang === "es" ? "Clasificado" : "Classified"}
-            </p>
+    <div className="relative font-mono" style={{ fontSize: "103%" }}>
+      <div className="relative h-52 overflow-hidden">
+        <img
+          src="/roadmap/roadmap-header.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bg-primary/60 to-bg-primary" />
+        <div className="relative z-10 flex flex-col items-center justify-end h-full pb-4">
+          <div className="text-[10px] tracking-[6px] text-accent/70 font-mono uppercase">
+            Professional Roadmap
           </div>
+          <h1 className="text-2xl font-mono font-black tracking-tight text-text-primary mt-1">
+            AI Security Roadmap
+          </h1>
+          <p className="max-w-md px-4 text-center text-[10px] text-text-muted font-mono tracking-wider mt-1">
+            {lang === "es"
+              ? "Plan práctico para AI Security, evals, red teaming y arquitectura"
+              : "Practical plan for AI Security, evals, red teaming, and architecture"} // Top 1%
+          </p>
         </div>
-
-        <RoadmapHud
-          lang={lang}
-          evo={evo}
-          pct={pct}
-          doneCount={stats.doneC}
-          progCount={stats.progC}
-          pendCount={stats.pendC}
-          certCount={stats.certC}
-          streak={streak}
-          onExport={exportState}
-          onImport={importState}
-          onPurge={purgeState}
-        />
-
-        <EvolutionCard lang={lang} evo={evo} />
-
-        <RoadmapMap
-          nodes={nodes}
-          state={state}
-          currentIdx={currentIdx}
-          evo={evo}
-          tierStats={tierStats}
-          tierMeta={tierMeta}
-          onNodeClick={setModalIdx}
-        />
-
-        {modalNode && (
-          <MissionBriefingModal
-            node={modalNode}
-            state={state}
-            onClose={() => setModalIdx(null)}
-            onToggleItem={toggleItem}
-            onToggleCycle={toggleCycle}
-          />
-        )}
       </div>
-    </PinGate>
+
+      <RoadmapHud
+        lang={lang}
+        evo={evo}
+        pct={pct}
+        doneCount={stats.doneC}
+        progCount={stats.progC}
+        pendCount={stats.pendC}
+        certCount={stats.certC}
+        streak={streak}
+        onExport={exportState}
+        onImport={importState}
+        onPurge={purgeState}
+      />
+
+      <EvolutionCard lang={lang} evo={evo} />
+
+      <RoadmapMap
+        nodes={nodes}
+        state={state}
+        currentIdx={currentIdx}
+        evo={evo}
+        lang={lang}
+        tierStats={tierStats}
+        tierMeta={tierMeta}
+        onNodeClick={setModalIdx}
+      />
+
+      {modalNode && (
+        <MissionBriefingModal
+          node={modalNode}
+          state={state}
+          onClose={() => setModalIdx(null)}
+          onToggleItem={toggleItem}
+          onToggleCycle={toggleCycle}
+        />
+      )}
+    </div>
   );
 };
 

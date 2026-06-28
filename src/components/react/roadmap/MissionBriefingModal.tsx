@@ -39,8 +39,8 @@ const MissionBriefingModal: FC<Props> = ({
         onClick={(e) => e.stopPropagation()}
         style={{ animation: "slideUp .25s ease" }}
       >
-        <div className="border-b border-border px-5 py-3 flex items-center justify-between">
-          <div className="text-[10px] tracking-[4px] text-accent font-bold">CLASSIFIED // MISSION BRIEFING</div>
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <div className="text-[10px] font-bold tracking-[4px] text-accent">ROADMAP ITEM</div>
           <button
             className="text-text-muted hover:text-text-primary text-lg leading-none"
             onClick={onClose}
@@ -58,12 +58,12 @@ const MissionBriefingModal: FC<Props> = ({
             </span>
           </div>
 
-          <div className="mt-2 text-[10px] tracking-[2px] text-text-muted uppercase">OBJECTIVE</div>
+          <div className="mt-2 text-[10px] tracking-[2px] text-text-muted uppercase">Objective</div>
           <p className="text-sm text-text-secondary">{node.detail}</p>
 
           {node.res && (
             <>
-              <div className="mt-2 text-[10px] tracking-[2px] text-text-muted uppercase">RESOURCES</div>
+              <div className="mt-2 text-[10px] tracking-[2px] text-text-muted uppercase">Resources</div>
               <p className="text-xs text-text-muted italic">{node.res}</p>
             </>
           )}
@@ -85,7 +85,7 @@ const MissionBriefingModal: FC<Props> = ({
             ))}
           </div>
 
-          <div className="mt-4 text-[10px] tracking-[2px] text-text-muted uppercase">OPERATIONAL PROTOCOL</div>
+          <div className="mt-4 text-[10px] tracking-[2px] text-text-muted uppercase">Workflow</div>
           <div className="flex gap-1 mt-1">
             {CYCLE_LBL.map((l, i) => (
               <button
@@ -101,7 +101,7 @@ const MissionBriefingModal: FC<Props> = ({
             ))}
           </div>
 
-          <div className="mt-4 text-[10px] tracking-[2px] text-text-muted uppercase">SUBTASKS</div>
+          <div className="mt-4 text-[10px] tracking-[2px] text-text-muted uppercase">Subtasks</div>
           <div className="mt-1 border-t border-border/50 pt-2 space-y-0.5">
             {node.items.map((item, i) => {
               const v = iSt(state, node.pi, node.ti, i);
@@ -128,12 +128,12 @@ const MissionBriefingModal: FC<Props> = ({
 
           {showHandlerNote && (
             <div className="mt-4 p-3 bg-accent/5 border border-accent/20 rounded text-[10px] text-accent tracking-wider uppercase text-center">
-              HANDLER NOTE: Debrief with ARCA before proceeding
+              Review note: validate the output before moving on
             </div>
           )}
 
           {node.h > 0 && (
-            <div className="text-right text-[9px] text-text-muted mt-3 tracking-wider">EST. {node.h}h</div>
+            <div className="text-right text-[9px] text-text-muted mt-3 tracking-wider">Est. {node.h}h</div>
           )}
         </div>
       </div>

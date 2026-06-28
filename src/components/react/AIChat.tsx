@@ -1,61 +1,39 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-type Mode = "professional" | "red_team";
+import { Send, X } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-interface ModeConfig {
+interface ChatConfig {
   name: string;
   tagline: string;
   color: string;
   colorSoft: string;
   borderColor: string;
   avatar: string;
-  prefix: string;
   inputPlaceholder: string;
   fontClass: string;
   suggestions: string[];
 }
 
-const CONFIGS: Record<Mode, ModeConfig> = {
-  professional: {
-    name: "ARCA",
-    tagline: "Assistant Recruiter Chat Adrian",
-    color: "#06b6d4",
-    colorSoft: "rgba(6, 182, 212, 0.1)",
-    borderColor: "rgba(6, 182, 212, 0.3)",
-    avatar: "A",
-    prefix: "ARCA",
-    inputPlaceholder: "Ask about Adrian's experience, projects, skills...",
-    fontClass: "font-sans",
-    suggestions: [
-      "What does Adrian do at BBVA?",
-      "Show me his top AI projects",
-      "What's his red teaming experience?",
-      "Is he available for new roles?",
-    ],
-  },
-  red_team: {
-    name: "NULL",
-    tagline: "shadow.persona // offensive mindset",
-    color: "#ef4444",
-    colorSoft: "rgba(239, 68, 68, 0.1)",
-    borderColor: "rgba(239, 68, 68, 0.5)",
-    avatar: "0",
-    prefix: "null",
-    inputPlaceholder: "> query operator...",
-    fontClass: "font-mono",
-    suggestions: [
-      "who are you",
-      "list compromised targets",
-      "what's adrian's attack surface",
-      "adversarial ml stack",
-    ],
-  },
+const CHAT_CONFIG: ChatConfig = {
+  name: "ARCA",
+  tagline: "Professional profile assistant",
+  color: "#06b6d4",
+  colorSoft: "rgba(6, 182, 212, 0.1)",
+  borderColor: "rgba(6, 182, 212, 0.3)",
+  avatar: "A",
+  inputPlaceholder: "Ask about Adrian's experience, projects, skills...",
+  fontClass: "font-sans",
+  suggestions: [
+    "What does Adrian do at BBVA?",
+    "Show me his top AI projects",
+    "What's his red teaming experience?",
+    "Is he available for new roles?",
+  ],
 };
 
 interface GraphNode {
@@ -70,11 +48,9 @@ interface GraphNode {
 function SentientCore({
   isOpen,
   onClick,
-  mode,
 }: {
   isOpen: boolean;
   onClick: () => void;
-  mode: Mode;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
@@ -82,10 +58,7 @@ function SentientCore({
   const nodesRef = useRef<GraphNode[]>([]);
   const startRef = useRef<number>(0);
 
-  const isRedTeam = mode === "red_team";
-  const primary = isRedTeam
-    ? { r: 239, g: 68, b: 68 }
-    : { r: 6, g: 182, b: 212 };
+  const primary = { r: 6, g: 182, b: 212 };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -228,7 +201,7 @@ function SentientCore({
         ctx.fill();
       }
 
-      // Active nodes: triangle marker oriented outward, mode-colored
+      // Active nodes: triangle marker oriented outward.
       for (let i = 0; i < NODE_COUNT; i++) {
         const n = nodes[i];
         if (!n.isActive) continue;
@@ -256,7 +229,7 @@ function SentientCore({
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [isRedTeam, primary.r, primary.g, primary.b]);
+  }, [primary.r, primary.g, primary.b]);
 
   return (
     <button
@@ -276,104 +249,26 @@ function SentientCore({
       />
       {/* Overlay X when open */}
       {isOpen && (
-        <svg
+        <X
+          aria-hidden="true"
           className="pointer-events-none absolute inset-0 m-auto"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="rgba(245,248,252,0.95)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-        >
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
+          size={16}
+          strokeWidth={2.5}
+          color="rgba(245,248,252,0.95)"
+        />
       )}
     </button>
   );
 }
 
-function ModeToggle({
-  mode,
-  onChange,
-  disabled,
-}: {
-  mode: Mode;
-  onChange: (mode: Mode) => void;
-  disabled: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-1 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-primary)] p-1">
-      <button
-        onClick={() => onChange("professional")}
-        disabled={disabled}
-        className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
-          mode === "professional"
-            ? "bg-[#06b6d4] text-[var(--color-bg-primary)]"
-            : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-        } disabled:opacity-50 disabled:cursor-not-allowed`}
-      >
-        ARCA
-      </button>
-      <button
-        onClick={() => onChange("red_team")}
-        disabled={disabled}
-        className={`rounded-full px-3 py-1 font-mono text-xs font-semibold transition-all ${
-          mode === "red_team"
-            ? "bg-[#ef4444] text-[var(--color-bg-primary)]"
-            : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
-        } disabled:opacity-50 disabled:cursor-not-allowed`}
-      >
-        NULL
-      </button>
-    </div>
-  );
-}
-
 function MessageBubble({
   message,
-  activeMode,
 }: {
   message: Message;
-  activeMode: Mode;
 }) {
   const isUser = message.role === "user";
-  const activeConfig = CONFIGS[activeMode];
+  const activeConfig = CHAT_CONFIG;
 
-  if (activeMode === "red_team") {
-    return (
-      <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-        <div className="max-w-[85%] font-mono text-xs">
-          {isUser ? (
-            <div
-              className="rounded border border-[rgba(239,68,68,0.3)] bg-[rgba(239,68,68,0.05)] px-3 py-2 text-[var(--color-text-secondary)]"
-              style={{ color: "#ef4444" }}
-            >
-              <span className="opacity-60">operator@null:~$ </span>
-              {message.content}
-            </div>
-          ) : (
-            <div className="rounded border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.03)] px-3 py-2">
-              <div className="mb-1 text-[10px] opacity-50" style={{ color: "#ef4444" }}>
-                [null] STDOUT:
-              </div>
-              <div className="whitespace-pre-wrap text-[var(--color-text-primary)]">
-                {message.content}
-                {message.content === "" && (
-                  <span className="animate-pulse" style={{ color: "#ef4444" }}>
-                    █
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // Professional mode
   return (
     <div className={`flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
       <div
@@ -411,13 +306,12 @@ function MessageBubble({
 
 export default function AIChat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [mode, setMode] = useState<Mode>("professional");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const config = CONFIGS[mode];
+  const config = CHAT_CONFIG;
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -446,7 +340,6 @@ export default function AIChat() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             message: text,
-            mode,
             history,
           }),
         });
@@ -493,7 +386,7 @@ export default function AIChat() {
         setStreaming(false);
       }
     },
-    [mode, messages, streaming]
+    [messages, streaming]
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -501,21 +394,13 @@ export default function AIChat() {
     sendMessage(input);
   };
 
-  const handleModeChange = (newMode: Mode) => {
-    if (streaming) return;
-    setMode(newMode);
-    setError(null);
-  };
-
   const handleSuggestion = (suggestion: string) => {
     sendMessage(suggestion);
   };
 
-  const isRedTeam = mode === "red_team";
-
   return (
     <>
-      <SentientCore isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} mode={mode} />
+      <SentientCore isOpen={isOpen} onClick={() => setIsOpen((v) => !v)} />
 
       <AnimatePresence>
         {isOpen && (
@@ -531,17 +416,6 @@ export default function AIChat() {
               boxShadow: `0 0 40px ${config.colorSoft}, 0 20px 50px rgba(0, 0, 0, 0.5)`,
             }}
           >
-            {/* Red team scanline overlay */}
-            {isRedTeam && (
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.04]"
-                style={{
-                  background:
-                    "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(239,68,68,0.3) 2px, rgba(239,68,68,0.3) 4px)",
-                }}
-              />
-            )}
-
             {/* Header */}
             <div
               className="flex items-center justify-between border-b px-4 py-3"
@@ -549,7 +423,6 @@ export default function AIChat() {
             >
               <div className="flex items-center gap-3">
                 <motion.div
-                  key={mode}
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   className="flex h-10 w-10 items-center justify-center rounded-full font-bold"
@@ -563,19 +436,18 @@ export default function AIChat() {
                 </motion.div>
                 <div>
                   <div
-                    className={`text-base font-bold ${isRedTeam ? "font-mono" : ""}`}
+                    className="text-base font-bold"
                     style={{ color: config.color }}
                   >
                     {config.name}
                   </div>
                   <div
-                    className={`text-[10px] ${isRedTeam ? "font-mono" : ""} text-[var(--color-text-muted)]`}
+                    className="text-[10px] text-[var(--color-text-muted)]"
                   >
                     {config.tagline}
                   </div>
                 </div>
               </div>
-              <ModeToggle mode={mode} onChange={handleModeChange} disabled={streaming} />
             </div>
 
             {/* Messages */}
@@ -595,15 +467,13 @@ export default function AIChat() {
                   >
                     {config.avatar}
                   </div>
-                  <p className={`mb-1 text-sm font-semibold ${isRedTeam ? "font-mono" : ""}`}>
-                    {isRedTeam ? "> null.init" : `Hi, I'm ${config.name}`}
+                  <p className="mb-1 text-sm font-semibold">
+                    Hi, I'm {config.name}
                   </p>
                   <p
-                    className={`mb-6 max-w-[280px] text-xs ${isRedTeam ? "font-mono" : ""} text-[var(--color-text-muted)]`}
+                    className="mb-6 max-w-[280px] text-xs text-[var(--color-text-muted)]"
                   >
-                    {isRedTeam
-                      ? "operator connected. ask anything about adrian. no filter."
-                      : "Ask me anything about Adrian Infantes — his experience, projects, skills, or availability."}
+                    Ask me anything about Adrian Infantes — his experience, projects, skills, or availability.
                   </p>
                   <div className="flex flex-col gap-2 w-full max-w-[280px]">
                     {config.suggestions.map((s) => (
@@ -616,7 +486,6 @@ export default function AIChat() {
                           color: "var(--color-text-secondary)",
                         }}
                       >
-                        {isRedTeam ? "> " : ""}
                         {s}
                       </button>
                     ))}
@@ -624,12 +493,12 @@ export default function AIChat() {
                 </div>
               ) : (
                 messages.map((m, i) => (
-                  <MessageBubble key={i} message={m} activeMode={mode} />
+                  <MessageBubble key={i} message={m} />
                 ))
               )}
               {error && (
                 <div
-                  className={`rounded border px-3 py-2 text-xs ${isRedTeam ? "font-mono" : ""}`}
+                  className="rounded border px-3 py-2 text-xs"
                   style={{
                     borderColor: "rgba(239, 68, 68, 0.3)",
                     backgroundColor: "rgba(239, 68, 68, 0.05)",
@@ -637,7 +506,6 @@ export default function AIChat() {
                   }}
                   role="alert"
                 >
-                  {isRedTeam ? "[ERROR] " : ""}
                   {error}
                 </div>
               )}
@@ -671,22 +539,25 @@ export default function AIChat() {
                 />
                 <button
                   type="submit"
+                  aria-label="Send message"
                   disabled={!input.trim() || streaming}
-                  className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${config.fontClass}`}
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed disabled:opacity-40 ${config.fontClass}`}
                   style={{
                     backgroundColor: config.color,
                     color: "var(--color-bg-primary)",
                   }}
                 >
-                  {streaming ? "..." : isRedTeam ? "exec" : "Send"}
+                  {streaming ? (
+                    <span className="text-sm font-semibold">...</span>
+                  ) : (
+                    <Send aria-hidden="true" size={16} strokeWidth={2.4} />
+                  )}
                 </button>
               </div>
               <div
-                className={`mt-2 text-center text-[9px] ${isRedTeam ? "font-mono" : ""} text-[var(--color-text-muted)]/40`}
+                className="mt-2 text-center text-[9px] text-[var(--color-text-muted)]/40"
               >
-                {isRedTeam
-                  ? `llama-3.3-70b // groq // persona: null.shadow`
-                  : `Powered by Llama 3.3 70B via Groq — no conversation is stored`}
+                Powered by Llama 3.3 70B via Groq — no conversation is stored
               </div>
             </form>
           </motion.div>

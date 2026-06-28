@@ -102,8 +102,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
   },
   "ach.htb.title": { en: "HackTheBox Top 800", es: "HackTheBox Top 800" },
   "ach.htb.sub": {
-    en: "Global ranking (L4tentNoise)",
-    es: "Ranking global (L4tentNoise)",
+    en: "Global cybersecurity ranking",
+    es: "Ranking global de ciberseguridad",
   },
   "ach.hackaboss.title": {
     en: "2nd Place Hack a Boss",

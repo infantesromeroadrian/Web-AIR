@@ -1,9 +1,10 @@
-import React, { type FC } from "react";
+import React, { type FC, useEffect, useState } from "react";
 import type { EvolutionStage } from "../../../data/roadmap";
-import type { AppState, RoadmapNode, TierLabel, TierStat } from "./types";
+import type { AppState, Lang, RoadmapNode, TierLabel, TierStat } from "./types";
 import { tSt } from "./state";
 
-const PER_ROW = 7;
+const PER_ROW_DESKTOP = 7;
+const PER_ROW_MOBILE = 4;
 
 const SECTOR_BG: Record<number, string> = {
   1: "from-accent-green/[.03] to-blue-500/[.03]",
@@ -13,10 +14,10 @@ const SECTOR_BG: Record<number, string> = {
 };
 
 const SECTOR_TEXT: Record<number, string> = {
-  1: "text-accent-green/30",
-  2: "text-accent/30",
-  3: "text-accent-red/30",
-  4: "text-purple-400/30",
+  1: "text-accent-green/70",
+  2: "text-accent/70",
+  3: "text-accent-red/70",
+  4: "text-purple-400/70",
 };
 
 const TIER_BAR_COLOR: Record<number, string> = {
@@ -31,6 +32,7 @@ interface Props {
   state: AppState;
   currentIdx: number;
   evo: EvolutionStage & { idx: number };
+  lang: Lang;
   tierStats: Record<number, TierStat>;
   tierMeta: Record<number, TierLabel>;
   onNodeClick: (idx: number) => void;
@@ -41,15 +43,29 @@ const RoadmapMap: FC<Props> = ({
   state,
   currentIdx,
   evo,
+  lang,
   tierStats,
   tierMeta,
   onNodeClick,
 }) => {
+  const [perRow, setPerRow] = useState(PER_ROW_MOBILE);
+
+  useEffect(() => {
+    const syncPerRow = () => {
+      const width = window.innerWidth;
+      setPerRow(width < 640 ? PER_ROW_MOBILE : width < 1024 ? 5 : PER_ROW_DESKTOP);
+    };
+
+    syncPerRow();
+    window.addEventListener("resize", syncPerRow);
+    return () => window.removeEventListener("resize", syncPerRow);
+  }, []);
+
   const rows: RoadmapNode[][] = [];
-  for (let i = 0; i < nodes.length; i += PER_ROW) rows.push(nodes.slice(i, i + PER_ROW));
+  for (let i = 0; i < nodes.length; i += perRow) rows.push(nodes.slice(i, i + perRow));
 
   return (
-    <div className="max-w-[1000px] mx-auto px-4 pb-8">
+    <div className="mx-auto max-w-[1080px] px-4 pb-8">
       {rows.map((row, ri) => {
         const rtl = ri % 2 === 1;
         const displayRow = rtl ? [...row].reverse() : row;
@@ -64,14 +80,14 @@ const RoadmapMap: FC<Props> = ({
         return (
           <div key={ri}>
             {showSector && (
-              <div className={`relative py-3 bg-gradient-to-b ${SECTOR_BG[firstTier]}`}>
+              <div className={`relative rounded-sm py-3 bg-gradient-to-b ${SECTOR_BG[firstTier]}`}>
                 <div className="flex items-center justify-between px-4 gap-3">
-                  <div className={`text-[10px] font-black tracking-[5px] uppercase ${SECTOR_TEXT[firstTier]}`}>
+                  <div className={`text-[10px] font-black tracking-[4px] uppercase ${SECTOR_TEXT[firstTier]}`}>
                     {tierLabel?.sub} // {tierLabel?.name}
                   </div>
                   <div className="flex items-center gap-2 text-[9px] font-mono">
-                    <span className={SECTOR_TEXT[firstTier].replace("/30", "/60")}>
-                      {tierPhases} fases
+                    <span className={SECTOR_TEXT[firstTier]}>
+                      {tierPhases} {lang === "es" ? "fases" : "phases"}
                     </span>
                     <div className="w-16 h-1 rounded-full bg-white/5 overflow-hidden">
                       <div
@@ -80,7 +96,7 @@ const RoadmapMap: FC<Props> = ({
                       />
                     </div>
                     <span
-                      className={`font-black ${SECTOR_TEXT[firstTier].replace("/30", "")}`}
+                      className={`font-black ${SECTOR_TEXT[firstTier]}`}
                       style={{ minWidth: "2.5em", textAlign: "right" }}
                     >
                       {tierPct}%
@@ -100,9 +116,9 @@ const RoadmapMap: FC<Props> = ({
               </div>
             )}
 
-            <div className={`flex items-center justify-center gap-0 py-2 px-4 ${rtl ? "flex-row-reverse" : ""}`}>
+            <div className={`flex items-center justify-center gap-0 px-4 py-4 ${rtl ? "flex-row-reverse" : ""}`}>
               {displayRow.map((n, ni) => {
-                const globalIdx = ri * PER_ROW + (rtl ? row.length - 1 - ni : ni);
+                const globalIdx = ri * perRow + (rtl ? row.length - 1 - ni : ni);
                 const st = tSt(state, n.pi, n.ti, n);
                 const isCurrent = globalIdx === currentIdx;
 
@@ -119,7 +135,7 @@ const RoadmapMap: FC<Props> = ({
                 return (
                   <React.Fragment key={globalIdx}>
                     <div
-                      className="relative w-14 h-14 shrink-0 cursor-pointer transition-transform hover:scale-110 group"
+                      className="group relative h-14 w-14 shrink-0 cursor-pointer transition-transform hover:scale-105 sm:h-16 sm:w-16"
                       onClick={() => onNodeClick(globalIdx)}
                     >
                       {n.h > 0 && (
@@ -128,17 +144,17 @@ const RoadmapMap: FC<Props> = ({
                         </div>
                       )}
                       <div
-                        className={`w-11 h-11 rounded-lg border-[2px] flex items-center justify-center text-[8px] font-bold text-center leading-tight m-1.5 transition-all ${borderStyle}`}
+                        className={`m-1.5 flex h-10 w-10 items-center justify-center rounded-lg border-[2px] text-center text-[8px] font-bold leading-tight transition-all sm:h-11 sm:w-11 ${borderStyle}`}
                       >
                         <span className="text-[10px]">{nodeIcon}</span>
                       </div>
-                      <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 text-[6px] text-text-muted whitespace-nowrap max-w-[65px] truncate pointer-events-none text-center tracking-wider uppercase">
+                      <div className="pointer-events-none absolute -bottom-2 left-1/2 max-w-[56px] -translate-x-1/2 truncate whitespace-nowrap text-center text-[6px] uppercase tracking-wider text-text-muted sm:max-w-[70px] sm:text-[7px]">
                         {n.name}
                       </div>
                       {isCurrent && (
                         <div className="absolute -top-7 left-1/2 -translate-x-1/2 pointer-events-none animate-bounce">
                           <img
-                            src="/roadmap/l4-base.png"
+                            src="/roadmap/roadmap-current.png"
                             alt=""
                             className="w-8 h-8 rounded-md object-cover border border-accent"
                             style={{ boxShadow: `0 0 10px ${evo.glow}`, filter: "drop-shadow(0 3px 6px rgba(0,0,0,.6))" }}
@@ -147,7 +163,7 @@ const RoadmapMap: FC<Props> = ({
                       )}
                     </div>
                     {ni < displayRow.length - 1 && (
-                      <div className="flex-1 h-px min-w-2 max-w-14 border-t border-dashed border-border/20" />
+                      <div className="h-px min-w-2 flex-1 border-t border-dashed border-border/25 sm:max-w-14" />
                     )}
                   </React.Fragment>
                 );
@@ -157,12 +173,12 @@ const RoadmapMap: FC<Props> = ({
         );
       })}
 
-      <div className="text-center py-8">
-        <div className="w-16 h-16 rounded-lg border-2 border-accent-red inline-flex items-center justify-center text-xs font-black tracking-tighter text-accent-red bg-accent-red/10 shadow-[0_0_25px_rgba(239,68,68,.3)]">
+      <div className="py-10 text-center">
+        <div className="inline-flex h-16 w-16 items-center justify-center rounded-lg border-2 border-accent-red bg-accent-red/10 text-xs font-black tracking-tighter text-accent-red shadow-[0_0_25px_rgba(239,68,68,.3)]">
           1%
         </div>
-        <div className="text-[10px] font-mono font-bold text-accent-red mt-2 tracking-[3px]">TARGET ACQUIRED</div>
-        <div className="text-[9px] text-text-muted mt-0.5">Anthropic // OpenAI // Microsoft // Google</div>
+        <div className="mt-2 font-mono text-[10px] font-bold tracking-[3px] text-accent-red">TOP 1% TARGET</div>
+        <div className="mt-0.5 text-[10px] text-text-muted">Anthropic // OpenAI // Microsoft // Google</div>
       </div>
     </div>
   );

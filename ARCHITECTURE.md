@@ -298,7 +298,7 @@ Una sola pagina con smooth scroll entre secciones. No multi-page. Razones:
 +--------------------------------------------------+
 |  Kaggle    | HackTheBox  | 2o Puesto    | Speaker|
 |  Master    | Top 800     | Hack a Boss  | OMEN   |
-|            | L4tentNoise | Hackathon    | League |
+|            | Global Rank | Hackathon    | League |
 +--------------------------------------------------+
 ```
 

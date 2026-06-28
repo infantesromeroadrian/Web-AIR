@@ -6,7 +6,7 @@ import {
 } from "../../../data/roadmap";
 import type { AppState, RoadmapNode } from "./types";
 
-export const KEY = "rmv5";
+export const KEY = "air-roadmap";
 export const isClient = typeof window !== "undefined";
 
 export const emptyState = (): AppState => ({ items: {}, cycle: {}, activity: [] });

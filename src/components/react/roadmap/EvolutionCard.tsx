@@ -8,20 +8,20 @@ interface Props {
 }
 
 const EvolutionCard: FC<Props> = ({ lang, evo }) => (
-  <div className="max-w-2xl mx-auto px-4 py-6">
-    <div className="border border-border rounded-lg p-4 bg-bg-secondary/50 flex items-center gap-5">
+  <div className="mx-auto max-w-3xl px-4 py-6">
+    <div className="flex flex-col gap-4 rounded-lg border border-border bg-bg-secondary/60 p-4 shadow-[0_18px_60px_rgba(0,0,0,.18)] sm:flex-row sm:items-center sm:gap-5">
       <img
         src={evo.img}
         alt={evo.name}
-        className="w-20 h-20 rounded-lg object-cover border-2 shrink-0"
+        className="h-20 w-20 shrink-0 rounded-lg border-2 object-cover"
         style={{ borderColor: evo.color, boxShadow: `0 0 20px ${evo.glow}` }}
       />
-      <div className="flex-1 min-w-0">
-        <div className="text-xs tracking-[4px] uppercase" style={{ color: evo.color }}>
+      <div className="min-w-0 flex-1">
+        <div className="text-xs uppercase tracking-[4px]" style={{ color: evo.color }}>
           {evo.name} // {evo.title}
         </div>
-        <div className="text-text-muted text-[10px] mt-0.5 italic">{evo.desc[lang]}</div>
-        <div className="flex gap-1.5 mt-2">
+        <div className="mt-1 text-sm leading-relaxed text-text-secondary">{evo.desc[lang]}</div>
+        <div className="mt-3 flex flex-wrap gap-1.5">
           {EVOLUTIONS.map((e, i) => {
             const cls =
               i < evo.idx
@@ -36,7 +36,7 @@ const EvolutionCard: FC<Props> = ({ lang, evo }) => (
             return (
               <div
                 key={i}
-                className={`text-[8px] px-2 py-0.5 rounded border tracking-wider font-bold ${cls}`}
+                className={`rounded border px-2 py-1 text-[9px] font-bold tracking-wider ${cls}`}
                 style={inlineStyle}
               >
                 {e.min}% {e.tag}:{e.title.split(" ")[0]}
