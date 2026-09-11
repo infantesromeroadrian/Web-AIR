@@ -39,12 +39,12 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "Seguridad IA \u00b7 AI Safety \u00b7 Red Teaming",
   },
   "hero.role": {
-    en: "AI Security Engineer",
-    es: "Ingeniero de Seguridad IA",
+    en: "AI Security Architecture · AI Red Teaming",
+    es: "Arquitectura de seguridad de IA · AI Red Teaming",
   },
   "hero.tagline": {
-    en: "I protect AI systems from the attacks that haven't been invented yet.",
-    es: "Protejo sistemas de IA de los ataques que aun no se han inventado.",
+    en: "Secure design and adversarial evaluation of LLMs, RAG pipelines, and AI agents.",
+    es: "Diseño seguro y evaluación adversarial de LLMs, sistemas RAG y agentes de IA.",
   },
   "hero.cta.work": { en: "View Work", es: "Ver Proyectos" },
   "hero.cta.contact": { en: "Contact", es: "Contacto" },

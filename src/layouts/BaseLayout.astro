@@ -3,7 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "../lib/constants";
 import AnalyticsBeacon from "../components/astro/AnalyticsBeacon.astro";
-import { getLangFromUrl, alternateLang, canonicalFor } from "../i18n/utils";
+import { getLangFromUrl, alternateLang, canonicalFor, t } from "../i18n/utils";
 
 interface Props {
   title?: string;
@@ -55,7 +55,7 @@ const alternateURL = canonicalFor(Astro.url, otherLang, SITE.url);
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Adrian Infantes",
-      "jobTitle": "AI Security Engineer",
+      "description": t("hero.tagline", lang),
       "worksFor": { "@type": "Organization", "name": "BBVA Technology" },
       "url": SITE.url,
       "sameAs": [
