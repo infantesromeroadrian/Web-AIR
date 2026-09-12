@@ -6,7 +6,7 @@ export const ADRIAN_CONTEXT = `
 # ADRIAN INFANTES — PROFILE
 
 ## Current Role
-Enterprise AI engineering contributions at ERNI / Verisure. The dated case studies below describe their validation scope.
+Enterprise AI engineering contributions at Verisure. The dated case studies below describe their validation scope.
 
 ## BBVA Experience
 AI Security Architect at BBVA Technology Europa (Jan 2026 - Present, Madrid, Spain).

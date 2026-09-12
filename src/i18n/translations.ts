@@ -60,8 +60,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
   // ==================== ABOUT ====================
   "about.title": { en: "About", es: "Sobre mi" },
   "about.p1.prefix": {
-    en: "I contribute to enterprise AI engineering at ERNI / Verisure, with ",
-    es: "Contribuyo a la ingeniería de IA empresarial en ERNI / Verisure, con ",
+    en: "I contribute to enterprise AI engineering at Verisure, with ",
+    es: "Contribuyo a la ingeniería de IA empresarial en Verisure, con ",
   },
   "about.p1.strong": {
     en: "+6 years at the intersection of AI Engineering and Offensive Security",
@@ -115,8 +115,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
   // ==================== SECTION TITLES & SUBTITLES ====================
   "securityWork.title": { en: "AI Security in practice", es: "Seguridad de IA en la práctica" },
   "securityWork.subtitle": {
-    en: "AI Security Architecture · AI Red Teaming — engineering contributions at ERNI / Verisure.",
-    es: "AI Security Architecture · AI Red Teaming — contribuciones de ingeniería en ERNI / Verisure.",
+    en: "AI Security Architecture · AI Red Teaming — engineering contributions at Verisure.",
+    es: "AI Security Architecture · AI Red Teaming — contribuciones de ingeniería en Verisure.",
   },
   "securityWork.milestone": { en: "Milestone", es: "Hito" },
   "securityWork.boundary": { en: "Validation boundary", es: "Límite de validación" },

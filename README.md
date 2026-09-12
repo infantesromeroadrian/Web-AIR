@@ -10,7 +10,7 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 
 - **Dual-language** -- English (`/`) and Spanish (`/es/`) with `hreflang` SEO, one-click toggle
 - **Dark experimental identity** — local Clash Display headings, Inter body, JetBrains Mono data and a contained conceptual trust-boundary graph with a pause control.
-- **Enterprise case studies** — two ERNI / Verisure contributions with dated milestones and visible validation limits.
+- **Enterprise case studies** — two Verisure contributions with dated milestones and visible validation limits.
 - **Visible project catalog** — selected projects render in HTML; React adds sector filters. Videos load after an explicit action.
 - **Laboratory** — `/lab/` and `/es/lab/` contain ARCA, the existing AI/security visualizations, email analyzer, Job Match and optional graphic effects. Interactive modules import when opened.
 - **Accessible profile tools** — visible ARCA AI and terminal controls open native dialogs with Escape, focus containment and focus return. Chat and terminal code load on opening.

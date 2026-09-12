@@ -63,7 +63,7 @@
 
 ### 3.1 Composición vigente del frontend
 
-Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos ERNI / Verisure → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Los textos profesionales y sus límites permanecen en los datos públicos existentes.
+Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos Verisure → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Los textos profesionales y sus límites permanecen en los datos públicos existentes.
 
 El Hero usa SVG/CSS conceptual, sin telemetría. El movimiento se activa y pausa expresamente; móvil y `prefers-reduced-motion` permanecen estáticos. Las secciones informativas son Astro; el catálogo incluye proyectos desde SSR.
 

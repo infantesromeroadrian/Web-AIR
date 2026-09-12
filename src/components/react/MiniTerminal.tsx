@@ -26,7 +26,7 @@ const COMMANDS: Record<string, string> = {
   about: `Adrian Infantes — AI Security Engineer
 
 I contribute to enterprise AI engineering at
-ERNI / Verisure. +6 years at the intersection of
+Verisure. +6 years at the intersection of
 AI Engineering × Offensive Security.
 
 Secure design and adversarial evaluation of LLMs,

@@ -12,7 +12,7 @@ export interface SecurityCaseStudy {
   tags: string[];
 }
 
-export const SECURITY_WORK_ORGANIZATION = "ERNI / Verisure";
+export const SECURITY_WORK_ORGANIZATION = "Verisure";
 
 export const securityCaseStudies: SecurityCaseStudy[] = [
   {
