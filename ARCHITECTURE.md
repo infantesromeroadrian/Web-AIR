@@ -63,7 +63,7 @@
 
 ### 3.1 Composición vigente del frontend
 
-Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos Verisure → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Los textos profesionales y sus límites permanecen en los datos públicos existentes.
+Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos de un cliente empresarial anonimizado → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Hero y experiencia distinguen el puesto actual de AI Security Architect en BBVA Technology de la práctica independiente de AI Red Teamer en Hack The Box. Los datos de esta actividad viven separados del historial laboral en `experience.ts`; ranking y certificación conservan sus fuentes compartidas. Las métricas de los casos anonimizados no se atribuyen a BBVA ni a HTB.
 
 El Hero usa SVG/CSS conceptual, sin telemetría. El movimiento se activa y pausa expresamente; móvil y `prefers-reduced-motion` permanecen estáticos. Las secciones informativas son Astro; el catálogo incluye proyectos desde SSR.
 

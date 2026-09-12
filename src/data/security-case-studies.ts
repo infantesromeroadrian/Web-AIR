@@ -12,7 +12,10 @@ export interface SecurityCaseStudy {
   tags: string[];
 }
 
-export const SECURITY_WORK_ORGANIZATION = "Verisure";
+export const SECURITY_WORK_ORGANIZATION: Record<Lang, string> = {
+  en: "Enterprise client · anonymized",
+  es: "Cliente empresarial · anonimizado",
+};
 
 export const securityCaseStudies: SecurityCaseStudy[] = [
   {
@@ -71,7 +74,7 @@ export const securityCaseStudies: SecurityCaseStudy[] = [
 
 export function securityCaseStudyText(study: SecurityCaseStudy, lang: Lang): string {
   return [
-    `${study.title[lang]} — ${SECURITY_WORK_ORGANIZATION}`,
+    `${study.title[lang]} — ${SECURITY_WORK_ORGANIZATION[lang]}`,
     study.contribution[lang],
     ...study.controls[lang],
     `${study.milestoneLabel[lang]}: ${study.outcomes[lang].join("; ")}.`,

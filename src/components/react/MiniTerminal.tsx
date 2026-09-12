@@ -3,6 +3,7 @@ import type { Lang } from "../../i18n/translations";
 import { securityCaseStudies, securityCaseStudyText } from "../../data/security-case-studies";
 import { htbRanking } from "../../data/achievements";
 import { COAE_CERTIFICATION } from "../../data/education";
+import { currentExperience, htbActivity } from "../../data/experience";
 
 interface TerminalLine {
   type: "input" | "output";
@@ -13,7 +14,7 @@ const COMMANDS: Record<string, string> = {
   help: `Available commands:
   about     - Who is Adrian Infantes
   skills    - Core technical skills
-  exp       - Work experience summary
+  exp       - Work experience and independent practice
   projects  - Featured projects
   security  - Enterprise AI security case studies
   htb       - Hack The Box ranking and certification
@@ -23,10 +24,13 @@ const COMMANDS: Record<string, string> = {
   clear     - Clear terminal
   exit      - Close terminal`,
 
-  about: `Adrian Infantes — AI Security Engineer
+  about: `Adrian Infantes
 
-I contribute to enterprise AI engineering at
-Verisure. +6 years at the intersection of
+${currentExperience.role} — ${currentExperience.company}
+${htbActivity.role} — ${htbActivity.platform}
+${htbActivity.scope.en}.
+
++6 years at the intersection of
 AI Engineering × Offensive Security.
 
 Secure design and adversarial evaluation of LLMs,
@@ -37,7 +41,7 @@ ${COAE_CERTIFICATION} — completed.`,
 
   security: securityCaseStudies.map((study) => securityCaseStudyText(study, "en")).join("\n\n"),
 
-  htb: `${htbRanking.title.en} — ${htbRanking.subtitle.en}\n${COAE_CERTIFICATION} — completed.`,
+  htb: `${htbActivity.role} — ${htbActivity.platform}\n${htbActivity.scope.en}.\n${htbRanking.title.en} — ${htbRanking.subtitle.en}\n${COAE_CERTIFICATION} — completed.`,
 
   skills: `Core Stack:
   Security : MITRE ATLAS, OWASP LLMs, PyRIT, Garak
@@ -49,6 +53,10 @@ ${COAE_CERTIFICATION} — completed.`,
 
   exp: `2026-now  AI Security Architect @ BBVA Technology
          → AI Safety, Red Teaming, MLSecOps
+
+Current  ${htbActivity.role} — ${htbActivity.platform}
+         → ${htbActivity.scope.en}
+         → ${htbRanking.title.en} — ${htbRanking.subtitle.en}
 
 2024-26  AI/ML Engineer @ BBVA Technology
          → LLMs, RAG, Fraud Detection, NLP
@@ -112,7 +120,7 @@ export default function MiniTerminal({ lang = "en", onClose = () => {} }: { lang
     const output = trimmed === "security"
       ? securityCaseStudies.map((study) => securityCaseStudyText(study, lang)).join("\n\n")
       : trimmed === "htb"
-        ? `${htbRanking.title[lang]} — ${htbRanking.subtitle[lang]}\n${COAE_CERTIFICATION} — ${es ? "completada" : "completed"}.`
+        ? `${htbActivity.role} — ${htbActivity.platform}\n${htbActivity.scope[lang]}.\n${htbRanking.title[lang]} — ${htbRanking.subtitle[lang]}\n${COAE_CERTIFICATION} — ${es ? "completada" : "completed"}.`
         : COMMANDS[trimmed];
     setLines((current) => [...current, { type: "input", text: command }, { type: "output", text: output || (es ? `Comando desconocido: ${trimmed}. Escribe "help".` : `Command not found: ${trimmed}. Type "help".`) }]);
     setHistory((current) => [command, ...current]);

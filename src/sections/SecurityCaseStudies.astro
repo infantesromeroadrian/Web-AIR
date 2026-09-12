@@ -17,7 +17,7 @@ const lang = getLangFromUrl(Astro.url);
     <div class="case-grid">
       {securityCaseStudies.map((study) => (
         <article class="case-card" aria-labelledby={`${study.id}-title`}>
-          <p class="font-mono text-xs tracking-wide text-accent">{SECURITY_WORK_ORGANIZATION}</p>
+          <p class="font-mono text-xs tracking-wide text-accent">{SECURITY_WORK_ORGANIZATION[lang]}</p>
           <h3 id={`${study.id}-title`} class="mt-3 text-xl font-bold leading-snug text-text-primary sm:text-2xl">
             {study.title[lang]}
           </h3>

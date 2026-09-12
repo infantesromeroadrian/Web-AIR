@@ -107,9 +107,9 @@ for (const edu of education) {
     id: `edu:${edu.institution.toLowerCase().replace(/\s+/g, "-")}`,
     source: "education.ts",
     category: "education",
-    title: `${edu.institution} -- ${edu.degree}`,
-    text: `${edu.institution} ${edu.degree} ${edu.specialization || ""}`,
-    tags: [edu.degree, edu.specialization || ""].filter(Boolean),
+    title: `${edu.institution} -- ${edu.degree}${edu.status === "completed" ? " — Completed" : ""}`,
+    text: [edu.institution, edu.degree, edu.degreeEs, edu.specialization, edu.status].filter(Boolean).join(" "),
+    tags: [edu.degree, edu.degreeEs || "", edu.specialization || ""].filter(Boolean),
   });
 }
 

@@ -1,35 +1,60 @@
 import type { Experience } from "../lib/types";
+import type { Lang } from "../i18n/translations";
+
+export const htbActivity = {
+  role: "AI Red Teamer",
+  platform: "Hack The Box",
+  scope: { en: "Independent labs & competition", es: "Laboratorios y competición por cuenta propia" },
+  headline: {
+    en: "Adversarial AI practice through labs and competitive cybersecurity challenges",
+    es: "Práctica adversarial de IA en laboratorios y retos de ciberseguridad competitiva",
+  },
+  description: {
+    en: "Independent adversarial AI evaluation in Hack The Box labs and cybersecurity challenges, with a worldwide ranking on the HTB platform.",
+    es: "Evaluación adversarial de IA por cuenta propia en laboratorios y retos de ciberseguridad de Hack The Box, con clasificación mundial en la plataforma HTB.",
+  },
+  tags: ["AI Red Teaming", "AI Security", "CTF"],
+} satisfies {
+  role: string;
+  platform: string;
+  scope: Record<Lang, string>;
+  headline: Record<Lang, string>;
+  description: Record<Lang, string>;
+  tags: string[];
+};
+
+export const currentExperience: Experience = {
+  company: "BBVA Technology",
+  role: "AI Security Architect",
+  period: "Jan 2026 -- Present",
+  location: "Madrid, Spain",
+  headline:
+    "Protecting AI systems in European banking from adversarial attacks",
+  description:
+    "Designed the AI Safety architecture (HLD/LLD) for sensitive data processing in Financial Crime environments -- AML, KYC/KYB, and Transaction Monitoring pipelines -- combining NVIDIA infrastructure (DGX + Triton) with Azure Confidential Computing.",
+  highlights: [
+    "MLSecOps end-to-end: security gates in CI/CD, Zero Trust, Defense-in-Depth architecture",
+    "Hybrid on-premise + cloud architecture with GDPR and banking regulation compliance",
+  ],
+  impact: [],
+  tags: [
+    "AI Safety",
+    "Red Teaming",
+    "MITRE ATLAS",
+    "OWASP LLMs",
+    "PyRIT",
+    "Garak",
+    "NVIDIA DGX",
+    "Triton",
+    "Azure TEEs",
+    "MLSecOps",
+    "Zero Trust",
+    "Kubernetes",
+  ],
+};
 
 export const experience: Experience[] = [
-  {
-    company: "BBVA Technology",
-    role: "AI Security Architect",
-    period: "Jan 2026 -- Present",
-    location: "Madrid, Spain",
-    headline:
-      "Protecting AI systems in European banking from adversarial attacks",
-    description:
-      "Designed the AI Safety architecture (HLD/LLD) for sensitive data processing in Financial Crime environments -- AML, KYC/KYB, and Transaction Monitoring pipelines -- combining NVIDIA infrastructure (DGX + Triton) with Azure Confidential Computing.",
-    highlights: [
-      "MLSecOps end-to-end: security gates in CI/CD, Zero Trust, Defense-in-Depth architecture",
-      "Hybrid on-premise + cloud architecture with GDPR and banking regulation compliance",
-    ],
-    impact: [],
-    tags: [
-      "AI Safety",
-      "Red Teaming",
-      "MITRE ATLAS",
-      "OWASP LLMs",
-      "PyRIT",
-      "Garak",
-      "NVIDIA DGX",
-      "Triton",
-      "Azure TEEs",
-      "MLSecOps",
-      "Zero Trust",
-      "Kubernetes",
-    ],
-  },
+  currentExperience,
   {
     company: "BBVA Technology",
     role: "AI/ML Engineer",

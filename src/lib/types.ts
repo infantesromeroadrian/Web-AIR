@@ -55,7 +55,9 @@ export interface Achievement {
 export interface Education {
   institution: string;
   degree: string;
+  degreeEs?: string;
   specialization?: string;
+  status?: "completed";
 }
 
 export interface SocialLink {

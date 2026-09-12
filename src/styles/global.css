@@ -64,7 +64,11 @@ button:disabled { cursor: not-allowed; }
 .hero-section { padding: clamp(2.75rem, 5vw, 5rem) 0 2.5rem; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
 .hero-name { margin-bottom: 1.5rem; font-size: 1rem; color: var(--color-text-secondary); }
-.hero-title { font-size: clamp(3rem, 5.7vw, 5.4rem); font-weight: 600; line-height: .99; letter-spacing: -.035em; max-width: 14ch; }
+.hero-title { font-size: clamp(2.4rem, 4.1vw, 3.6rem); font-weight: 600; line-height: 1.05; letter-spacing: -.035em; }
+.hero-role { display: block; }
+.hero-role + .hero-role { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); }
+.hero-affiliation { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem 1rem; margin-top: .75rem; font: 500 .9375rem/1.5 var(--font-sans); letter-spacing: 0; color: var(--color-accent); }
+.hero-affiliation > span { font-size: .8125rem; font-weight: 400; color: var(--color-text-secondary); }
 .hero-description { margin-top: 1.75rem; max-width: 46ch; font-size: 1.125rem; line-height: 1.65; color: var(--color-text-secondary); }
 .hero-actions { margin-top: 2rem; }
 .hero-proof { display: grid; grid-template-columns: 1fr 1.25fr 1fr; margin-top: 3rem; border-block: 1px solid var(--color-border); }
@@ -105,6 +109,13 @@ button:disabled { cursor: not-allowed; }
 .project-cover { min-height: 120px; background: linear-gradient(125deg, #143746, #111620); border-bottom: 1px solid var(--color-border); padding: 1.5rem; display: flex; align-items: end; color: var(--color-accent); font: .875rem var(--font-mono); }
 .project-cover img { width: 100%; height: 150px; object-fit: cover; border-radius: .35rem; }
 .experience-row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 2rem; border-top: 1px solid var(--color-border); padding-block: 1.75rem; }
+.current-experience { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+.current-role { min-width: 0; padding: 1.5rem; border: 1px solid var(--color-border); border-top: 2px solid var(--color-accent); border-radius: .5rem; background: var(--color-bg-secondary); }
+.current-role h3 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.3vw, 2rem); font-weight: 600; line-height: 1.2; }
+.current-role p { color: var(--color-text-secondary); line-height: 1.65; }
+.current-role .role-context { margin-bottom: 1.25rem; font-size: .8125rem; }
+.current-role .role-organization { color: var(--color-accent); font-size: .9375rem; font-weight: 500; margin-bottom: .4rem; }
+@media (min-width: 768px) { .current-experience { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .experience-row h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; }
 .experience-row p { color: var(--color-text-secondary); line-height: 1.65; }
 .experience-metrics { display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; margin-top: 1rem; font-size: .875rem; }
@@ -165,7 +176,6 @@ button:disabled { cursor: not-allowed; }
 }
 @media (max-width: 767px) {
   .hero-grid, .case-grid, .education-grid, .contact-grid { grid-template-columns: 1fr; }
-  .hero-title { max-width: 15ch; }
   .trust-visual { max-width: 460px; width: 100%; margin-inline: auto; }
   .hero-proof { grid-template-columns: 1fr; }
   .hero-proof > div, .hero-proof > div + div { padding: 1rem 0; border-left: 0; }

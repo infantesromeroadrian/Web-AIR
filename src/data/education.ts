@@ -2,9 +2,16 @@ import type { Education } from "../lib/types";
 
 export const education: Education[] = [
   {
-    institution: "Universidad Camilo Jose Cela",
-    degree: "BS Double Degree Computational Mathematics & Computer Science",
-    specialization: "Artificial Intelligence",
+    institution: "UNED",
+    degree: "Bachelor's Degree in Computer Science Engineering",
+    degreeEs: "Grado en Ingeniería Informática",
+    status: "completed",
+  },
+  {
+    institution: "ETH Zürich–EPFL",
+    degree: "MSc in Computer Science — Major in Cyber Security",
+    degreeEs: "Máster en Ciencias de la Computación — especialidad en Ciberseguridad",
+    status: "completed",
   },
   {
     institution: "MIOTI | Tech & Business School",

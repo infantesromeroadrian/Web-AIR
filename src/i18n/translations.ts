@@ -41,9 +41,11 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "Seguridad IA \u00b7 AI Safety \u00b7 Red Teaming",
   },
   "hero.role": {
-    en: "AI Security Architecture · AI Red Teaming",
-    es: "Arquitectura de seguridad de IA · AI Red Teaming",
+    en: "AI Security Architect / AI Red Teamer",
+    es: "AI Security Architect / AI Red Teamer",
   },
+  "hero.enterprise.context": { en: "Enterprise AI security", es: "Seguridad de IA empresarial" },
+  "hero.htb.context": { en: "Labs & competition", es: "Laboratorios y competición" },
   "hero.tagline": {
     en: "Secure design and adversarial evaluation of LLMs, RAG pipelines, and AI agents.",
     es: "Diseño seguro y evaluación adversarial de LLMs, sistemas RAG y agentes de IA.",
@@ -60,8 +62,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
   // ==================== ABOUT ====================
   "about.title": { en: "About", es: "Sobre mi" },
   "about.p1.prefix": {
-    en: "I contribute to enterprise AI engineering at Verisure, with ",
-    es: "Contribuyo a la ingeniería de IA empresarial en Verisure, con ",
+    en: "I work as an AI Security Architect at BBVA Technology and develop my AI Red Teamer practice through independent Hack The Box labs and competition, with ",
+    es: "Trabajo como AI Security Architect en BBVA Technology y desarrollo mi práctica como AI Red Teamer en laboratorios y competición de Hack The Box por cuenta propia, con ",
   },
   "about.p1.strong": {
     en: "+6 years at the intersection of AI Engineering and Offensive Security",
@@ -115,16 +117,20 @@ export const TRANSLATIONS: Record<string, Entry> = {
   // ==================== SECTION TITLES & SUBTITLES ====================
   "securityWork.title": { en: "AI Security in practice", es: "Seguridad de IA en la práctica" },
   "securityWork.subtitle": {
-    en: "AI Security Architecture · AI Red Teaming — engineering contributions at Verisure.",
-    es: "AI Security Architecture · AI Red Teaming — contribuciones de ingeniería en Verisure.",
+    en: "Engineering contributions for an anonymized enterprise client, with dated milestones and explicit validation limits.",
+    es: "Contribuciones de ingeniería para un cliente empresarial anonimizado, con hitos fechados y límites de validación explícitos.",
   },
   "securityWork.milestone": { en: "Milestone", es: "Hito" },
   "securityWork.boundary": { en: "Validation boundary", es: "Límite de validación" },
   "experience.title": { en: "Experience", es: "Experiencia" },
   "experience.subtitle": {
-    en: "From data pipelines to AI security architecture",
-    es: "De pipelines de datos a arquitectura de seguridad IA",
+    en: "Enterprise AI security and independent adversarial practice",
+    es: "Seguridad de IA empresarial y práctica adversarial por cuenta propia",
   },
+  "experience.employment": { en: "Current position", es: "Puesto actual" },
+  "experience.activity.current": { en: "Current activity", es: "Actividad actual" },
+  "experience.activity.scope": { en: "Practice and scope", es: "Práctica y alcance" },
+  "experience.htb.ranking": { en: "HTB worldwide", es: "HTB mundial" },
   "experience.tech": { en: "Technical details", es: "Detalles tecnicos" },
 
   "projects.title": { en: "Featured Projects", es: "Proyectos Destacados" },
@@ -159,6 +165,7 @@ export const TRANSLATIONS: Record<string, Entry> = {
 
   "education.title": { en: "Education", es: "Educacion" },
   "education.certs": { en: "Certifications", es: "Certificaciones" },
+  "education.status.completed": { en: "Completed", es: "Terminado" },
   "education.cert.completed": { en: "Certification completed", es: "Certificación completada" },
 
   "github.title": { en: "GitHub Activity", es: "Actividad GitHub" },

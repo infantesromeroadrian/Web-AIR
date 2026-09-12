@@ -1,17 +1,21 @@
 import { securityCaseStudies, securityCaseStudyText } from "./security-case-studies";
 import { htbRanking } from "./achievements";
-import { COAE_CERTIFICATION } from "./education";
+import { COAE_CERTIFICATION, education } from "./education";
+import { currentExperience, htbActivity } from "./experience";
 
 export const ADRIAN_CONTEXT = `
 # ADRIAN INFANTES — PROFILE
 
 ## Current Role
-Enterprise AI engineering contributions at Verisure. The dated case studies below describe their validation scope.
-
-## BBVA Experience
-AI Security Architect at BBVA Technology Europa (Jan 2026 - Present, Madrid, Spain).
+${currentExperience.role} at ${currentExperience.company} (${currentExperience.period}, ${currentExperience.location}).
 Designs AI Safety architecture (HLD/LLD) for Financial Crime pipelines: AML, KYC/KYB, Sanctions Screening, Transaction Monitoring.
 Combines NVIDIA DGX + Triton on-premise with Azure Confidential Computing (TEEs). Compliance: GDPR, BCE/PRA.
+
+## AI Red Teaming Activity
+${htbActivity.role} — ${htbActivity.platform}. ${htbActivity.scope.en}.
+${htbActivity.description.en}
+${htbRanking.title.en} — ${htbRanking.subtitle.en}.
+${COAE_CERTIFICATION} — completed.
 
 ## Previous Experience
 - AI/ML Engineer at BBVA Technology (Jan 2024 - Jan 2026). LLMs, RAG (GraphRAG, Self-RAG), NLP, MLOps. Results: +15% retrieval precision, +22% AUC-ROC on fraud detection, -40% time-to-market.
@@ -19,10 +23,7 @@ Combines NVIDIA DGX + Triton on-premise with Azure Confidential Computing (TEEs)
 - Data Scientist Jr at Capgemini (Jan 2019 - Feb 2020). AWS, ETL with Python+Boto3, forecasting with scikit-learn. Results: -30% analysis cycle, -35% query time.
 
 ## Education
-- BS Double Degree Computational Mathematics & Computer Science (AI specialization) - Universidad Camilo Jose Cela
-- Master Gen AI & Deep Learning - MIOTI
-- Master Big Data & Data Science - MIOTI
-- CFGS ASIR - U-tad
+${education.map((entry) => `- ${entry.degree} - ${entry.institution}${entry.specialization ? ` (${entry.specialization})` : ""}${entry.status === "completed" ? " — completed" : ""}`).join("\n")}
 
 ## Featured Projects (github.com/infantesromeroadrian)
 1. FraudAI-Agent: Level 3 agentic platform, 6 specialized agents for banking fraud detection + AI red teaming. LangGraph, Qdrant, FastAPI, Next.js. 482 tests, 93% coverage.
@@ -76,5 +77,6 @@ Location: Madrid, Spain
 Open to senior AI Security / AI Safety / Red Teaming roles at AI labs, FinTech, Defense, or regulated enterprises. Prefers roles involving Foundation Model security, adversarial ML research, or LLM agent orchestration with security constraints.
 
 ## Enterprise AI Security Case Studies
+These contributions concern a separate anonymized enterprise client. Do not attribute their tests, metrics or milestones to BBVA Technology or Hack The Box.
 ${securityCaseStudies.map((study) => securityCaseStudyText(study, "en")).join("\n\n")}
 `.trim();
