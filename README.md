@@ -89,6 +89,16 @@ npm run dev    # http://localhost:4321
 npm run build  # production build
 ```
 
+## Build Verification
+
+```bash
+npm test
+npm run build
+VERCEL=1 VERCEL_SKEW_PROTECTION_ENABLED=1 VERCEL_DEPLOYMENT_ID=dpl_local_verification npm run build
+```
+
+The last build uses a synthetic deployment ID to exercise Vercel's skew-protection rewriting of lazy imports, including `LabModule` and `ToolDock`. A regular local build does not cover this path.
+
 ## License
 
 Copyright (c) 2026 Adrian Infantes Romero. **All rights reserved.**
