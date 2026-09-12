@@ -1,76 +1,12 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
-import ScrollReveal from "../components/react/ScrollReveal";
-import { education, certifications } from "../data/education";
+import { COAE_CERTIFICATION, education, certifications } from "../data/education";
 import { getLangFromUrl, t } from "../i18n/utils";
-
 const lang = getLangFromUrl(Astro.url);
-
-const eduIcons = ["🎓", "🧠", "📊", "🖥️"];
 ---
-
-<section class="bg-bg-secondary/20 px-6 py-24">
-  <div class="mx-auto max-w-[var(--max-w-content)]">
-    <SectionTitle title={t("education.title", lang)} />
-
-    <div class="mx-auto max-w-3xl">
-      <!-- Education timeline -->
-      <div class="relative">
-        <!-- Timeline spine -->
-        <div class="absolute left-6 top-0 hidden h-full w-px md:block" style="background: linear-gradient(to bottom, transparent, var(--color-accent) 10%, var(--color-accent) 90%, transparent);"></div>
-
-        <div class="flex flex-col gap-0">
-          {education.map((edu, i) => (
-            <ScrollReveal client:visible delay={i * 0.1}>
-              <div class="group relative pb-8 last:pb-0 md:pl-16">
-                <!-- Node -->
-                <div class="absolute left-0 top-0 hidden md:block" style="left: 11px;">
-                  <div class="relative flex items-center justify-center">
-                    <div class="absolute h-7 w-7 rounded-full border border-accent/30 transition-all duration-500 group-hover:scale-150 group-hover:border-accent/60 group-hover:shadow-lg group-hover:shadow-accent/20"></div>
-                    <div class="relative h-3 w-3 rounded-full bg-accent transition-all duration-300 group-hover:scale-125"></div>
-                  </div>
-                </div>
-
-                <div class="overflow-hidden rounded-xl border border-border bg-bg-secondary/50 transition-all duration-500 hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5">
-                  <div class="h-px w-full" style="background: linear-gradient(to right, transparent, var(--color-accent), transparent);"></div>
-                  <div class="flex items-start gap-4 p-5">
-                    <span class="mt-0.5 text-2xl">{eduIcons[i] || "📚"}</span>
-                    <div class="min-w-0">
-                      <h3 class="font-bold text-text-primary transition-colors group-hover:text-accent">{edu.institution}</h3>
-                      <p class="mt-1 text-sm text-text-secondary">{edu.degree}</p>
-                      {edu.specialization && (
-                        <span class="mt-2 inline-block rounded border border-accent/20 bg-accent/5 px-2 py-0.5 font-mono text-[10px] tracking-wider text-accent">
-                          spec: {edu.specialization}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </div>
-
-      <!-- Certifications -->
-      <ScrollReveal client:visible delay={0.3}>
-        <div class="mt-12">
-          <h3 class="mb-5 font-mono text-xs uppercase tracking-widest text-text-muted">
-            <span class="text-accent">$</span> {t("education.certs", lang)}
-          </h3>
-          <div class="flex flex-wrap gap-2">
-            {certifications.map((cert, i) => (
-              <span
-                class="group/cert rounded-lg border border-border bg-bg-secondary/50 px-4 py-2 text-sm text-text-secondary transition-all duration-300 hover:border-accent/30 hover:text-accent hover:shadow-md hover:shadow-accent/5"
-                style={`transition-delay: ${i * 40}ms;`}
-              >
-                <span class="mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-accent/50 transition-all group-hover/cert:bg-accent group-hover/cert:shadow-sm group-hover/cert:shadow-accent/40"></span>
-                {cert}
-              </span>
-            ))}
-          </div>
-        </div>
-      </ScrollReveal>
-    </div>
+<section id="education" class="content-section"><div class="content-wrap">
+  <SectionTitle title={t("education.title", lang)} />
+  <div class="education-grid"><div class="education-list">{education.map((edu) => <article><h3>{edu.institution}</h3><p>{edu.degree}</p>{edu.specialization && <p>{edu.specialization}</p>}</article>)}</div>
+    <div><h3 class="text-lg font-semibold mb-4">{t("education.certs", lang)}</h3><ul class="education-list">{certifications.map((cert) => <li class="text-text-secondary">{cert}{cert === COAE_CERTIFICATION && <span class="block text-sm mt-1 text-accent">{t("education.cert.completed", lang)}</span>}</li>)}</ul></div>
   </div>
-</section>
+</div></section>

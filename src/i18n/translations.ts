@@ -1,3 +1,5 @@
+import { htbRanking } from "../data/achievements";
+
 export type Lang = "en" | "es";
 
 export const LANGS: Lang[] = ["en", "es"];
@@ -46,28 +48,28 @@ export const TRANSLATIONS: Record<string, Entry> = {
     en: "Secure design and adversarial evaluation of LLMs, RAG pipelines, and AI agents.",
     es: "Diseño seguro y evaluación adversarial de LLMs, sistemas RAG y agentes de IA.",
   },
-  "hero.cta.work": { en: "View Work", es: "Ver Proyectos" },
+  "hero.cta.work": { en: "View Work", es: "Ver trabajo" },
   "hero.cta.contact": { en: "Contact", es: "Contacto" },
   "hero.scroll": { en: "scroll", es: "scroll" },
-  "hero.badge.bbva": { en: "BBVA Technology", es: "BBVA Technology" },
+  "hero.badge.enterprise": { en: "Enterprise AI", es: "IA empresarial" },
   "hero.badge.redteaming.scope": { en: "LLM · RAG · Agents", es: "LLM · RAG · Agentes" },
   "hero.badge.kaggle": { en: "Kaggle Master", es: "Kaggle Master" },
-  "hero.badge.htb": { en: "HackTheBox Top 800", es: "HackTheBox Top 800" },
+  "hero.badge.htb": htbRanking.title,
   "hero.card.rarity": { en: "Rare Card", es: "Carta Rara" },
 
   // ==================== ABOUT ====================
   "about.title": { en: "About", es: "Sobre mi" },
   "about.p1.prefix": {
-    en: "I build and break AI systems for one of Europe's largest banks. ",
-    es: "Construyo y rompo sistemas de IA para uno de los mayores bancos de Europa. ",
+    en: "I contribute to enterprise AI engineering at ERNI / Verisure, with ",
+    es: "Contribuyo a la ingeniería de IA empresarial en ERNI / Verisure, con ",
   },
   "about.p1.strong": {
     en: "+6 years at the intersection of AI Engineering and Offensive Security",
     es: "+6 anos en la interseccion entre AI Engineering y Seguridad Ofensiva",
   },
   "about.p1.suffix": {
-    en: ", specialized in Financial Crime environments: AML, Sanctions Screening, KYC/KYB, and Transaction Monitoring. I evaluate, attack, and fortify Foundation Models, RAG pipelines, and Agentic Systems in regulated banking production.",
-    es: ", especializado en entornos de Financial Crime: AML, Sanctions Screening, KYC/KYB y Transaction Monitoring. Evaluo, ataco y fortifico Foundation Models, pipelines RAG y Agentic Systems en produccion bancaria regulada.",
+    en: ". My focus is secure design and adversarial evaluation of LLMs, RAG pipelines and AI agents. The cases below describe engineering contributions with dated milestones and explicit validation boundaries.",
+    es: ". Mi foco es el diseño seguro y la evaluación adversarial de LLMs, sistemas RAG y agentes de IA. Los casos siguientes describen contribuciones de ingeniería con hitos fechados y límites de validación explícitos.",
   },
   "about.p2": {
     en: "From the math behind the Transformer to the attack surface of the autonomous agent -- first-principles thinking applied to making AI systems secure by design.",
@@ -78,8 +80,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
     es: "Anos construyendo sistemas de IA",
   },
   "about.metric.htb": {
-    en: "HackTheBox global rank",
-    es: "Rank global HackTheBox",
+    en: `Hack The Box worldwide · ${htbRanking.period.en}`,
+    es: `Hack The Box mundial · ${htbRanking.period.es}`,
   },
   "about.metric.throughput": {
     en: "Images/hour real-time CV",
@@ -92,11 +94,8 @@ export const TRANSLATIONS: Record<string, Entry> = {
     en: "Top-tier competitive ML",
     es: "ML competitivo de elite",
   },
-  "ach.htb.title": { en: "HackTheBox Top 800", es: "HackTheBox Top 800" },
-  "ach.htb.sub": {
-    en: "Global cybersecurity ranking",
-    es: "Ranking global de ciberseguridad",
-  },
+  "ach.htb.title": htbRanking.title,
+  "ach.htb.sub": htbRanking.subtitle,
   "ach.hackaboss.title": {
     en: "2nd Place Hack a Boss",
     es: "2o Puesto Hack a Boss",
@@ -114,6 +113,13 @@ export const TRANSLATIONS: Record<string, Entry> = {
   },
 
   // ==================== SECTION TITLES & SUBTITLES ====================
+  "securityWork.title": { en: "AI Security in practice", es: "Seguridad de IA en la práctica" },
+  "securityWork.subtitle": {
+    en: "AI Security Architecture · AI Red Teaming — engineering contributions at ERNI / Verisure.",
+    es: "AI Security Architecture · AI Red Teaming — contribuciones de ingeniería en ERNI / Verisure.",
+  },
+  "securityWork.milestone": { en: "Milestone", es: "Hito" },
+  "securityWork.boundary": { en: "Validation boundary", es: "Límite de validación" },
   "experience.title": { en: "Experience", es: "Experiencia" },
   "experience.subtitle": {
     en: "From data pipelines to AI security architecture",
@@ -153,6 +159,7 @@ export const TRANSLATIONS: Record<string, Entry> = {
 
   "education.title": { en: "Education", es: "Educacion" },
   "education.certs": { en: "Certifications", es: "Certificaciones" },
+  "education.cert.completed": { en: "Certification completed", es: "Certificación completada" },
 
   "github.title": { en: "GitHub Activity", es: "Actividad GitHub" },
   "github.subtitle": {

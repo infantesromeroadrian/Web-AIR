@@ -1,6 +1,5 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
-import ScrollReveal from "../components/react/ScrollReveal";
 import { getLangFromUrl, t } from "../i18n/utils";
 
 const uiLang = getLangFromUrl(Astro.url);
@@ -69,7 +68,7 @@ const stats = [
     {repos.length > 0 ? (
       <div class="space-y-8">
         <!-- Stats row -->
-        <ScrollReveal client:visible>
+        <div>
           <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
             {stats.map((s) => (
               <div class="rounded-lg border border-border bg-bg-secondary/50 p-4 text-center">
@@ -78,11 +77,11 @@ const stats = [
               </div>
             ))}
           </div>
-        </ScrollReveal>
+        </div>
 
         <div class="grid gap-8 lg:grid-cols-[1fr_300px]">
           <!-- Recent repos -->
-          <ScrollReveal client:visible delay={0.1}>
+          <div>
             <div>
               <h3 class="mb-4 font-mono text-xs text-text-muted uppercase tracking-wider">
                 <span class="text-accent">$</span> gh repo list --sort updated
@@ -126,10 +125,10 @@ const stats = [
                 {t("github.viewAll", uiLang)}
               </a>
             </div>
-          </ScrollReveal>
+          </div>
 
           <!-- Language breakdown -->
-          <ScrollReveal client:visible delay={0.2}>
+          <div>
             <div>
               <h3 class="mb-4 font-mono text-xs text-text-muted uppercase tracking-wider">
                 {t("github.languages", uiLang)}
@@ -161,7 +160,7 @@ const stats = [
                 </div>
               </div>
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </div>
     ) : (

@@ -15,6 +15,7 @@ import { education, certifications } from "../src/data/education.js";
 import { skills } from "../src/data/skills.js";
 import { achievements } from "../src/data/achievements.js";
 import { ADRIAN_CONTEXT } from "../src/data/chat-context.js";
+import { securityCaseStudies, securityCaseStudyText } from "../src/data/security-case-studies.js";
 
 import {
   tokenize,
@@ -74,6 +75,18 @@ for (const sector of sectors) {
       tags: proj.tags,
     });
   }
+}
+
+// --- Enterprise AI security case studies ---
+for (const study of securityCaseStudies) {
+  chunks.push({
+    id: `project:security-work:${study.id}`,
+    source: "security-case-studies.ts",
+    category: "project",
+    title: study.title.en,
+    text: securityCaseStudyText(study, "en"),
+    tags: study.tags,
+  });
 }
 
 // --- Skill category chunks ---

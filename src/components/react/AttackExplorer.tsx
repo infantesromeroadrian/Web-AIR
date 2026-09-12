@@ -1,8 +1,9 @@
 import { useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import LatentSpaceGlobe from "./LatentSpaceGlobe";
-import NeuralBreach from "./NeuralBreach";
-import PhishingAnalyzer from "./PhishingAnalyzer";
+const LatentSpaceGlobe = lazy(() => import("./LatentSpaceGlobe"));
+const NeuralBreach = lazy(() => import("./NeuralBreach"));
+const PhishingAnalyzer = lazy(() => import("./PhishingAnalyzer"));
+import type { Lang } from "../../i18n/translations";
 
 type Tab = "space" | "breach" | "detect";
 
@@ -109,7 +110,7 @@ const DESCRIPTIONS: Record<Tab, { intro: string; bullets: { num: string; title: 
   },
 };
 
-export default function AttackExplorer() {
+export default function AttackExplorer({ lang = "en" }: { lang?: Lang }) {
   const [active, setActive] = useState<Tab>("space");
   const activeDesc = DESCRIPTIONS[active];
 
@@ -117,19 +118,19 @@ export default function AttackExplorer() {
     <div>
       {/* Tab selector */}
       <div className="mb-8 flex justify-center">
-        <div className="inline-flex rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)]/60 p-1.5 backdrop-blur-sm">
+        <div className="grid w-full grid-cols-3 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-primary)]/60 p-1.5 backdrop-blur-sm">
           {TABS.map((tab) => {
             const isActive = active === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActive(tab.id)}
-                className={`relative flex flex-col items-center rounded-lg px-5 py-2.5 text-center transition-all ${
+                className={`relative flex flex-col items-center rounded-lg min-h-14 min-w-0 px-2 py-2.5 text-center transition-colors ${
                   isActive
                     ? "bg-[var(--color-accent)]/10"
                     : "hover:bg-[var(--color-bg-secondary)]/40"
                 }`}
-                style={{ minWidth: "160px" }}
+                aria-pressed={isActive}
               >
                 <span
                   className={`font-mono text-sm font-semibold ${
@@ -138,9 +139,9 @@ export default function AttackExplorer() {
                       : "text-[var(--color-text-secondary)]"
                   }`}
                 >
-                  {tab.label}
+                  {lang === "es" ? ({ space: "Espacio", breach: "Propagación", detect: "Análisis" })[tab.id] : tab.label}
                 </span>
-                <span className="mt-0.5 font-mono text-[10px] text-[var(--color-text-muted)]">
+                <span className="mt-0.5 hidden sm:block font-mono text-xs text-[var(--color-text-muted)]">
                   {tab.sub}
                 </span>
                 {isActive && (
@@ -183,9 +184,9 @@ export default function AttackExplorer() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-start"
+            className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start"
           >
-            <PhishingAnalyzer />
+            <Suspense fallback={<p role="status">{lang === "es" ? "Cargando…" : "Loading…"}</p>}><PhishingAnalyzer /></Suspense>
             <div className="space-y-6">
               <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
                 {activeDesc.intro}
@@ -216,7 +217,7 @@ export default function AttackExplorer() {
           </motion.div>
         </AnimatePresence>
       ) : (
-        <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -225,7 +226,7 @@ export default function AttackExplorer() {
               exit={{ opacity: 0, x: active === "space" ? 20 : -20 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
-              {active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}
+              <Suspense fallback={<p role="status">{lang === "es" ? "Cargando…" : "Loading…"}</p>}>{active === "space" ? <LatentSpaceGlobe /> : <NeuralBreach />}</Suspense>
             </motion.div>
           </AnimatePresence>
 

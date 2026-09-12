@@ -30,7 +30,7 @@ const RoadmapHud: FC<Props> = ({
   onImport,
   onPurge,
 }) => (
-  <div className="sticky top-16 z-40 border-b border-border bg-bg-primary/95 px-4 py-3 backdrop-blur-md">
+  <div className="relative z-20 border-b border-border bg-bg-primary/95 px-4 py-3 backdrop-blur-md">
     <div className="mx-auto flex max-w-[1180px] flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
     <div className="flex min-w-0 items-center gap-3">
       <img
@@ -50,14 +50,14 @@ const RoadmapHud: FC<Props> = ({
       </div>
     </div>
 
-    <div className="grid grid-cols-5 gap-2 text-[10px] tracking-wider sm:gap-4 lg:flex lg:gap-5">
+    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 text-[10px] tracking-wider sm:gap-4 lg:flex lg:gap-5">
       <div className="text-center">
         <div className="font-black text-accent-green text-base">{doneCount}</div>
         <div className="text-text-muted">{lang === "es" ? "COMPLETADAS" : "COMPLETE"}</div>
       </div>
       <div className="text-center">
         <div className="font-black text-accent text-base">{progCount}</div>
-        <div className="text-text-muted">IN PROGRESS</div>
+        <div className="text-text-muted">{lang === "es" ? "EN CURSO" : "IN PROGRESS"}</div>
       </div>
       <div className="text-center">
         <div className="font-black text-text-secondary text-base">{pendCount}</div>
@@ -76,22 +76,22 @@ const RoadmapHud: FC<Props> = ({
     <div className="flex gap-1.5">
       <button
         onClick={onExport}
-        className="inline-flex h-8 items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-text-muted transition-colors hover:border-accent hover:text-accent"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-text-muted transition-colors hover:border-accent hover:text-accent"
       >
         <Download aria-hidden="true" size={13} />
-        <span className="hidden sm:inline">{lang === "es" ? "GUARDAR" : "SAVE"}</span>
+        <span >{lang === "es" ? "GUARDAR" : "SAVE"}</span>
       </button>
-      <label className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-text-muted transition-colors hover:border-accent hover:text-accent">
+      <label className="focus-within:outline-2 focus-within:outline-accent inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-text-muted transition-colors hover:border-accent hover:text-accent">
         <Upload aria-hidden="true" size={13} />
-        <span className="hidden sm:inline">{lang === "es" ? "CARGAR" : "LOAD"}</span>
-        <input type="file" accept=".json" className="hidden" onChange={onImport} />
+        <span >{lang === "es" ? "CARGAR" : "LOAD"}</span>
+        <input type="file" accept=".json" className="sr-only" onChange={onImport} />
       </label>
       <button
         onClick={onPurge}
-        className="inline-flex h-8 items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-accent-red transition-colors hover:border-accent-red/50 hover:text-red-300"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded border border-border bg-bg-secondary px-2 text-[10px] tracking-wider text-accent-red transition-colors hover:border-accent-red/50 hover:text-red-300"
       >
         <RotateCcw aria-hidden="true" size={13} />
-        <span className="hidden sm:inline">{lang === "es" ? "RESET" : "RESET"}</span>
+        <span >{lang === "es" ? "RESET" : "RESET"}</span>
       </button>
     </div>
     </div>

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useEffect, useRef, type FC } from "react";
 import type { AppState, RoadmapNode } from "./types";
 import { cSt, iSt, tSt } from "./state";
 
@@ -23,6 +23,13 @@ const MissionBriefingModal: FC<Props> = ({
   onToggleItem,
   onToggleCycle,
 }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const previous = document.activeElement;
+    const dialog = dialogRef.current;
+    dialog?.showModal();
+    return () => { dialog?.close(); if (previous instanceof HTMLElement) previous.focus(); };
+  }, []);
   const status = tSt(state, node.pi, node.ti, node);
   const dotCls =
     status === "done" ? "bg-accent-green" : status === "prog" ? "bg-accent" : "bg-text-muted";
@@ -30,19 +37,16 @@ const MissionBriefingModal: FC<Props> = ({
   const showHandlerNote = node.items.some((i) => /ejercicio|proyecto|explicar/i.test(i));
 
   return (
-    <div
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+    <dialog ref={dialogRef} className="tool-dialog roadmap-briefing" aria-labelledby="briefing-title" onCancel={onClose}>
+
       <div
-        className="bg-bg-primary border border-border rounded-lg max-w-lg w-full max-h-[80vh] overflow-y-auto relative"
+        className="bg-bg-primary w-full relative"
         onClick={(e) => e.stopPropagation()}
-        style={{ animation: "slideUp .25s ease" }}
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
           <div className="text-[10px] font-bold tracking-[4px] text-accent">ROADMAP ITEM</div>
           <button
-            className="text-text-muted hover:text-text-primary text-lg leading-none"
+            className="action text-text-muted hover:text-text-primary text-lg leading-none"
             onClick={onClose}
             aria-label="Close briefing"
           >
@@ -53,7 +57,7 @@ const MissionBriefingModal: FC<Props> = ({
         <div className="p-5">
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-sm ${dotCls}`} />
-            <span className="text-lg font-bold tracking-tight">
+            <span id="briefing-title" className="text-lg font-bold tracking-tight">
               {node.phId} // {node.name}
             </span>
           </div>
@@ -92,7 +96,7 @@ const MissionBriefingModal: FC<Props> = ({
                 key={i}
                 onClick={() => onToggleCycle(node.pi, node.ti, i)}
                 title={CYCLE_TIP[i]}
-                className={`w-8 h-6 rounded text-[9px] font-bold flex items-center justify-center transition-all hover:scale-110 border ${
+                className={`min-w-11 min-h-11 rounded text-[9px] font-bold flex items-center justify-center transition-colors border ${
                   c[i] ? `${CYCLE_CLS[i]} text-white border-transparent` : "bg-bg-tertiary text-text-muted border-border"
                 }`}
               >
@@ -106,10 +110,11 @@ const MissionBriefingModal: FC<Props> = ({
             {node.items.map((item, i) => {
               const v = iSt(state, node.pi, node.ti, i);
               return (
-                <div
+                <button
+                  type="button"
                   key={i}
                   onClick={() => onToggleItem(node.pi, node.ti, i)}
-                  className="flex items-start gap-2 px-1.5 py-1 rounded cursor-pointer hover:bg-white/[.03] transition-colors select-none group"
+                  className="w-full min-h-11 text-left flex items-start gap-2 px-1.5 py-2 rounded cursor-pointer hover:bg-white/[.03] transition-colors select-none group"
                 >
                   <span className={`w-4 text-center text-sm shrink-0 ${ICON_CLS[v]} group-hover:opacity-70`}>
                     {ICONS[v]}
@@ -121,7 +126,7 @@ const MissionBriefingModal: FC<Props> = ({
                   >
                     {item}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -137,7 +142,7 @@ const MissionBriefingModal: FC<Props> = ({
           )}
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

@@ -20,7 +20,10 @@ export const education: Education[] = [
   },
 ];
 
+export const COAE_CERTIFICATION = "HTB Certified Offensive AI Expert (COAE)";
+
 export const certifications: string[] = [
+  COAE_CERTIFICATION,
   "AI-102: Azure AI Solution Design",
   "LangChain for LLM Application Development",
   "Certificate AI Engineer Track",

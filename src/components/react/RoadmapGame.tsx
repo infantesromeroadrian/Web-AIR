@@ -28,11 +28,7 @@ import {
 import type { AppState, Lang, TierLabel, TierStat } from "./roadmap/types";
 
 const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
-  const [state, setState] = useState<AppState>(() => {
-    if (!isClient) return emptyState();
-    seedIfEmpty();
-    return getState();
-  });
+  const [state, setState] = useState<AppState>(emptyState);
   const [modalIdx, setModalIdx] = useState<number | null>(null);
 
   const nodes = useMemo(() => flattenNodes(), []);
@@ -194,7 +190,7 @@ const RoadmapGame: FC<{ lang: Lang }> = ({ lang }) => {
   const modalNode = modalIdx !== null ? nodes[modalIdx] : null;
 
   return (
-    <div className="relative font-mono" style={{ fontSize: "103%" }}>
+    <div className="roadmap-page relative font-mono" style={{ fontSize: "103%" }}>
       <div className="relative h-52 overflow-hidden">
         <img
           src="/roadmap/roadmap-header.png"

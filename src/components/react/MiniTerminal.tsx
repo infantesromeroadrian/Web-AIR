@@ -1,5 +1,8 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import type { Lang } from "../../i18n/translations";
+import { securityCaseStudies, securityCaseStudyText } from "../../data/security-case-studies";
+import { htbRanking } from "../../data/achievements";
+import { COAE_CERTIFICATION } from "../../data/education";
 
 interface TerminalLine {
   type: "input" | "output";
@@ -12,6 +15,8 @@ const COMMANDS: Record<string, string> = {
   skills    - Core technical skills
   exp       - Work experience summary
   projects  - Featured projects
+  security  - Enterprise AI security case studies
+  htb       - Hack The Box ranking and certification
   contact   - Get in touch
   kaggle    - Kaggle profile
   languages - Spoken languages
@@ -20,12 +25,19 @@ const COMMANDS: Record<string, string> = {
 
   about: `Adrian Infantes — AI Security Engineer
 
-I build and break AI systems for one of Europe's
-largest banks. +6 years at the intersection of
+I contribute to enterprise AI engineering at
+ERNI / Verisure. +6 years at the intersection of
 AI Engineering × Offensive Security.
 
-Specialized in Financial Crime: AML, Sanctions,
-KYC/KYB, Transaction Monitoring.`,
+Secure design and adversarial evaluation of LLMs,
+RAG pipelines and AI agents.
+
+${htbRanking.title.en} — ${htbRanking.subtitle.en}
+${COAE_CERTIFICATION} — completed.`,
+
+  security: securityCaseStudies.map((study) => securityCaseStudyText(study, "en")).join("\n\n"),
+
+  htb: `${htbRanking.title.en} — ${htbRanking.subtitle.en}\n${COAE_CERTIFICATION} — completed.`,
 
   skills: `Core Stack:
   Security : MITRE ATLAS, OWASP LLMs, PyRIT, Garak
@@ -81,197 +93,49 @@ Italian  : Full Professional
 Chinese  : Limited Working`,
 };
 
-export default function MiniTerminal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [lines, setLines] = useState<TerminalLine[]>([
-    { type: "output", text: 'Welcome to AIR Terminal v1.0\nType "help" for available commands.' },
-  ]);
+export default function MiniTerminal({ lang = "en", onClose = () => {} }: { lang?: Lang; onClose?: () => void }) {
+  const es = lang === "es";
+  const [lines, setLines] = useState<TerminalLine[]>([{ type: "output", text: es ? 'Terminal AIR. Escribe "help" para ver los comandos.' : 'AIR Terminal. Type "help" for available commands.' }]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight; }, [lines]);
 
-  const scrollToBottom = useCallback(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, []);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [lines, scrollToBottom]);
-
-  useEffect(() => {
-    if (isOpen) {
-      inputRef.current?.focus();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        e.preventDefault();
-        setIsOpen((prev) => !prev);
-      }
-      if (e.key === "Escape" && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
-
-  const executeCommand = (cmd: string) => {
-    const trimmed = cmd.trim().toLowerCase();
-    const newLines: TerminalLine[] = [
-      ...lines,
-      { type: "input", text: cmd },
-    ];
-
-    if (trimmed === "clear") {
-      setLines([]);
-      setInput("");
-      return;
-    }
-
-    if (trimmed === "exit") {
-      setIsOpen(false);
-      setInput("");
-      return;
-    }
-
-    if (trimmed === "") {
-      setLines(newLines);
-      setInput("");
-      return;
-    }
-
-    const output = COMMANDS[trimmed];
-    if (output) {
-      newLines.push({ type: "output", text: output });
-    } else {
-      newLines.push({
-        type: "output",
-        text: `Command not found: ${trimmed}\nType "help" for available commands.`,
-      });
-    }
-
-    setLines(newLines);
-    setHistory((prev) => [cmd, ...prev]);
-    setHistoryIndex(-1);
+  const executeCommand = (command: string) => {
+    const trimmed = command.trim().toLowerCase();
     setInput("");
+    setHistoryIndex(-1);
+    if (trimmed === "clear") { setLines([]); return; }
+    if (trimmed === "exit") { onClose(); return; }
+    if (!trimmed) return;
+    const output = trimmed === "security"
+      ? securityCaseStudies.map((study) => securityCaseStudyText(study, lang)).join("\n\n")
+      : trimmed === "htb"
+        ? `${htbRanking.title[lang]} — ${htbRanking.subtitle[lang]}\n${COAE_CERTIFICATION} — ${es ? "completada" : "completed"}.`
+        : COMMANDS[trimmed];
+    setLines((current) => [...current, { type: "input", text: command }, { type: "output", text: output || (es ? `Comando desconocido: ${trimmed}. Escribe "help".` : `Command not found: ${trimmed}. Type "help".`) }]);
+    setHistory((current) => [command, ...current]);
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      executeCommand(input);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (historyIndex < history.length - 1) {
-        const newIndex = historyIndex + 1;
-        setHistoryIndex(newIndex);
-        setInput(history[newIndex]);
-      }
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (historyIndex > 0) {
-        const newIndex = historyIndex - 1;
-        setHistoryIndex(newIndex);
-        setInput(history[newIndex]);
-      } else {
-        setHistoryIndex(-1);
-        setInput("");
-      }
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") { event.preventDefault(); executeCommand(input); }
+    else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      const next = Math.min(historyIndex + 1, history.length - 1);
+      setHistoryIndex(next);
+      if (next >= 0) setInput(history[next]);
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      const next = Math.max(-1, historyIndex - 1);
+      setHistoryIndex(next);
+      setInput(next < 0 ? "" : history[next]);
     }
   };
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
-            onClick={() => setIsOpen(false)}
-          />
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed left-1/2 top-[10%] z-50 w-[calc(100%-2rem)] max-w-2xl -translate-x-1/2 overflow-hidden rounded-xl border border-[var(--color-border)] shadow-2xl shadow-black/50"
-          >
-            {/* Title bar */}
-            <div className="flex items-center justify-between bg-[var(--color-bg-tertiary)] px-4 py-2.5">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="h-3 w-3 rounded-full bg-red-500/80 transition-colors hover:bg-red-500"
-                    aria-label="Close terminal"
-                  />
-                  <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
-                  <div className="h-3 w-3 rounded-full bg-green-500/80" />
-                </div>
-                <span className="ml-2 font-mono text-xs text-[var(--color-text-muted)]">
-                  air@portfolio ~ %
-                </span>
-              </div>
-              <span className="font-mono text-xs text-[var(--color-text-muted)]">
-                ESC to close
-              </span>
-            </div>
-
-            {/* Terminal body */}
-            <div
-              ref={scrollRef}
-              className="h-[400px] overflow-y-auto bg-[var(--color-bg-primary)] p-4 font-mono text-sm"
-              onClick={() => inputRef.current?.focus()}
-            >
-              {lines.map((line, i) => (
-                <div key={i} className="mb-1">
-                  {line.type === "input" ? (
-                    <div>
-                      <span className="text-[var(--color-accent-green)]">
-                        &gt;{" "}
-                      </span>
-                      <span className="text-[var(--color-text-primary)]">
-                        {line.text}
-                      </span>
-                    </div>
-                  ) : (
-                    <pre className="whitespace-pre-wrap text-[var(--color-text-secondary)]">
-                      {line.text}
-                    </pre>
-                  )}
-                </div>
-              ))}
-
-              {/* Input line */}
-              <div className="flex items-center">
-                <span className="text-[var(--color-accent-green)]">
-                  &gt;{" "}
-                </span>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  className="flex-1 border-none bg-transparent text-[var(--color-text-primary)] outline-none caret-[var(--color-accent)]"
-                  spellCheck={false}
-                  autoComplete="off"
-                  aria-label="Terminal input"
-                />
-              </div>
-            </div>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
-  );
+  return <div className="dialog-body">
+    <div ref={scrollRef} className="terminal-output" role="log" aria-live="polite" aria-label={es ? "Salida del terminal" : "Terminal output"}>
+      {lines.map((line, index) => <pre key={index} className={line.type === "input" ? "text-accent" : ""}>{line.type === "input" ? `$ ${line.text}` : line.text}</pre>)}
+    </div>
+    <label className="block font-mono text-sm mt-4" htmlFor="terminal-command">{es ? "Comando" : "Command"}</label>
+    <input id="terminal-command" className="terminal-input" autoComplete="off" spellCheck={false} value={input} onChange={(event) => setInput(event.target.value)} onKeyDown={handleKeyDown} />
+  </div>;
 }

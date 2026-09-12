@@ -1,5 +1,4 @@
 ---
-import ScrollReveal from "../components/react/ScrollReveal";
 import { getLangFromUrl, t } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -30,18 +29,18 @@ const pillars = [
 <!-- Self-hosted openclaw fonts (CSP-compliant via Web-AIR vercel.json) -->
 <link rel="stylesheet" href="/fonts/openclaw.css" />
 
-<section id="arca" class="ares-section">
+<section id="arca-system" class="ares-section">
   <div class="ares-aurora" aria-hidden="true"></div>
 
   <div class="ares-inner">
     <div class="ares-hero-grid">
       <div>
-        <ScrollReveal client:visible>
+        <div>
           <p class="ares-eyebrow">
             <span class="ares-mark">&#10217;</span>
             {t("arca.pretitle", lang)}
           </p>
-        </ScrollReveal>
+        </div>
 
         <div class="ares-wordmark-row">
           <span class="ares-wordmark">A.R.C.A</span>
@@ -49,24 +48,24 @@ const pillars = [
 
         <h2 class="ares-title" set:html={highlightBrand(t("arca.title", lang))}></h2>
 
-        <ScrollReveal client:visible delay={0.1}>
+        <div>
           <p class="ares-tagline">{t("arca.tagline", lang)}</p>
-        </ScrollReveal>
+        </div>
 
-        <ScrollReveal client:visible delay={0.15}>
+        <div>
           <p
             class="ares-intro"
             set:html={highlightBrand(t("arca.intro", lang))}
           ></p>
-        </ScrollReveal>
+        </div>
       </div>
 
       <!-- A.R.C.A samurai chibi (animated) — H.264 MP4 with PNG poster for fast LCP.
            GIF kept as legacy fallback. 4.5MB GIF → 205KB MP4 (96% smaller). -->
       <div class="ares-portrait-wrap">
         <video
-          autoplay
-          loop
+          controls
+          preload="none"
           muted
           playsinline
           poster="/arca-hero.png"
@@ -83,7 +82,7 @@ const pillars = [
       </div>
     </div>
 
-    <ScrollReveal client:visible delay={0.2}>
+    <div>
       <div class="ares-metrics">
         {
           metrics.map((m) => (
@@ -94,23 +93,23 @@ const pillars = [
           ))
         }
       </div>
-    </ScrollReveal>
+    </div>
 
     <div class="ares-pillars">
       {
         pillars.map((p, i) => (
-          <ScrollReveal client:visible delay={0.25 + i * 0.05}>
+          <div>
             <div class="ares-pillar-card">
               <div class="ares-pillar-index">{String(i + 1).padStart(2, "0")}</div>
               <h3 class="ares-pillar-title">{p.title}</h3>
               <p class="ares-pillar-body">{p.body}</p>
             </div>
-          </ScrollReveal>
+          </div>
         ))
       }
     </div>
 
-    <ScrollReveal client:visible delay={0.4}>
+    <div>
       <div class="ares-ctas">
         <a
           class="ares-cta ares-cta-primary"
@@ -131,7 +130,7 @@ const pillars = [
           <span aria-hidden="true" class="ares-arrow">-&gt;</span>
         </a>
       </div>
-    </ScrollReveal>
+    </div>
   </div>
 </section>
 
@@ -144,8 +143,8 @@ const pillars = [
     --ares-surface: #0f1c3a;
     --ares-border: #1e3a6e;
     --ares-fg: #e0ecff;
-    --ares-fg-muted: rgba(224, 236, 255, 0.62);
-    --ares-fg-faint: rgba(224, 236, 255, 0.36);
+    --ares-fg-muted: rgba(224, 236, 255, 0.82);
+    --ares-fg-faint: rgba(224, 236, 255, 0.72);
     --ares-magenta: #2563eb;
     --ares-fuchsia: #3b82f6;
     --ares-blush: #93c5fd;
@@ -193,7 +192,7 @@ const pillars = [
 
   @media (min-width: 1024px) {
     .ares-hero-grid {
-      grid-template-columns: 1fr auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
       gap: 3.5rem;
     }
   }
@@ -300,7 +299,7 @@ const pillars = [
 
   .ares-portrait-glow {
     position: absolute;
-    inset: -20%;
+    inset: 0;
     z-index: -1;
     background: radial-gradient(
       ellipse at center,

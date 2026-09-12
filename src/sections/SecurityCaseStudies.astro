@@ -1,0 +1,53 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import { SECURITY_WORK_ORGANIZATION, securityCaseStudies } from "../data/security-case-studies";
+import { getLangFromUrl, t } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<section id="security-work" class="content-section" aria-labelledby="security-work-heading">
+  <div class="content-wrap">
+    <SectionTitle
+      id="security-work-heading"
+      title={t("securityWork.title", lang)}
+      subtitle={t("securityWork.subtitle", lang)}
+    />
+
+    <div class="case-grid">
+      {securityCaseStudies.map((study) => (
+        <article class="case-card" aria-labelledby={`${study.id}-title`}>
+          <p class="font-mono text-xs tracking-wide text-accent">{SECURITY_WORK_ORGANIZATION}</p>
+          <h3 id={`${study.id}-title`} class="mt-3 text-xl font-bold leading-snug text-text-primary sm:text-2xl">
+            {study.title[lang]}
+          </h3>
+          <p class="mt-4 text-base leading-relaxed text-text-secondary">{study.contribution[lang]}</p>
+          <ul class="mt-4 space-y-2 text-sm text-text-secondary">
+            {study.controls[lang].map((control) => (
+              <li class="flex items-start gap-2">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true"></span>
+                <span>{control}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-6 border-t border-border pt-5">
+            <p class="font-mono text-xs text-text-muted">
+              {t("securityWork.milestone", lang)} · <time datetime={study.milestoneDate}>{study.milestoneLabel[lang]}</time>
+            </p>
+            <ul class="mt-3 space-y-2 text-sm font-medium text-text-primary">
+              {study.outcomes[lang].map((outcome) => <li>{outcome}</li>)}
+            </ul>
+          </div>
+
+          <div class="mt-auto pt-6">
+            <div class="rounded-lg border border-border bg-bg-secondary/50 p-4">
+              <p class="text-sm font-semibold text-accent">{t("securityWork.boundary", lang)}</p>
+              <p class="mt-2 text-base leading-relaxed text-text-secondary">{study.boundary[lang]}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

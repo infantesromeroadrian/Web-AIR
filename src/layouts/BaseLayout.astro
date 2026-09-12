@@ -3,6 +3,7 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import { SITE } from "../lib/constants";
 import AnalyticsBeacon from "../components/astro/AnalyticsBeacon.astro";
+import ToolDock from "../components/react/ToolDock";
 import { getLangFromUrl, alternateLang, canonicalFor, t } from "../i18n/utils";
 
 interface Props {
@@ -66,9 +67,10 @@ const alternateURL = canonicalFor(Astro.url, otherLang, SITE.url);
   </head>
   <body class="bg-bg-primary text-text-primary">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-accent focus:px-4 focus:py-2 focus:text-bg-primary focus:font-semibold">
-      Skip to content
+      {lang === "es" ? "Saltar al contenido" : "Skip to content"}
     </a>
     <slot />
+    <ToolDock client:idle lang={lang} />
     <AnalyticsBeacon />
   </body>
 </html>

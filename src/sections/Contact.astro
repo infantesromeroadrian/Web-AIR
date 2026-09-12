@@ -1,6 +1,4 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
-import ScrollReveal from "../components/react/ScrollReveal";
 import ContactForm from "../components/react/ContactForm";
 import { SOCIAL_LINKS, SITE } from "../lib/constants";
 import { getLangFromUrl, t } from "../i18n/utils";
@@ -28,48 +26,7 @@ const labels = {
   errorMessage: t("contact.form.error.message", lang),
 };
 ---
-
-<section id="contact" class="bg-bg-secondary/30 px-6 py-24">
-  <div class="mx-auto max-w-[var(--max-w-content)]">
-    <div class="text-center">
-      <SectionTitle title={t("contact.title", lang)} center />
-
-      <ScrollReveal client:visible>
-        <p class="mx-auto max-w-xl text-lg text-text-secondary">
-          {t("contact.subtitle", lang)}
-        </p>
-      </ScrollReveal>
-    </div>
-
-    <ScrollReveal client:visible delay={0.1}>
-      <div class="mt-12">
-        <ContactForm client:visible labels={labels} />
-      </div>
-    </ScrollReveal>
-
-    <ScrollReveal client:visible delay={0.2}>
-      <div class="mt-12 text-center">
-        <div class="mb-4 flex items-center justify-center gap-3 text-xs text-text-muted">
-          <span class="h-px w-8 bg-border"></span>
-          <span class="font-mono uppercase tracking-wider">{t("contact.or", lang)}</span>
-          <span class="h-px w-8 bg-border"></span>
-        </div>
-
-        <div class="flex items-center justify-center gap-6">
-          {SOCIAL_LINKS.map((link) => (
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-sm text-text-muted transition-colors duration-200 hover:text-accent"
-            >
-              {link.name}
-            </a>
-          ))}
-        </div>
-
-        <p class="mt-6 text-xs text-text-muted/60">{SITE.location}</p>
-      </div>
-    </ScrollReveal>
-  </div>
-</section>
+<section id="contact" class="content-section"><div class="content-wrap contact-grid">
+  <div class="contact-intro"><h2>{t("contact.title", lang)}</h2><p>{t("contact.subtitle", lang)}</p><div class="contact-links">{SOCIAL_LINKS.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name} ↗</a>)}</div><p class="text-sm">{SITE.location}</p></div>
+  <div><ContactForm client:visible labels={labels} /></div>
+</div></section>

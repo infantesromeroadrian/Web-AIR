@@ -37,11 +37,11 @@
 
 | Layer | Tech | Version | Justificacion |
 |-------|------|---------|---------------|
-| **Framework** | Astro | 5.x | Zero JS by default, islands architecture, SSG, SEO nativo. Un portfolio es contenido estatico con toques interactivos -- Astro nacio para esto |
-| **UI Islands** | React | 19.x | Solo para componentes interactivos (hero animation, project carousel, skill visualization). El 80% de la pagina es Astro puro (0 JS) |
-| **Styling** | Tailwind CSS | 4.x | Utility-first, dark mode nativo, responsive sin media queries manuales, purge agresivo |
-| **Animations** | Framer Motion | 12.x | Scroll-triggered animations, mount/unmount transitions, gesture support. Solo en React islands |
-| **3D/Visual** | Three.js + R3F | latest | SOLO para hero background (network/particle visualization). Lazy-loaded, con fallback estatico en mobile |
+| **Framework** | Astro | 6.x | Zero JS by default, islands architecture, SSG, SEO nativo. Un portfolio es contenido estatico con toques interactivos -- Astro nacio para esto |
+| **UI Islands** | React | 19.x | Filtros de proyectos, formulario y dock en home; demostraciones y roadmap en sus rutas. Las secciones informativas se renderizan con Astro |
+| **Styling** | Tailwind CSS | 4.x | Utilidades junto al sistema visual de global.css, diseño oscuro y breakpoints responsive |
+| **Animations** | Framer Motion | 12.x | Transiciones de las demostraciones existentes, cargadas al abrirlas en el laboratorio |
+| **3D/Visual** | Three.js + R3F | latest | Visualizaciones del laboratorio importadas al abrir la demostración. El Hero usa SVG/CSS, sin Three.js |
 | **Icons** | Lucide React | latest | Iconos SVG tree-shakeable, consistentes, ligeros |
 | **Language** | TypeScript | 5.x | Type safety en componentes, content collections tipadas |
 | **Deploy** | Vercel | -- | Edge network global, preview deploys, analytics integrado, dominio custom |
@@ -61,44 +61,30 @@
 
 ## 3. Architecture
 
-### 3.1 Islands Architecture (Astro)
+### 3.1 Composición vigente del frontend
 
-```
-Page (Astro - 0 JS)
-|-- Header (Astro - static)
-|-- HeroSection (React Island - client:visible)
-|   |-- ParticleNetwork (Three.js - lazy loaded)
-|   |-- TypewriterText (Framer Motion)
-|-- AboutSection (Astro - static)
-|-- ExperienceTimeline (React Island - client:visible)
-|   |-- TimelineNode (Framer Motion - scroll animated)
-|-- ProjectsShowcase (React Island - client:visible)
-|   |-- ProjectCard (video + hover interactions)
-|-- SkillsVisualization (React Island - client:visible)
-|   |-- SkillCategory (animated counters)
-|-- AchievementsBar (Astro - static with CSS animations)
-|-- ContactSection (Astro - static links)
-|-- Footer (Astro - static)
-```
+Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos ERNI / Verisure → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Los textos profesionales y sus límites permanecen en los datos públicos existentes.
 
-**Regla:** Si un componente no necesita JavaScript interactivo, es Astro puro. React solo donde hay state, gestures, o animaciones complejas.
+El Hero usa SVG/CSS conceptual, sin telemetría. El movimiento se activa y pausa expresamente; móvil y `prefers-reduced-motion` permanecen estáticos. Las secciones informativas son Astro; el catálogo incluye proyectos desde SSR.
 
-### 3.2 Hydration Strategy
+### 3.2 Hidratación y carga
 
-| Componente | Directiva | Razon |
-|------------|-----------|-------|
-| HeroSection | `client:load` | Above the fold, visible inmediatamente |
-| ExperienceTimeline | `client:visible` | Hydrata solo cuando el usuario hace scroll hasta alli |
-| ProjectsShowcase | `client:visible` | Videos no se cargan hasta que son visibles |
-| SkillsVisualization | `client:visible` | Animaciones de contadores al entrar en viewport |
+| Componente | Directiva | Comportamiento |
+|------------|-----------|----------------|
+| SectorTabs | `client:visible` | HTML inicial con selección de proyectos; añade filtros |
+| ContactForm | `client:visible` | Conserva el contrato de envío existente |
+| ToolDock | `client:idle` | Importa AIChat o MiniTerminal al abrir; diálogos nativos |
+| LabModule | `client:visible`, solo laboratorio | Importa cada demostración tras pulsar Abrir; cerrar desmonta la demo |
 
-### 3.3 Single Page Layout
+La home tiene tres islas React. Ningún módulo 3D, partículas, cursor ni animación de escritura se monta allí. El laboratorio conserva las demostraciones expuestas previamente; no activa secciones dormidas. ARCA y GitHub usan contenido estático plegable; el vídeo de ARCA tiene controles y `preload="none"`.
 
-Una sola pagina con smooth scroll entre secciones. No multi-page. Razones:
-- Reclutadores no navegan -- hacen scroll
-- Reduce complejidad de routing
-- Mejor performance percibida
-- Anclas para deep-linking (#projects, #experience, etc.)
+### 3.3 Rutas y estado
+
+`/` y `/es/` comparten composición. `/lab/` y `/es/lab/` comparten laboratorio. Fichas y roadmap conservan sus rutas; el Header dirige las anclas a la home localizada desde otras páginas. Los listeners del Header y del SVG se limpian antes de los intercambios de ClientRouter.
+
+El roadmap conserva claves, valores, índices y checklists. Su estado inicial es determinista en SSR e hidratación; el efecto existente recupera la persistencia local. Las APIs, proveedores y contratos de envío quedan fuera de esta revisión de presentación.
+
+Las descripciones detalladas de la sección 4 documentan el diseño anterior. Para composición, carga y controles actuales prevalecen esta sección y el código.
 
 ---
 
@@ -390,21 +376,21 @@ Una sola pagina con smooth scroll entre secciones. No multi-page. Razones:
 
 ```
 --bg-primary:     #0a0a0f    (casi negro, tinte azul)
---bg-secondary:   #12121a    (cards, sections alternas)
---bg-tertiary:    #1a1a2e    (hover states)
+--bg-secondary:   #121a24    (cards, sections alternas)
+--bg-tertiary:    #1a2735    (hover states)
 
---text-primary:   #e4e4e7    (texto principal - zinc-200)
---text-secondary: #a1a1aa    (texto secundario - zinc-400)
---text-muted:     #71717a    (texto terciario - zinc-500)
+--text-primary:   #eaf4fa    (texto principal)
+--text-secondary: #b8c5d1    (texto secundario)
+--text-muted:     #aab8c5    (texto terciario)
 
---accent-primary: #06b6d4    (cyan-500 - CTA, links, highlights)
---accent-glow:    #22d3ee    (cyan-400 - hover glow)
---accent-green:   #10b981    (emerald-500 - success, badges)
---accent-red:     #ef4444    (red-500 - security/alert accents)
---accent-amber:   #f59e0b    (amber-500 - warnings, highlights)
+--accent-primary: #22d3ee    (cian - CTA, links, highlights)
+--accent-glow:    #67e8f9    (cian claro - hover)
+--accent-green:   #6ee7b7    (verde claro - success, badges)
+--accent-red:     #fda4af    (rosa claro - security/alert accents)
+--accent-amber:   #fcd34d    (ámbar claro - warnings, highlights)
 
---border:         #27272a    (zinc-800 - borders sutiles)
---border-hover:   #3f3f46    (zinc-700 - hover borders)
+--border:         #293647    (bordes sutiles)
+--border-hover:   #597287    (bordes activos)
 ```
 
 **Estetica:** Dark mode obligatorio. Cybersecurity meets clean tech. No neon exagerado -- profesional con personalidad. El cyan como color de acento principal evoca terminales, seguridad, tecnologia.
@@ -412,7 +398,7 @@ Una sola pagina con smooth scroll entre secciones. No multi-page. Razones:
 ### 5.2 Typography
 
 ```
---font-heading:   "Inter", system-ui, sans-serif    (clean, professional)
+--font-heading:   "Clash Display", sans-serif       (local, 600/700)
 --font-body:      "Inter", system-ui, sans-serif    (consistencia)
 --font-mono:      "JetBrains Mono", monospace       (code snippets, terminal effects)
 
@@ -444,24 +430,20 @@ xl:  1280px  (wide desktop)
 
 - Mobile-first: base styles son mobile
 - Grid: 1 col (mobile) -> 2 col (tablet) -> 3 col (desktop)
-- Hero: full viewport height en todos los breakpoints
-- Timeline: vertical siempre, cards se comprimen en mobile
+- Hero: altura según contenido, dos columnas en escritorio y una en móvil
+- Trayectoria: filas con fechas y contenido; una columna en móvil
 
 ### 5.5 Animations
 
 | Elemento | Animacion | Trigger |
 |----------|-----------|---------|
-| Hero text | Typewriter + fade in | Page load |
-| Particle network | Continuous subtle motion | Page load (desktop only) |
-| Section titles | Slide up + fade in | Scroll into view |
-| Timeline nodes | Scale in + fade | Scroll into view (staggered) |
-| Project cards | Slide up + fade | Scroll into view (staggered) |
-| Metric counters | Count up from 0 | Scroll into view |
-| Skill tags | Fade in (staggered) | Scroll into view |
-| Video previews | Scale on hover | Mouse hover |
-| Nav links | Underline slide | Mouse hover |
+| Hero SVG | Flujo conceptual contenido | Activación explícita, con pausa; estático en móvil |
+| Particle network, cursor y typewriter | Experimentos gráficos existentes | Activación y pausa en el laboratorio |
+| Secciones, tarjetas y métricas | Contenido estático | Visible desde SSR |
+| Vídeos de proyectos | Reproducción con controles nativos | Clic para montar el vídeo |
+| Navegación y botones | Cambio de color y borde | Hover; foco visible sin animación |
 
-**Regla:** `prefers-reduced-motion: reduce` desactiva todas las animaciones excepto fade. Accesibilidad no es opcional.
+**Regla:** `prefers-reduced-motion: reduce` desactiva animaciones y transiciones. El SVG y los efectos del laboratorio permanecen estáticos con esta preferencia.
 
 ---
 
@@ -483,20 +465,20 @@ xl:  1280px  (wide desktop)
 ### 6.2 Tactics
 
 1. **Astro SSG** -- HTML pre-renderizado, zero JS por defecto
-2. **Islands hydration** -- Solo 4 React islands, hidratados bajo demanda (`client:visible`)
-3. **Three.js lazy** -- Hero canvas cargado con dynamic import, fallback gradient en mobile
-4. **Video lazy loading** -- `loading="lazy"`, poster images, autoplay solo en hover
-5. **Font optimization** -- Inter via `@fontsource` (self-hosted, subset latin), display: swap
-6. **Image optimization** -- Astro `<Image>` con formatos WebP/AVIF automaticos
+2. **Islands hydration** -- Tres islas React en home; las demos se importan bajo activación en el laboratorio
+3. **Three.js bajo activación** -- Fuera de la home; las visualizaciones del laboratorio usan imports dinámicos al abrirse
+4. **Vídeos bajo acción** -- Los vídeos de proyectos se montan al pulsar su botón, con controles nativos. ARCA usa controles y `preload="none"`, sin autoplay
+5. **Fuentes locales** -- Clash Display para títulos; Inter y JetBrains Mono mediante `@fontsource-variable`, con `font-display: swap`
+6. **Imágenes** -- Retrato optimizado con Astro `<Image>`; las capturas del catálogo usan carga diferida y dimensiones explícitas
 7. **CSS purge** -- Tailwind elimina CSS no usado en build
-8. **Prefetch** -- Astro prefetch en links visibles
+8. **Navegación** -- ClientRouter mantiene los intercambios de página; los listeners de Header y Hero se limpian antes del intercambio
 
 ### 6.3 Mobile-specific
 
-- Three.js hero desactivado en pantallas <768px (reemplazado por gradient + CSS particles)
-- Videos no autoplay en mobile (ahorro de datos)
+- Hero SVG estático en móvil; sin módulo Three.js en home
+- Vídeos sin autoplay en todos los tamaños de pantalla
 - Touch targets minimo 44x44px
-- Font sizes incrementados en mobile para legibilidad
+- Escala tipográfica responsive y columnas apiladas para legibilidad
 
 ---
 

@@ -1,3 +1,5 @@
+import { COAE_CERTIFICATION } from "./education";
+
 export interface Tag {
   t: string;
   l: string;
@@ -211,8 +213,8 @@ export const ROADMAP: Tier[] = [
         id: "7",
         name: "AI Red Team",
         topics: [
-          { name: "Certs AI", st: "done", h: 0, detail: "SANS x2 + EU AI Act", tags: [{ t: "cert", l: "3x" }], items: ["SANS Prompt Hacking cert", "SANS Advanced cert", "EU AI Act cert"] },
-          { name: "HTB ART", st: "prog", h: 60, detail: "AI Red Teamer Path completo + cert.", res: "HTB Academy AI Red Teamer Path", items: ["100% HTB AI Red Teamer Path modulos", "Certificacion examen practico HTB ART", "Labs hands-on cada modulo con writeup EN", "Metodologia documentada (recon -> exploit -> exfil)"] },
+          { name: "Certs AI", st: "done", h: 0, detail: `SANS x2 + EU AI Act. ${COAE_CERTIFICATION}: certificación completada.`, tags: [{ t: "cert", l: "4x" }], items: ["SANS Prompt Hacking cert", "SANS Advanced cert", "EU AI Act cert"] },
+          { name: "HTB AI Red Team — práctica", st: "prog", h: 60, detail: "COAE completada. Este checklist registra actividades de formación y práctica; el progreso de módulos, labs y writeups es independiente de la certificación.", res: "HTB Academy AI Red Teamer Path", items: ["100% HTB AI Red Teamer Path modulos", "Preparación del examen práctico COAE", "Labs hands-on cada modulo con writeup EN", "Metodologia documentada (recon -> exploit -> exfil)"] },
           { name: "LLM Sec", st: "pend", h: 40, detail: "Direct + indirect + advanced LLM attacks.", res: "OWASP Top 10 LLM v2 + MITRE ATLAS", items: ["5+ direct prompt manipulations en Ollama local", "Indirect prompt manipulations via docs en RAG real", "Many-shot crescendo techniques (Anthropic 2024)", "System prompt extraction sobre 3+ chatbots publicos", "OWASP Top 10 LLM v2 mapeado a casos propios", "MITRE ATLAS framework: tactics + techniques", "Trojan / backdoor en fine-tuning (poison training set)", "Model extraction via API queries (stealing)", "Documentar cada tecnica en repo privado de notas"] },
           { name: "Adversarial", st: "pend", h: 35, detail: "FGSM, PGD, C&W, certified defenses.", res: "Madry Lab + Carlini papers", items: ["FGSM desde cero PyTorch", "PGD vs FGSM benchmark sobre CIFAR-10", "Carlini & Wagner attack (L2 norm)", "Adversarial training (Madry / TRADES / MART)", "Certified defenses: randomized smoothing", "Model stealing via shadow model queries", "Data poisoning: clean-label + targeted", "Robustness eval: AutoAttack benchmark", "Defensa: input preprocessing + ensemble"] },
           { name: "Tools RT", st: "pend", h: 30, detail: "Garak, PyRIT, NeMo Guardrails, Llama Guard.", res: "garak.ai + microsoft/PyRIT + NVIDIA NeMo Guardrails", items: ["Garak: scan 3+ modelos open-source", "PyRIT automatizado: orchestrator custom", "NVIDIA NeMo Guardrails: probing + bypass attempts", "Llama Guard 3 / 4: 5+ techniques contra el classifier", "OpenAI Moderation API: evasion patterns", "Red team report profesional formato cliente", "Mini-scanner propio (escala despues a P1 RT Tool en F8)"] },

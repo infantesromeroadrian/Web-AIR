@@ -9,17 +9,17 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 ## Highlights
 
 - **Dual-language** -- English (`/`) and Spanish (`/es/`) with `hreflang` SEO, one-click toggle
-- **Editorial hero** -- full-bleed technical portrait backdrop, clear senior-positioning copy, primary CTAs, and a compact proof strip
-- **AI chatbot (ARCA)** -- recruiter-facing LLM chat powered by Llama 3.3 70B via Groq streaming. NVIDIA Kimi K2.5-style ring graph FAB (44 nodes, nearest-neighbor edges, cyan triangle markers)
-- **Live phishing analyzer** -- paste a suspicious email, get an LLM-powered threat breakdown in real time
-- **3D Latent Space globe** -- 1800-point interactive embedding cloud (React Three Fiber) with "Inject Attack" button that visualizes adversarial perturbation propagation
-- **Neural Breach animation** -- canvas 2D 4-layer neural network breach sequence
-- **3D Knowledge Graph** -- interactive skill topology rendered with R3F
-- **Particle network background** -- full-page canvas 2D particles, visible across all sections
-- **Security scanner cursor** -- custom cursor that detects DOM elements and displays their metadata
-- **Mini terminal** -- `Ctrl+K` opens a command palette
+- **Dark experimental identity** — local Clash Display headings, Inter body, JetBrains Mono data and a contained conceptual trust-boundary graph with a pause control.
+- **Enterprise case studies** — two ERNI / Verisure contributions with dated milestones and visible validation limits.
+- **Visible project catalog** — selected projects render in HTML; React adds sector filters. Videos load after an explicit action.
+- **Laboratory** — `/lab/` and `/es/lab/` contain ARCA, the existing AI/security visualizations, email analyzer, Job Match and optional graphic effects. Interactive modules import when opened.
+- **Accessible profile tools** — visible ARCA AI and terminal controls open native dialogs with Escape, focus containment and focus return. Chat and terminal code load on opening.
+- **Three home React islands** — project filters, contact form and tool dock. Content sections render without hydration; no 3D module is mounted on home.
+- **Roadmap** — existing checklists and browser persistence remain on `/roadmap` and `/es/roadmap`.
 
 ## Screenshots
+
+These captures document the previous interface; they have not been regenerated for the current frontend.
 
 ### Projects
 ![Projects section](docs/screenshots/projects.png)
@@ -52,7 +52,7 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 ```
 src/
   components/
-    astro/        # Header, Footer, SectionTitle (server)
+    astro/        # Shared HomeContent/LabContent, Header, Footer, SectionTitle
     react/        # Islands: AIChat, SkillGraph3D,
                   #   LatentSpaceGlobe, NeuralBreach, AttackExplorer,
                   #   ParticleNetwork, SecurityCursor, MiniTerminal...
@@ -60,6 +60,8 @@ src/
   pages/
     index.astro   # English route
     es/index.astro # Spanish route
+    lab/          # English laboratory
+    es/lab/       # Spanish laboratory
     api/          # chat.ts, phishing-analyze.ts, analytics/*
   i18n/           # translations.ts, utils.ts
   data/           # education.ts, experience.ts, projects.ts

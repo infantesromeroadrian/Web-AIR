@@ -1,117 +1,16 @@
 ---
 import SectionTitle from "../components/astro/SectionTitle.astro";
-import ScrollReveal from "../components/react/ScrollReveal";
 import { experience } from "../data/experience";
 import { getLangFromUrl, t } from "../i18n/utils";
-
 const lang = getLangFromUrl(Astro.url);
 ---
-
-<section id="experience" class="bg-bg-secondary/30 px-6 py-24">
-  <div class="mx-auto max-w-[var(--max-w-content)]">
-    <SectionTitle
-      title={t("experience.title", lang)}
-      subtitle={t("experience.subtitle", lang)}
-    />
-
-    <div class="relative mx-auto max-w-4xl">
-      <!-- Timeline spine -->
-      <div class="absolute left-6 top-0 hidden h-full w-px md:block" style="background: linear-gradient(to bottom, transparent, var(--color-accent) 10%, var(--color-accent) 90%, transparent);"></div>
-      <div class="absolute left-6 top-0 hidden h-full w-px animate-pulse opacity-40 md:block" style="background: linear-gradient(to bottom, transparent, var(--color-accent) 30%, transparent 70%); filter: blur(3px);"></div>
-
-      <div class="flex flex-col gap-0">
-        {experience.map((exp, i) => (
-          <ScrollReveal client:visible delay={i * 0.12}>
-            <div class="group relative pb-12 last:pb-0 md:pl-16">
-
-              <!-- Node: ring + dot + pulse -->
-              <div class="absolute left-0 top-0 hidden md:block" style="left: 11px;">
-                <div class="relative flex items-center justify-center">
-                  <div class="absolute h-7 w-7 rounded-full border border-accent/30 transition-all duration-500 group-hover:scale-150 group-hover:border-accent/60 group-hover:shadow-lg group-hover:shadow-accent/20"></div>
-                  <div class="relative h-3 w-3 rounded-full bg-accent transition-all duration-300 group-hover:scale-125 group-hover:shadow-md group-hover:shadow-accent/40"></div>
-                </div>
-              </div>
-
-              <!-- Year badge -->
-              <div class="mb-3 md:absolute md:-left-2 md:top-8 md:mb-0">
-                <span class="inline-block rounded border border-accent/20 bg-accent/5 px-2 py-0.5 font-mono text-[10px] tracking-wider text-accent">
-                  {exp.period.split("--")[0].trim()}
-                </span>
-              </div>
-
-              <!-- Card -->
-              <div class="relative overflow-hidden rounded-xl border border-border bg-bg-secondary/50 transition-all duration-500 hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5">
-                <!-- Scan line on hover -->
-                <div class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" style="background: linear-gradient(to bottom, transparent 0%, rgba(6,182,212,0.03) 50%, transparent 100%); animation: scanline 2s ease-in-out infinite;"></div>
-
-                <!-- Top accent bar -->
-                <div class="h-px w-full transition-all duration-500 group-hover:h-[2px]" style="background: linear-gradient(to right, transparent, var(--color-accent), transparent);"></div>
-
-                <div class="p-6">
-                  <!-- Header row -->
-                  <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <h3 class="text-xl font-bold text-text-primary transition-colors group-hover:text-accent">{exp.role}</h3>
-                      <p class="mt-0.5 font-mono text-sm text-accent/80">{exp.company}</p>
-                    </div>
-                    <div class="flex flex-col items-start gap-1 sm:items-end">
-                      <span class="font-mono text-xs text-text-muted">{exp.period}</span>
-                      <span class="font-mono text-[10px] text-text-muted/60">{exp.location}</span>
-                    </div>
-                  </div>
-
-                  <!-- Headline -->
-                  <p class="mt-4 border-l-2 border-accent/30 pl-3 text-sm italic text-text-secondary">
-                    {exp.headline}
-                  </p>
-
-                  <!-- Impact metrics -->
-                  {exp.impact.length > 0 && (
-                    <div class="mt-5 grid grid-cols-3 gap-3">
-                      {exp.impact.map((imp) => (
-                        <div class="rounded-lg border border-border/50 bg-bg-primary/50 p-3 text-center transition-all duration-300 group-hover:border-accent/20">
-                          <div class="font-mono text-lg font-bold text-accent">{imp.value}</div>
-                          <div class="mt-0.5 text-[10px] uppercase tracking-wider text-text-muted">{imp.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  <!-- Expandable details -->
-                  <details class="mt-5">
-                    <summary class="cursor-pointer font-mono text-xs text-text-muted transition-colors hover:text-accent">
-                      [{t("experience.tech", lang)}]
-                    </summary>
-                    <div class="mt-4 space-y-4 border-t border-border/50 pt-4">
-                      <p class="text-sm leading-relaxed text-text-secondary">{exp.description}</p>
-                      <ul class="space-y-2">
-                        {exp.highlights.map((h) => (
-                          <li class="flex items-start gap-2 text-sm text-text-secondary">
-                            <span class="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
-                            {h}
-                          </li>
-                        ))}
-                      </ul>
-                      <div class="flex flex-wrap gap-1.5 pt-1">
-                        {exp.tags.map((tag) => (
-                          <span class="rounded border border-border/50 bg-bg-tertiary/50 px-2 py-0.5 text-[10px] text-text-muted">{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </details>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
-        ))}
-      </div>
+<section id="experience" class="content-section"><div class="content-wrap">
+  <SectionTitle title={t("experience.title", lang)} subtitle={t("experience.subtitle", lang)} />
+  {experience.map((exp) => <article class="experience-row">
+    <div><p class="text-accent font-medium">{exp.company}</p><p class="mt-2 text-sm">{exp.period}</p><p class="mt-1 text-sm">{exp.location}</p></div>
+    <div><h3>{exp.role}</h3><p class="mt-3">{exp.headline}</p>
+      {exp.impact.length > 0 && <div class="experience-metrics">{exp.impact.map((metric) => <span><strong>{metric.value}</strong>{metric.label}</span>)}</div>}
+      <details class="details-block mt-3"><summary>{t("experience.tech", lang)}</summary><p>{exp.description}</p><ul class="list-disc pl-5 space-y-2 text-text-secondary">{exp.highlights.map((highlight) => <li>{highlight}</li>)}</ul><div class="tag-list">{exp.tags.map((tag) => <span>{tag}</span>)}</div></details>
     </div>
-  </div>
-</section>
-
-<style>
-  @keyframes scanline {
-    0%, 100% { transform: translateY(-100%); }
-    50% { transform: translateY(100%); }
-  }
-</style>
+  </article>)}
+</div></section>

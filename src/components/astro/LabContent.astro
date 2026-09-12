@@ -1,0 +1,42 @@
+---
+import { getLangFromUrl } from "../../i18n/utils";
+import Ares from "../../sections/Ares.astro";
+import GitHubStats from "../../sections/GitHubStats.astro";
+import LabModule from "../react/LabModule";
+const lang = getLangFromUrl(Astro.url);
+const es = lang === "es";
+---
+<div class="content-wrap">
+  <header class="lab-intro">
+    <p class="eyebrow">AIR / LAB</p>
+    <h1>{es ? "Ideas en ejecución." : "Ideas in motion."}</h1>
+    <p>{es ? "Un espacio para explorar sistemas de agentes, visualizaciones y herramientas del portfolio. Abre cada demostración cuando quieras usarla." : "A space to explore agent systems, visualizations and portfolio tools. Open each demonstration when you want to use it."}</p>
+    <nav class="flex flex-wrap gap-2 mt-6" aria-label={es ? "Demostraciones" : "Demonstrations"}>
+      <a class="action" href="#arca">ARCA</a><a class="action" href="#attacks">{es ? "Visualizaciones" : "Visualizations"}</a><a class="action" href="#job-match">Job Match</a><a class="action" href="#visual-effects">{es ? "Efectos" : "Effects"}</a>
+    </nav>
+  </header>
+  <div class="lab-module" id="arca">
+    <details class="lab-disclosure">
+      <summary>ARCA — {es ? "Sistema de agentes" : "Agent system"} <span aria-hidden="true">↗</span></summary>
+      <Ares />
+    </details>
+  </div>
+  <section class="lab-module" id="attacks" aria-labelledby="visualizations-title">
+    <h2 id="visualizations-title">{es ? "Exploraciones de IA y seguridad" : "AI & security explorations"}</h2>
+    <p>{es ? "Visualizaciones conceptuales del espacio latente y la propagación de señales, junto al analizador de correo existente. Las escenas ilustran conceptos; no son telemetría ni pruebas de eficacia." : "Conceptual visualizations of latent space and signal propagation, alongside the existing email analyzer. The scenes illustrate concepts; they are not telemetry or evidence of effectiveness."}</p>
+    <LabModule client:visible kind="attacks" lang={lang} />
+  </section>
+  <section class="lab-module" id="job-match" aria-labelledby="job-match-title">
+    <h2 id="job-match-title">Job Match</h2>
+    <p>{es ? "Compara una descripción de puesto con mi perfil mediante IA. El análisis se solicita solo al pulsar el botón de analizar." : "Compare a job description with my profile using AI. Analysis is requested only when you press the analyze button."}</p>
+    <LabModule client:visible kind="job-match" lang={lang} />
+  </section>
+  <section class="lab-module" id="visual-effects" aria-labelledby="effects-title">
+    <h2 id="effects-title">{es ? "Lenguaje visual" : "Visual language"}</h2>
+    <p>{es ? "Los experimentos gráficos del portfolio, en un espacio que puedes activar y pausar." : "The portfolio’s graphic experiments, in a space you can activate and pause."}</p>
+    <LabModule client:visible kind="effects" lang={lang} />
+  </section>
+  <div class="lab-module" id="github">
+    <details class="lab-disclosure"><summary>GitHub — {es ? "Actividad y repositorios" : "Activity & repositories"} <span aria-hidden="true">↗</span></summary><GitHubStats /></details>
+  </div>
+</div>

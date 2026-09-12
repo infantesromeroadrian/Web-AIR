@@ -1,104 +1,69 @@
 ---
-import TypewriterText from "../components/react/TypewriterText";
-import profileImage from "../../assets/Gemini_Generated_Image_ne74yhne74yhne74.png";
 import { getLangFromUrl, t } from "../i18n/utils";
-
+import { htbRanking } from "../data/achievements";
+import { COAE_CERTIFICATION } from "../data/education";
+import About from "./About.astro";
 const lang = getLangFromUrl(Astro.url);
-
-const phrases = lang === "es"
-  ? [
-      "Evaluación adversarial de LLMs, RAG y agentes",
-      "Red Teaming de LLMs en banca de producción",
-      "De la matemática del Transformer a la superficie de ataque",
-      "Kaggle Master | HTB Top 800 Global",
-    ]
-  : [
-      "Adversarial evaluation of LLMs, RAG pipelines, and AI agents",
-      "Red Teaming LLMs in production banking",
-      "From Transformer math to attack surface",
-      "Kaggle Master | HTB Top 800 Global",
-    ];
+const es = lang === "es";
 ---
-
-<section
-  id="hero"
-  class="relative flex min-h-[86vh] items-center justify-center overflow-hidden px-6 pb-24 pt-28"
->
-  <img
-    src={profileImage.src}
-    alt=""
-    class="absolute inset-0 h-full w-full object-cover object-center opacity-20 md:opacity-30"
-    loading="eager"
-    decoding="async"
-  />
-  <div class="absolute inset-0 bg-[linear-gradient(90deg,var(--color-bg-primary)_0%,rgba(10,10,15,.78)_45%,rgba(10,10,15,.42)_100%)]"></div>
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_18%,rgba(6,182,212,0.16),transparent_55%)]"></div>
-  <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-bg-primary"></div>
-
-  <div class="relative z-10 mx-auto w-full max-w-[var(--max-w-content)]">
-    <div class="max-w-3xl">
-      <p class="mb-5 font-mono text-xs tracking-[0.35em] text-accent/80 uppercase">
-        {t("hero.pretitle", lang)}
-      </p>
-
-      <h1 class="text-[44px] font-bold leading-none tracking-tight text-text-primary">
-        Adrian Infantes
-      </h1>
-
-      <p class="mt-5 font-mono text-xl text-accent">
-        {t("hero.role", lang)}
-      </p>
-
-      <p class="mt-7 max-w-2xl text-lg leading-relaxed text-text-secondary">
-        {t("hero.tagline", lang)}
-      </p>
-
-      <div class="mt-5 min-h-12 font-mono text-sm text-text-muted sm:min-h-6">
-        <TypewriterText client:load phrases={phrases} />
+<section id="hero" class="hero-section">
+  <div class="content-wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-name">Adrian Infantes <span class="text-accent">/</span> ERNI · Verisure</p>
+        <h1 class="hero-title">{t("hero.role", lang)}</h1>
+        <p class="hero-description">{t("hero.tagline", lang)}</p>
+        <div class="link-row hero-actions"><a class="action action-primary" href="#security-work">{es ? "Explorar mi trabajo" : "Explore my work"} <span aria-hidden="true">↗</span></a><a class="action" href="#contact">{t("hero.cta.contact", lang)}</a></div>
       </div>
-
-      <div class="mt-10 flex flex-wrap items-center gap-4">
-        <a
-          href="#projects"
-          class="group rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-bg-primary transition-all duration-200 hover:bg-accent-glow hover:shadow-lg hover:shadow-accent/20"
-        >
-          {t("hero.cta.work", lang)}
-          <span class="ml-1 inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
-        </a>
-        <a
-          href="#contact"
-          class="rounded-lg border border-border bg-bg-primary/40 px-6 py-3 text-sm font-semibold text-text-primary backdrop-blur-sm transition-all duration-200 hover:border-accent hover:text-accent"
-        >
-          {t("hero.cta.contact", lang)}
-        </a>
-      </div>
-
-      <div class="mt-12 grid max-w-3xl grid-cols-2 border-y border-border/70 bg-bg-primary/35 backdrop-blur-sm md:grid-cols-4">
-        <div class="px-4 py-4">
-          <div class="font-mono text-xs text-accent">{t("hero.badge.bbva", lang)}</div>
-          <div class="mt-1 text-xs text-text-muted">Production banking</div>
-        </div>
-        <div class="border-l border-border/70 px-4 py-4">
-          <div class="font-mono text-xs text-accent">AI Red Teaming</div>
-          <div class="mt-1 text-xs text-text-muted">{t("hero.badge.redteaming.scope", lang)}</div>
-        </div>
-        <div class="border-t border-border/70 px-4 py-4 md:border-l md:border-t-0">
-          <div class="font-mono text-xs text-accent">{t("hero.badge.kaggle", lang)}</div>
-          <div class="mt-1 text-xs text-text-muted">Competitive ML</div>
-        </div>
-        <div class="border-l border-t border-border/70 px-4 py-4 md:border-t-0">
-          <div class="font-mono text-xs text-accent">{t("hero.badge.htb", lang)}</div>
-          <div class="mt-1 text-xs text-text-muted">Security practice</div>
-        </div>
-      </div>
+      <figure class="trust-visual" data-trust-visual data-playing="false">
+        <svg viewBox="0 0 480 400" role="img" aria-labelledby="trust-title trust-desc">
+          <title id="trust-title">{es ? "Fronteras de confianza de IA" : "AI trust boundaries"}</title>
+          <desc id="trust-desc">{es ? "Ilustración conceptual: entrada, contexto y agentes separados por límites de confianza." : "Conceptual illustration: input, context and agents separated by trust boundaries."}</desc>
+          <defs><radialGradient id="core-glow"><stop stop-color="#22d3ee" stop-opacity=".32"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="240" cy="200" r="150" fill="url(#core-glow)"/>
+          <ellipse class="boundary" cx="240" cy="200" rx="180" ry="135"/>
+          <ellipse class="boundary" cx="240" cy="200" rx="116" ry="178" transform="rotate(40 240 200)"/>
+          <path class="wire" d="M60 200 L160 112 L320 112 L420 200 L320 288 L160 288 Z M160 112 L240 200 L320 112 M160 288 L240 200 L320 288 M60 200 H420"/>
+          <path class="flow" d="M60 200 L160 112 L240 200 L320 288 L420 200"/>
+          <circle class="node" cx="60" cy="200" r="8"/><circle class="node" cx="160" cy="112" r="6"/><circle class="node" cx="320" cy="112" r="6"/><circle class="node" cx="420" cy="200" r="8"/><circle class="node" cx="320" cy="288" r="6"/><circle class="node" cx="160" cy="288" r="6"/>
+          <rect x="188" y="164" width="104" height="72" rx="14" fill="#0e202b" stroke="#67e8f9"/>
+          <text class="core-label" x="240" y="207" text-anchor="middle">AI</text>
+          <text x="48" y="237">{es ? "Entrada" : "Input"}</text><text x="240" y="73" text-anchor="middle">{es ? "Contexto" : "Context"}</text><text x="356" y="237">{es ? "Agentes" : "Agents"}</text>
+          <text x="240" y="349" text-anchor="middle">LLM / RAG / Agents</text>
+        </svg>
+        <figcaption class="visual-footer"><span>{es ? "Fronteras de confianza · Ilustración" : "Trust boundaries · Illustration"}</span><button type="button" class="action visual-toggle" data-visual-toggle data-start={es ? "Activar" : "Play"} data-stop={es ? "Pausar" : "Pause"} aria-pressed="false">{es ? "Activar" : "Play"}</button></figcaption>
+      </figure>
     </div>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
-    <div class="flex flex-col items-center gap-2">
-      <span class="text-xs text-text-muted">{t("hero.scroll", lang)}</span>
-      <div class="h-8 w-px animate-pulse bg-gradient-to-b from-accent to-transparent"></div>
+    <div class="hero-proof">
+      <div><strong>ERNI / Verisure</strong><span>{t("hero.badge.enterprise", lang)}</span></div>
+      <div><strong>{COAE_CERTIFICATION}</strong><span>{t("education.cert.completed", lang)}</span></div>
+      <div><strong>{htbRanking.title[lang]}</strong><span>{htbRanking.subtitle[lang]}</span></div>
     </div>
+    <About />
   </div>
 </section>
+<script>
+  let stopVisual: (() => void) | undefined;
+  function setupVisual() {
+    stopVisual?.();
+    const visual = document.querySelector<HTMLElement>("[data-trust-visual]");
+    const button = visual?.querySelector<HTMLButtonElement>("[data-visual-toggle]");
+    if (!visual || !button) return;
+    const controller = new AbortController();
+    const media = window.matchMedia("(min-width: 769px) and (prefers-reduced-motion: no-preference)");
+    const pause = () => { visual.dataset.playing = "false"; button.setAttribute("aria-pressed", "false"); button.textContent = button.dataset.start || "Play"; };
+    button.dataset.ready = "true";
+    button.addEventListener("click", () => {
+      const playing = media.matches && visual.dataset.playing !== "true";
+      visual.dataset.playing = String(playing); button.setAttribute("aria-pressed", String(playing)); button.textContent = (playing ? button.dataset.stop : button.dataset.start) || "Play";
+    }, { signal: controller.signal });
+    media.addEventListener("change", pause, { signal: controller.signal });
+    document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); }, { signal: controller.signal });
+    const observer = new IntersectionObserver(([entry]) => { visual.dataset.visible = String(entry.isIntersecting); });
+    observer.observe(visual);
+    stopVisual = () => { controller.abort(); observer.disconnect(); };
+  }
+  setupVisual();
+  document.addEventListener("astro:page-load", setupVisual);
+  document.addEventListener("astro:before-swap", () => stopVisual?.());
+</script>

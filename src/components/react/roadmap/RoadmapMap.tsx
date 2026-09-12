@@ -134,8 +134,11 @@ const RoadmapMap: FC<Props> = ({
 
                 return (
                   <React.Fragment key={globalIdx}>
-                    <div
-                      className="group relative h-14 w-14 shrink-0 cursor-pointer transition-transform hover:scale-105 sm:h-16 sm:w-16"
+                    <button
+                      type="button"
+                      aria-label={n.name}
+                      aria-haspopup="dialog"
+                      className="group relative h-14 w-14 shrink-0 cursor-pointer transition-colors sm:h-16 sm:w-16"
                       onClick={() => onNodeClick(globalIdx)}
                     >
                       {n.h > 0 && (
@@ -152,7 +155,7 @@ const RoadmapMap: FC<Props> = ({
                         {n.name}
                       </div>
                       {isCurrent && (
-                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 pointer-events-none animate-bounce">
+                        <div className="absolute -top-7 left-1/2 -translate-x-1/2 pointer-events-none">
                           <img
                             src="/roadmap/roadmap-current.png"
                             alt=""
@@ -161,7 +164,7 @@ const RoadmapMap: FC<Props> = ({
                           />
                         </div>
                       )}
-                    </div>
+                    </button>
                     {ni < displayRow.length - 1 && (
                       <div className="h-px min-w-2 flex-1 border-t border-dashed border-border/25 sm:max-w-14" />
                     )}

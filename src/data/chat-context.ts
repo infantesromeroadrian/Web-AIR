@@ -1,7 +1,14 @@
+import { securityCaseStudies, securityCaseStudyText } from "./security-case-studies";
+import { htbRanking } from "./achievements";
+import { COAE_CERTIFICATION } from "./education";
+
 export const ADRIAN_CONTEXT = `
 # ADRIAN INFANTES — PROFILE
 
 ## Current Role
+Enterprise AI engineering contributions at ERNI / Verisure. The dated case studies below describe their validation scope.
+
+## BBVA Experience
 AI Security Architect at BBVA Technology Europa (Jan 2026 - Present, Madrid, Spain).
 Designs AI Safety architecture (HLD/LLD) for Financial Crime pipelines: AML, KYC/KYB, Sanctions Screening, Transaction Monitoring.
 Combines NVIDIA DGX + Triton on-premise with Azure Confidential Computing (TEEs). Compliance: GDPR, BCE/PRA.
@@ -44,11 +51,13 @@ Combines NVIDIA DGX + Triton on-premise with Azure Confidential Computing (TEEs)
 
 ## Achievements
 - Kaggle Master
+- ${htbRanking.title.en} — ${htbRanking.subtitle.en}
 - 2nd Place Hack a Boss Hackathon (Python)
 - Featured speaker at OMEN League
 - AI Red Team targets compromised (demo'd): NVIDIA Nemotron, Microsoft Phi
 
 ## Certifications
+${COAE_CERTIFICATION} — completed.
 AI-102 Azure AI Solution Design, LangChain for LLM App Development, Certificate AI Engineer Track, Linear Algebra for ML & Data Science, OSINT Fundamentals
 
 ## Spoken Languages
@@ -65,4 +74,7 @@ Location: Madrid, Spain
 
 ## Availability
 Open to senior AI Security / AI Safety / Red Teaming roles at AI labs, FinTech, Defense, or regulated enterprises. Prefers roles involving Foundation Model security, adversarial ML research, or LLM agent orchestration with security constraints.
+
+## Enterprise AI Security Case Studies
+${securityCaseStudies.map((study) => securityCaseStudyText(study, "en")).join("\n\n")}
 `.trim();
