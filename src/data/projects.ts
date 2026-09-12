@@ -33,9 +33,11 @@ export const sectors: Sector[] = [
         slug: "drone-geoanalysis",
         headline: "Turning drone footage into actionable intelligence",
         description:
-          "Enterprise ISR platform: drone control, geospatial analysis, real-time video processing, and LLM-powered autonomous missions. 107 tests, 95.3% coverage.",
+          "Geospatial analysis prototype with automated tests and public CI linked to commit 52948ba0",
+        descriptionEs:
+          "Prototipo de análisis geoespacial con pruebas automatizadas y CI pública vinculada al commit 52948ba0",
         longDescription:
-          "The operator describes a mission in natural language. The LLM (Groq/Llama or OpenAI) generates GPS waypoints, altitudes, actions, and safety constraints. The drone executes the mission while streaming video processed by YOLO for real-time object detection and geographic change analysis.\n\nFeatures: Mission Control with satellite map (Mapbox) and real-time telemetry, YOLOv11 object detection on drone imagery, geographic triangulation and correlation, 52 planned ISR operations, Parrot ANAFI full drone control via Olympe SDK, multi-LLM support (Groq, OpenAI, Docker local), GeoJSON cartography with POIs and security boundaries, LangGraph ReAct agent for querying analysis results.\n\n107 tests with 95.3% success rate. Clean layered architecture: controllers, services, models, hardware abstraction. Factory pattern, Flask blueprints, rate limiting, CORS.",
+          "The operator describes a mission in natural language. The LLM (Groq/Llama or OpenAI) generates GPS waypoints, altitudes, actions, and safety constraints. The drone executes the mission while streaming video processed by YOLO for real-time object detection and geographic change analysis.\n\nFeatures: Mission Control with satellite map (Mapbox) and real-time telemetry, YOLOv11 object detection on drone imagery, geographic triangulation and correlation, 52 planned ISR operations, Parrot ANAFI full drone control via Olympe SDK, multi-LLM support (Groq, OpenAI, Docker local), GeoJSON cartography with POIs and security boundaries, LangGraph ReAct agent for querying analysis results.\n\nAutomated tests and public CI linked to commit 52948ba0. Clean layered architecture: controllers, services, models, hardware abstraction. Factory pattern, Flask blueprints, rate limiting, CORS.",
         screenshots: [
           { src: "/projects/drone-geoanalysis/dashboard.png", alt: "Dashboard with 52 missions, YOLO status, Groq LLM provider" },
           { src: "/projects/drone-geoanalysis/mission-control.png", alt: "Mission Control with Mapbox satellite map and AI mission planner" },
@@ -56,6 +58,8 @@ export const sectors: Sector[] = [
         tags: ["LLMs", "YOLOv11", "Geospatial", "Drones", "Flask", "LangGraph"],
         githubUrl:
           "https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs",
+        ciUrl:
+          "https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs/actions/runs/27945228734",
         videoSrc:
           "/videos/Análisis_de_Proyecto_Drone_GeoAnalysis_LLMs.mp4",
         featured: true,

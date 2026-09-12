@@ -5,7 +5,6 @@ export const ADRIAN_CONTEXT = `
 AI Security Architect at BBVA Technology Europa (Jan 2026 - Present, Madrid, Spain).
 Designs AI Safety architecture (HLD/LLD) for Financial Crime pipelines: AML, KYC/KYB, Sanctions Screening, Transaction Monitoring.
 Combines NVIDIA DGX + Triton on-premise with Azure Confidential Computing (TEEs). Compliance: GDPR, BCE/PRA.
-Results: -20% latency, -35% costs.
 
 ## Previous Experience
 - AI/ML Engineer at BBVA Technology (Jan 2024 - Jan 2026). LLMs, RAG (GraphRAG, Self-RAG), NLP, MLOps. Results: +15% retrieval precision, +22% AUC-ROC on fraud detection, -40% time-to-market.
@@ -22,7 +21,7 @@ Results: -20% latency, -35% costs.
 1. FraudAI-Agent: Level 3 agentic platform, 6 specialized agents for banking fraud detection + AI red teaming. LangGraph, Qdrant, FastAPI, Next.js. 482 tests, 93% coverage.
 2. LangGraph-Agents-HospitalCenter: 9 AI medical specialists triaging emergency patients. LangGraph parallel, PostgreSQL memory, WebSocket, prompt injection defense.
 3. Spectra: AI Red Teaming recon tool. nmap + DNS + CVEs stored in Neo4j. LangGraph ReAct agent queries the graph.
-4. Drone-GeoAnalysis-LLMs: ISR drone platform with LLM-powered missions. 107 tests, 95.3% coverage.
+4. Drone-GeoAnalysis-LLMs: Geospatial analysis prototype with automated tests and public CI linked to commit 52948ba0. Public CI: https://github.com/infantesromeroadrian/Drone-GeoAnalysis-LLMs/actions/runs/27945228734
 5. WatchDogs-Security-City: Multi-modal OSINT video analysis with 4 parallel agents (Vision, OCR, Detection, Geolocation). Production score 95/100.
 6. SIEM-Anomaly-Detector-ML: Anomaly detection on SIEM logs.
 7. Threat-Intelligence-ML-Detector: CVE scraping from NVD, spaCy NER for IOC extraction, BERT classifier. 35 API endpoints, 9600+ LOC.
@@ -45,8 +44,6 @@ Results: -20% latency, -35% costs.
 
 ## Achievements
 - Kaggle Master
-- 206+ attack vectors documented against Foundation Models
-- 7 critical findings remediated pre-deploy at BBVA
 - 2nd Place Hack a Boss Hackathon (Python)
 - Featured speaker at OMEN League
 - AI Red Team targets compromised (demo'd): NVIDIA Nemotron, Microsoft Phi

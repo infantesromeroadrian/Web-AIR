@@ -66,14 +66,16 @@ const lang = getLangFromUrl(Astro.url);
                   </p>
 
                   <!-- Impact metrics -->
-                  <div class="mt-5 grid grid-cols-3 gap-3">
-                    {exp.impact.map((imp) => (
-                      <div class="rounded-lg border border-border/50 bg-bg-primary/50 p-3 text-center transition-all duration-300 group-hover:border-accent/20">
-                        <div class="font-mono text-lg font-bold text-accent">{imp.value}</div>
-                        <div class="mt-0.5 text-[10px] uppercase tracking-wider text-text-muted">{imp.label}</div>
-                      </div>
-                    ))}
-                  </div>
+                  {exp.impact.length > 0 && (
+                    <div class="mt-5 grid grid-cols-3 gap-3">
+                      {exp.impact.map((imp) => (
+                        <div class="rounded-lg border border-border/50 bg-bg-primary/50 p-3 text-center transition-all duration-300 group-hover:border-accent/20">
+                          <div class="font-mono text-lg font-bold text-accent">{imp.value}</div>
+                          <div class="mt-0.5 text-[10px] uppercase tracking-wider text-text-muted">{imp.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   <!-- Expandable details -->
                   <details class="mt-5">

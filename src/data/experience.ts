@@ -11,15 +11,10 @@ export const experience: Experience[] = [
     description:
       "Designed the AI Safety architecture (HLD/LLD) for sensitive data processing in Financial Crime environments -- AML, KYC/KYB, and Transaction Monitoring pipelines -- combining NVIDIA infrastructure (DGX + Triton) with Azure Confidential Computing.",
     highlights: [
-      "Led AI Red Teaming: 206+ attack vectors evaluated, 7 critical findings remediated pre-deploy",
       "MLSecOps end-to-end: security gates in CI/CD, Zero Trust, Defense-in-Depth architecture",
       "Hybrid on-premise + cloud architecture with GDPR and banking regulation compliance",
     ],
-    impact: [
-      { label: "Latency", value: "-20%" },
-      { label: "Costs", value: "-35%" },
-      { label: "Attacks tested", value: "206+" },
-    ],
+    impact: [],
     tags: [
       "AI Safety",
       "Red Teaming",

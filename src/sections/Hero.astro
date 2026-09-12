@@ -7,13 +7,13 @@ const lang = getLangFromUrl(Astro.url);
 
 const phrases = lang === "es"
   ? [
-      "206+ ataques a Foundation Models",
+      "Evaluación adversarial de LLMs, RAG y agentes",
       "Red Teaming de LLMs en banca de producción",
       "De la matemática del Transformer a la superficie de ataque",
       "Kaggle Master | HTB Top 800 Global",
     ]
   : [
-      "206+ attacks against Foundation Models",
+      "Adversarial evaluation of LLMs, RAG pipelines, and AI agents",
       "Red Teaming LLMs in production banking",
       "From Transformer math to attack surface",
       "Kaggle Master | HTB Top 800 Global",
@@ -53,7 +53,7 @@ const phrases = lang === "es"
         {t("hero.tagline", lang)}
       </p>
 
-      <div class="mt-5 h-6 font-mono text-sm text-text-muted">
+      <div class="mt-5 min-h-12 font-mono text-sm text-text-muted sm:min-h-6">
         <TypewriterText client:load phrases={phrases} />
       </div>
 
@@ -79,8 +79,8 @@ const phrases = lang === "es"
           <div class="mt-1 text-xs text-text-muted">Production banking</div>
         </div>
         <div class="border-l border-border/70 px-4 py-4">
-          <div class="font-mono text-xs text-accent">206+</div>
-          <div class="mt-1 text-xs text-text-muted">Attack vectors tested</div>
+          <div class="font-mono text-xs text-accent">AI Red Teaming</div>
+          <div class="mt-1 text-xs text-text-muted">{t("hero.badge.redteaming.scope", lang)}</div>
         </div>
         <div class="border-t border-border/70 px-4 py-4 md:border-l md:border-t-0">
           <div class="font-mono text-xs text-accent">{t("hero.badge.kaggle", lang)}</div>

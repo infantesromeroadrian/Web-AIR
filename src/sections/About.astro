@@ -10,10 +10,7 @@ const lang = getLangFromUrl(Astro.url);
 
 const metrics = [
   { value: "6+", label: t("about.metric.years", lang) },
-  { value: "206+", label: t("about.metric.attacks", lang) },
   { value: "800", label: t("about.metric.htb", lang) },
-  { value: "-20%", label: t("about.metric.latency", lang) },
-  { value: "-35%", label: t("about.metric.costs", lang) },
   { value: "45K", label: t("about.metric.throughput", lang) },
 ];
 ---
@@ -55,7 +52,7 @@ const metrics = [
         </ScrollReveal>
 
         <!-- Animated metrics grid -->
-        <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
           {metrics.map((m) => (
             <AnimatedCounter
               client:visible

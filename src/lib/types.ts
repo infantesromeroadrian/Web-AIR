@@ -26,12 +26,15 @@ export interface Project {
   slug?: string;
   headline: string;
   description: string;
+  descriptionEs?: string;
+  detailsUrl?: string;
   longDescription?: string;
   screenshots?: ProjectScreenshot[];
   techStack?: ProjectTechRow[];
   architecture?: string;
   tags: string[];
   githubUrl: string;
+  ciUrl?: string;
   demoUrl?: string;
   videoSrc?: string;
   featured: boolean;

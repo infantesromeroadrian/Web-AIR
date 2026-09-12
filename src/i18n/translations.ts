@@ -50,6 +50,7 @@ export const TRANSLATIONS: Record<string, Entry> = {
   "hero.cta.contact": { en: "Contact", es: "Contacto" },
   "hero.scroll": { en: "scroll", es: "scroll" },
   "hero.badge.bbva": { en: "BBVA Technology", es: "BBVA Technology" },
+  "hero.badge.redteaming.scope": { en: "LLM · RAG · Agents", es: "LLM · RAG · Agentes" },
   "hero.badge.kaggle": { en: "Kaggle Master", es: "Kaggle Master" },
   "hero.badge.htb": { en: "HackTheBox Top 800", es: "HackTheBox Top 800" },
   "hero.card.rarity": { en: "Rare Card", es: "Carta Rara" },
@@ -76,19 +77,10 @@ export const TRANSLATIONS: Record<string, Entry> = {
     en: "Years building AI systems",
     es: "Anos construyendo sistemas de IA",
   },
-  "about.metric.attacks": {
-    en: "Attacks on Foundation Models",
-    es: "Ataques a Foundation Models",
-  },
   "about.metric.htb": {
     en: "HackTheBox global rank",
     es: "Rank global HackTheBox",
   },
-  "about.metric.latency": {
-    en: "Latency in prod banking",
-    es: "Latencia en banca prod",
-  },
-  "about.metric.costs": { en: "Infrastructure costs", es: "Costes de infra" },
   "about.metric.throughput": {
     en: "Images/hour real-time CV",
     es: "Imagenes/hora CV tiempo real",

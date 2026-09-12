@@ -96,7 +96,7 @@ export default function SectorTabs({ sectors }: Props) {
                   <p className="mt-1 text-sm text-[var(--color-accent)]">
                     {project.headline}
                   </p>
-                  <p className="mt-3 flex-1 text-sm text-[var(--color-text-secondary)] line-clamp-3">
+                  <p className={`mt-3 flex-1 text-sm text-[var(--color-text-secondary)] ${project.ciUrl ? "" : "line-clamp-3"}`}>
                     {project.description}
                   </p>
 
@@ -121,7 +121,7 @@ export default function SectorTabs({ sectors }: Props) {
                   <div className="mt-4 flex items-center gap-4 border-t border-[var(--color-border)] pt-4">
                     {project.slug && (
                       <a
-                        href={`/projects/${project.slug}`}
+                        href={project.detailsUrl || `/projects/${project.slug}`}
                         className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--color-accent)] transition-colors hover:text-[var(--color-accent-glow)]"
                       >
                         View Details &rarr;

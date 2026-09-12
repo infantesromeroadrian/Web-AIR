@@ -268,11 +268,6 @@ export default function AttackExplorer() {
                   </div>
                 ))}
               </div>
-
-              <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-4 font-mono text-xs text-[var(--color-text-muted)]">
-                <span className="text-[var(--color-accent)]">206+</span> attack vectors documented.{" "}
-                <span className="text-[var(--color-accent)]">7</span> critical findings remediated pre-deploy at BBVA.
-              </div>
             </motion.div>
           </AnimatePresence>
         </div>

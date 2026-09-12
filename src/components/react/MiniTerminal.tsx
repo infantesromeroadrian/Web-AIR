@@ -25,10 +25,7 @@ largest banks. +6 years at the intersection of
 AI Engineering × Offensive Security.
 
 Specialized in Financial Crime: AML, Sanctions,
-KYC/KYB, Transaction Monitoring.
-
-206+ attacks against Foundation Models.
-7 critical findings remediated pre-deploy.`,
+KYC/KYB, Transaction Monitoring.`,
 
   skills: `Core Stack:
   Security : MITRE ATLAS, OWASP LLMs, PyRIT, Garak
@@ -40,7 +37,6 @@ KYC/KYB, Transaction Monitoring.
 
   exp: `2026-now  AI Security Architect @ BBVA Technology
          → AI Safety, Red Teaming, MLSecOps
-         → -20% latency, -35% costs
 
 2024-26  AI/ML Engineer @ BBVA Technology
          → LLMs, RAG, Fraud Detection, NLP
