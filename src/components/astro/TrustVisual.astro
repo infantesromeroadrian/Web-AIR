@@ -1,0 +1,47 @@
+---
+import { getLangFromUrl } from "../../i18n/utils";
+const es = getLangFromUrl(Astro.url) === "es";
+---
+      <figure class="trust-visual" data-trust-visual data-playing="false">
+        <svg viewBox="0 0 480 400" role="img" aria-labelledby="trust-title trust-desc">
+          <title id="trust-title">{es ? "Fronteras de confianza de IA" : "AI trust boundaries"}</title>
+          <desc id="trust-desc">{es ? "Ilustración conceptual: entrada, contexto y agentes separados por límites de confianza." : "Conceptual illustration: input, context and agents separated by trust boundaries."}</desc>
+          <defs><radialGradient id="core-glow"><stop stop-color="#22d3ee" stop-opacity=".32"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="240" cy="200" r="150" fill="url(#core-glow)"/>
+          <ellipse class="boundary" cx="240" cy="200" rx="180" ry="135"/>
+          <ellipse class="boundary" cx="240" cy="200" rx="116" ry="178" transform="rotate(40 240 200)"/>
+          <path class="wire" d="M60 200 L160 112 L320 112 L420 200 L320 288 L160 288 Z M160 112 L240 200 L320 112 M160 288 L240 200 L320 288 M60 200 H420"/>
+          <path class="flow" d="M60 200 L160 112 L240 200 L320 288 L420 200"/>
+          <circle class="node" cx="60" cy="200" r="8"/><circle class="node" cx="160" cy="112" r="6"/><circle class="node" cx="320" cy="112" r="6"/><circle class="node" cx="420" cy="200" r="8"/><circle class="node" cx="320" cy="288" r="6"/><circle class="node" cx="160" cy="288" r="6"/>
+          <rect x="188" y="164" width="104" height="72" rx="14" fill="#0e202b" stroke="#67e8f9"/>
+          <text class="core-label" x="240" y="207" text-anchor="middle">AI</text>
+          <text x="48" y="237">{es ? "Entrada" : "Input"}</text><text x="240" y="73" text-anchor="middle">{es ? "Contexto" : "Context"}</text><text x="356" y="237">{es ? "Agentes" : "Agents"}</text>
+          <text x="240" y="349" text-anchor="middle">LLM / RAG / Agents</text>
+        </svg>
+        <figcaption class="visual-footer"><span>{es ? "Fronteras de confianza · Ilustración" : "Trust boundaries · Illustration"}</span><button type="button" class="action visual-toggle" data-visual-toggle data-start={es ? "Activar" : "Play"} data-stop={es ? "Pausar" : "Pause"} aria-pressed="false">{es ? "Activar" : "Play"}</button></figcaption>
+      </figure>
+<script>
+  let stopVisual: (() => void) | undefined;
+  function setupVisual() {
+    stopVisual?.();
+    const visual = document.querySelector<HTMLElement>("[data-trust-visual]");
+    const button = visual?.querySelector<HTMLButtonElement>("[data-visual-toggle]");
+    if (!visual || !button) return;
+    const controller = new AbortController();
+    const media = window.matchMedia("(min-width: 769px) and (prefers-reduced-motion: no-preference)");
+    const pause = () => { visual.dataset.playing = "false"; button.setAttribute("aria-pressed", "false"); button.textContent = button.dataset.start || "Play"; };
+    button.dataset.ready = "true";
+    button.addEventListener("click", () => {
+      const playing = media.matches && visual.dataset.playing !== "true";
+      visual.dataset.playing = String(playing); button.setAttribute("aria-pressed", String(playing)); button.textContent = (playing ? button.dataset.stop : button.dataset.start) || "Play";
+    }, { signal: controller.signal });
+    media.addEventListener("change", pause, { signal: controller.signal });
+    document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); }, { signal: controller.signal });
+    const observer = new IntersectionObserver(([entry]) => { visual.dataset.visible = String(entry.isIntersecting); });
+    observer.observe(visual);
+    stopVisual = () => { controller.abort(); observer.disconnect(); };
+  }
+  setupVisual();
+  document.addEventListener("astro:page-load", setupVisual);
+  document.addEventListener("astro:before-swap", () => stopVisual?.());
+</script>

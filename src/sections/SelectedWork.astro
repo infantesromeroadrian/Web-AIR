@@ -1,0 +1,39 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import SecurityCaseStudies from "./SecurityCaseStudies.astro";
+import { sectors } from "../data/projects";
+import { getLangFromUrl } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const es = lang === "es";
+const base = es ? "/es/" : "/";
+const selectedNames = ["FraudAI Agent", "Spectra"];
+const selectedProjects = selectedNames.flatMap((name) => sectors.flatMap((sector) => sector.projects.filter((project) => project.title === name)));
+const summaries: Record<string, Record<"en" | "es", string>> = {
+  "FraudAI Agent": {
+    en: "A multi-agent platform combining fraud detection, AML/KYC workflows and AI red teaming, with RAG and sandboxed execution.",
+    es: "Plataforma multiagente que combina detección de fraude, procesos AML/KYC y AI red teaming, con RAG y ejecución en sandbox.",
+  },
+  Spectra: {
+    en: "A security knowledge graph that connects services and vulnerabilities, with a LangGraph agent for querying the attack surface.",
+    es: "Grafo de conocimiento que conecta servicios y vulnerabilidades, con un agente LangGraph para consultar la superficie de ataque.",
+  },
+};
+---
+<section id="work" class="content-section" aria-labelledby="work-title">
+  <div class="content-wrap">
+    <SectionTitle id="work-title" title={es ? "Trabajo seleccionado" : "Selected work"} subtitle={es ? "Contribuciones empresariales y proyectos propios de IA y seguridad." : "Enterprise contributions and independent AI and security projects."} />
+    <SecurityCaseStudies />
+    <div id="projects" class="own-work">
+      <div class="subsection-heading"><h3>{es ? "Proyectos propios" : "Independent projects"}</h3><a class="text-link" href={`${base}work/`}>{es ? "Ver todos los proyectos" : "View all projects"} <span aria-hidden="true">↗</span></a></div>
+      <div class="selected-projects">
+        {selectedProjects.map((project) => <article class="selected-project" aria-labelledby={`selected-${project.title.replaceAll(" ", "-")}`}>
+          <h4 id={`selected-${project.title.replaceAll(" ", "-")}`}>{project.title}</h4>
+          <p>{summaries[project.title][lang]}</p>
+          <p class="project-technologies">{project.tags.slice(0, 3).join(" / ")}</p>
+          <a class="text-link" href={project.githubUrl} target="_blank" rel="noopener noreferrer">{es ? "Código en GitHub" : "Code on GitHub"} <span aria-hidden="true">↗</span></a>
+        </article>)}
+      </div>
+    </div>
+  </div>
+</section>

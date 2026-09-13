@@ -1,0 +1,20 @@
+---
+import SectionTitle from "../components/astro/SectionTitle.astro";
+import About from "./About.astro";
+import Experience from "./Experience.astro";
+import Education from "./Education.astro";
+import Achievements from "./Achievements.astro";
+import Skills from "./Skills.astro";
+import LabTeaser from "./LabTeaser.astro";
+import { getLangFromUrl } from "../i18n/utils";
+const es = getLangFromUrl(Astro.url) === "es";
+---
+<section id="profile" class="content-section" aria-labelledby="profile-title">
+  <div class="content-wrap">
+    <SectionTitle id="profile-title" title={es ? "Perfil" : "Profile"} />
+    <About />
+    <div class="profile-grid"><Experience /><div><Education /><Achievements /></div></div>
+    <Skills />
+    <LabTeaser />
+  </div>
+</section>

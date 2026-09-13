@@ -1,16 +1,10 @@
 ---
 import { Image } from "astro:assets";
 import profileImage from "../../assets/Gemini_Generated_Image_ne74yhne74yhne74.png";
-import { getLangFromUrl, t } from "../i18n/utils";
-import { htbRanking } from "../data/achievements";
-const lang = getLangFromUrl(Astro.url);
+import { getLangFromUrl } from "../i18n/utils";
+const es = getLangFromUrl(Astro.url) === "es";
 ---
-<details id="about" class="about-disclosure">
-  <summary>{lang === "es" ? "Sobre mí y mi trayectoria" : "About me and my background"} <span aria-hidden="true">+</span></summary>
-  <div class="about-content">
-    <Image src={profileImage} width={120} height={150} alt="Adrian Infantes" loading="lazy" />
-    <div class="about-copy"><p>{t("about.p1.prefix", lang)}<strong class="text-text-primary">{t("about.p1.strong", lang)}</strong>{t("about.p1.suffix", lang)}</p><p class="mt-3">{t("about.p2", lang)}</p>
-      <div class="about-metrics"><span><strong>6+</strong> {t("about.metric.years", lang)}</span><span><strong>{htbRanking.value}</strong> {t("about.metric.htb", lang)}</span><span><strong>45K</strong> {t("about.metric.throughput", lang)}</span></div>
-    </div>
-  </div>
-</details>
+<div id="about" class="profile-intro">
+  <Image src={profileImage} width={96} height={120} alt="Adrián Infantes" loading="lazy" />
+  <div><p>{es ? "Más de 6 años construyendo sistemas de IA, desde pipelines de datos y visión artificial hasta arquitectura de seguridad y evaluación adversarial." : "Over 6 years building AI systems, from data pipelines and computer vision to security architecture and adversarial evaluation."}</p><p>{es ? "Madrid, España" : "Madrid, Spain"}</p></div>
+</div>

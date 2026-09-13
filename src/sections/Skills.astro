@@ -1,10 +1,9 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
 import { skills } from "../data/skills";
-import { getLangFromUrl, t } from "../i18n/utils";
-const lang = getLangFromUrl(Astro.url);
+import { getLangFromUrl } from "../i18n/utils";
+const es = getLangFromUrl(Astro.url) === "es";
 ---
-<section id="skills" class="content-section"><div class="content-wrap">
-  <SectionTitle title={t("skills.title", lang)} subtitle={t("skills.subtitle", lang)} />
-  <div class="skill-grid">{skills.map((category) => <article><h3>{category.name}</h3><div class="tag-list">{category.skills.map((skill) => <span>{skill}</span>)}</div></article>)}</div>
-</div></section>
+<details id="skills" class="profile-disclosure profile-skills">
+  <summary>{es ? "Herramientas y competencias" : "Tools and skills"}<span>AI Security / LLMs / ML / Cloud</span></summary>
+  <div class="skill-grid">{skills.map((category) => <div><h4>{category.name}</h4><div class="tag-list">{category.skills.map((skill) => <span>{skill}</span>)}</div></div>)}</div>
+</details>

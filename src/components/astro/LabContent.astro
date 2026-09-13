@@ -3,6 +3,8 @@ import { getLangFromUrl } from "../../i18n/utils";
 import Ares from "../../sections/Ares.astro";
 import GitHubStats from "../../sections/GitHubStats.astro";
 import LabModule from "../react/LabModule";
+import ToolDock from "../react/ToolDock";
+import TrustVisual from "./TrustVisual.astro";
 const lang = getLangFromUrl(Astro.url);
 const es = lang === "es";
 ---
@@ -12,9 +14,14 @@ const es = lang === "es";
     <h1>{es ? "Ideas en ejecución." : "Ideas in motion."}</h1>
     <p>{es ? "Un espacio para explorar sistemas de agentes, visualizaciones y herramientas del portfolio. Abre cada demostración cuando quieras usarla." : "A space to explore agent systems, visualizations and portfolio tools. Open each demonstration when you want to use it."}</p>
     <nav class="flex flex-wrap gap-2 mt-6" aria-label={es ? "Demostraciones" : "Demonstrations"}>
-      <a class="action" href="#arca">ARCA</a><a class="action" href="#attacks">{es ? "Visualizaciones" : "Visualizations"}</a><a class="action" href="#job-match">Job Match</a><a class="action" href="#visual-effects">{es ? "Efectos" : "Effects"}</a>
+      <a class="action" href="#profile-tools">{es ? "Asistente y terminal" : "Assistant and terminal"}</a><a class="action" href="#arca">ARCA</a><a class="action" href="#attacks">{es ? "Visualizaciones" : "Visualizations"}</a><a class="action" href="#job-match">Job Match</a><a class="action" href="#visual-effects">{es ? "Efectos" : "Effects"}</a>
     </nav>
   </header>
+  <section class="lab-module lab-profile-tools" id="profile-tools" aria-labelledby="profile-tools-title">
+    <h2 id="profile-tools-title">{es ? "Asistente y terminal del perfil" : "Profile assistant and terminal"}</h2>
+    <p>{es ? "Pregunta al asistente de IA ARCA sobre mi trayectoria o explora el perfil con los comandos del terminal. Cada herramienta se abre al seleccionarla." : "Ask the ARCA AI assistant about my background or explore the profile using terminal commands. Each tool opens when you select it."}</p>
+    <ToolDock client:idle lang={lang} />
+  </section>
   <div class="lab-module" id="arca">
     <details class="lab-disclosure">
       <summary>ARCA — {es ? "Sistema de agentes" : "Agent system"} <span aria-hidden="true">↗</span></summary>
@@ -34,6 +41,7 @@ const es = lang === "es";
   <section class="lab-module" id="visual-effects" aria-labelledby="effects-title">
     <h2 id="effects-title">{es ? "Lenguaje visual" : "Visual language"}</h2>
     <p>{es ? "Los experimentos gráficos del portfolio, en un espacio que puedes activar y pausar." : "The portfolio’s graphic experiments, in a space you can activate and pause."}</p>
+    <div class="lab-trust-visual"><TrustVisual /></div>
     <LabModule client:visible kind="effects" lang={lang} />
   </section>
   <div class="lab-module" id="github">

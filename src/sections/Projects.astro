@@ -1,8 +1,7 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
 import SectorTabs from "../components/react/SectorTabs";
 import { sectors } from "../data/projects";
-import { getLangFromUrl, t } from "../i18n/utils";
+import { getLangFromUrl } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const localizedSectors = sectors.map((sector) => ({
@@ -19,13 +18,8 @@ const localizedSectors = sectors.map((sector) => ({
 }));
 ---
 
-<section id="projects" class="content-section">
+<section id="projects" class="catalog-section" aria-label={lang === "es" ? "Todos los proyectos" : "All projects"}>
   <div class="content-wrap">
-    <SectionTitle
-      title={t("projects.title", lang)}
-      subtitle={t("projects.subtitle", lang)}
-    />
-
     <SectorTabs client:visible sectors={localizedSectors} lang={lang} />
   </div>
 </section>

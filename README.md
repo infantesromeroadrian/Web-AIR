@@ -9,13 +9,15 @@ Personal portfolio showcasing 6+ years of work at the intersection of AI and cyb
 ## Highlights
 
 - **Dual-language** -- English (`/`) and Spanish (`/es/`) with `hreflang` SEO, one-click toggle
-- **Dark experimental identity** — local Clash Display headings, Inter body, JetBrains Mono data and a contained conceptual trust-boundary graph with a pause control.
+- **Four-part home** — identity, selected work, profile and contact. A single name and combined role lead the page; technical detail uses native disclosures.
+- **Dark experimental identity** — local Clash Display headings, Inter body and JetBrains Mono data. The conceptual trust-boundary graph lives in the laboratory with its existing play/pause control.
 - **Dual professional focus** — AI Security Architect at BBVA Technology alongside independent AI Red Teamer labs and competition on Hack The Box. HTB ranking and COAE certification stay in their shared data sources.
 - **Enterprise case studies** — two contributions for an anonymized enterprise client, with dated milestones and visible validation limits; their metrics are separate from BBVA and HTB.
-- **Visible project catalog** — selected projects render in HTML; React adds sector filters. Videos load after an explicit action.
-- **Laboratory** — `/lab/` and `/es/lab/` contain ARCA, the existing AI/security visualizations, email analyzer, Job Match and optional graphic effects. Interactive modules import when opened.
-- **Accessible profile tools** — visible ARCA AI and terminal controls open native dialogs with Escape, focus containment and focus return. Chat and terminal code load on opening.
-- **Three home React islands** — project filters, contact form and tool dock. Content sections render without hydration; no 3D module is mounted on home.
+- **Selected work and complete catalog** — home presents two enterprise cases plus FraudAI Agent and Spectra. `/work/` and `/es/work/` render all ten projects in the initial HTML; React adds sector filters. Videos load after an explicit action.
+- **Progressive profile** — current employment, independent HTB practice and completed UNED/ETH Zürich–EPFL education stay visible. Previous roles, further education, skills and additional credentials remain available in native disclosures. HTB ranking and COAE each have one primary presentation.
+- **Laboratory** — `/lab/` and `/es/lab/` contain ARCA, the existing AI/security visualizations, email analyzer, Job Match and graphic experiments. Interactive modules import when opened.
+- **Accessible profile tools in the laboratory** — ARCA AI and terminal controls sit in the page and open native dialogs with Escape, focus containment and focus return. Chat and terminal code load on opening; no tool dock floats over home or contact.
+- **One home React island** — only the existing contact form hydrates. Identity, work and profile render without JavaScript. The catalog has one island; the laboratory retains four.
 - **Roadmap** — existing checklists and browser persistence remain on `/roadmap` and `/es/roadmap`.
 
 ## Screenshots
@@ -53,7 +55,7 @@ These captures document the previous interface; they have not been regenerated f
 ```
 src/
   components/
-    astro/        # Shared HomeContent/LabContent, Header, Footer, SectionTitle
+    astro/        # HomeContent/WorkContent/LabContent, Header, Footer, TrustVisual
     react/        # Islands: AIChat, SkillGraph3D,
                   #   LatentSpaceGlobe, NeuralBreach, AttackExplorer,
                   #   ParticleNetwork, SecurityCursor, MiniTerminal...
@@ -61,6 +63,8 @@ src/
   pages/
     index.astro   # English route
     es/index.astro # Spanish route
+    work/         # Complete project catalog, English
+    es/work/      # Complete project catalog, Spanish
     lab/          # English laboratory
     es/lab/       # Spanish laboratory
     api/          # chat.ts, phishing-analyze.ts, analytics/*

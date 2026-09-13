@@ -1,0 +1,13 @@
+---
+import Projects from "../../sections/Projects.astro";
+import { sectors } from "../../data/projects";
+import { getLangFromUrl } from "../../i18n/utils";
+const es = getLangFromUrl(Astro.url) === "es";
+const count = sectors.reduce((total, sector) => total + sector.projects.length, 0);
+---
+<div class="content-wrap catalog-intro">
+  <a class="text-link" href={`${es ? "/es/" : "/"}#work`}>{es ? "Volver al trabajo seleccionado" : "Back to selected work"}</a>
+  <h1>{es ? "Catálogo de proyectos" : "Project catalog"}</h1>
+  <p>{es ? `${count} proyectos propios de IA y seguridad. Explora el catálogo completo o filtra por sector.` : `${count} independent AI and security projects. Explore the complete catalog or filter by sector.`}</p>
+</div>
+<Projects />

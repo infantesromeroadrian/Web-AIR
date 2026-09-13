@@ -1,12 +1,14 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
-import { COAE_CERTIFICATION, education, certifications } from "../data/education";
+import { education } from "../data/education";
 import { getLangFromUrl, t } from "../i18n/utils";
 const lang = getLangFromUrl(Astro.url);
+const es = lang === "es";
 ---
-<section id="education" class="content-section"><div class="content-wrap">
-  <SectionTitle title={t("education.title", lang)} />
-  <div class="education-grid"><div class="education-list">{education.map((edu) => <article><h3>{edu.institution}</h3><p>{lang === "es" && edu.degreeEs ? edu.degreeEs : edu.degree}</p>{edu.specialization && <p>{edu.specialization}</p>}{edu.status === "completed" && <p class="mt-1 text-sm text-accent">{t("education.status.completed", lang)}</p>}</article>)}</div>
-    <div><h3 class="text-lg font-semibold mb-4">{t("education.certs", lang)}</h3><ul class="education-list">{certifications.map((cert) => <li class="text-text-secondary">{cert}{cert === COAE_CERTIFICATION && <span class="block text-sm mt-1 text-accent">{t("education.cert.completed", lang)}</span>}</li>)}</ul></div>
-  </div>
-</div></section>
+<div id="education">
+  <h3 class="profile-subtitle">{es ? "Formación" : "Education"}</h3>
+  <div class="education-list">{education.filter((entry) => entry.status === "completed").map((entry) => <article><h4>{entry.institution}</h4><p>{es && entry.degreeEs ? entry.degreeEs : entry.degree}</p>{entry.specialization && <p>{entry.specialization}</p>}<p class="education-status">{t("education.status.completed", lang)}</p></article>)}</div>
+  <details class="profile-disclosure">
+    <summary>{es ? "Más formación" : "Further education"}<span>MIOTI / U-tad</span></summary>
+    <div class="education-list">{education.filter((entry) => entry.status !== "completed").map((entry) => <article><h4>{entry.institution}</h4><p>{es && entry.degreeEs ? entry.degreeEs : entry.degree}</p>{entry.specialization && <p>{entry.specialization}</p>}</article>)}</div>
+  </details>
+</div>

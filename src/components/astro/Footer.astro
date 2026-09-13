@@ -1,13 +1,12 @@
 ---
-import { SOCIAL_LINKS, SITE } from "../../lib/constants";
+import { SITE } from "../../lib/constants";
 import { getLangFromUrl } from "../../i18n/utils";
 const es = getLangFromUrl(Astro.url) === "es";
 const base = es ? "/es/" : "/";
 ---
 <footer class="site-footer">
   <div class="content-wrap footer-row">
-    <div><strong class="text-text-primary">Adrian Infantes</strong><p class="mt-2 text-sm">AI Security Architecture · AI Red Teaming</p><p class="mt-2 text-sm">© {new Date().getFullYear()} {SITE.author}</p></div>
-    <div class="link-row">{SOCIAL_LINKS.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer" class="action">{link.name}</a>)}</div>
-    <div class="link-row"><a href={`${base}lab/`} class="action">{es ? "Laboratorio" : "Laboratory"}</a><a href={`${base}roadmap`} class="action">Roadmap</a></div>
+    <div><strong class="text-text-primary">Adrián Infantes</strong><p class="mt-2 text-sm">AI Security Architect &amp; AI Red Teamer</p><p class="mt-2 text-sm">© {new Date().getFullYear()} {SITE.author}</p></div>
+    <div class="link-row"><a href={`${base}work/`} class="text-link">{es ? "Proyectos" : "Projects"}</a><a href={`${base}lab/`} class="text-link">{es ? "Laboratorio" : "Laboratory"}</a><a href={`${base}roadmap`} class="text-link">Roadmap</a></div>
   </div>
 </footer>

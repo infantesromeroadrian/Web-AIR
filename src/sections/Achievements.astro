@@ -1,47 +1,19 @@
 ---
+import { achievements, htbRanking } from "../data/achievements";
+import { COAE_CERTIFICATION, certifications } from "../data/education";
 import { getLangFromUrl, t } from "../i18n/utils";
-
 const lang = getLangFromUrl(Astro.url);
-
-const achievements = [
-  {
-    titleKey: "ach.kaggle.title",
-    subKey: "ach.kaggle.sub",
-    url: "https://www.kaggle.com/adrininfantesromero",
-  },
-  {
-    titleKey: "ach.htb.title",
-    subKey: "ach.htb.sub",
-  },
-  { titleKey: "ach.hackaboss.title", subKey: "ach.hackaboss.sub" },
-  { titleKey: "ach.omen.title", subKey: "ach.omen.sub" },
-  { titleKey: "ach.talent.title", subKey: "ach.talent.sub" },
-];
+const es = lang === "es";
 ---
-
-<section class="border-y border-border bg-bg-secondary/50 px-6 py-12">
-  <div class="mx-auto flex max-w-[var(--max-w-content)] flex-wrap items-center justify-center gap-8 sm:gap-12">
-    {achievements.map((a) => (
-      <div class="text-center">
-        {a.url ? (
-          <a
-            href={a.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group"
-          >
-            <div class="text-lg font-bold text-text-primary transition-colors group-hover:text-accent">
-              {t(a.titleKey, lang)}
-            </div>
-            <div class="text-xs text-text-muted">{t(a.subKey, lang)}</div>
-          </a>
-        ) : (
-          <div>
-            <div class="text-lg font-bold text-text-primary">{t(a.titleKey, lang)}</div>
-            <div class="text-xs text-text-muted">{t(a.subKey, lang)}</div>
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</section>
+<div id="achievements" class="profile-credentials">
+  <h3 class="profile-subtitle">{es ? "Certificación y competición" : "Certification and competition"}</h3>
+  <ul class="credential-summary">
+    <li><strong>{htbRanking.title[lang]}</strong><span>{htbRanking.subtitle[lang]}</span></li>
+    <li><strong>{COAE_CERTIFICATION}</strong><span>{t("education.cert.completed", lang)}</span></li>
+  </ul>
+  <details class="profile-disclosure">
+    <summary>{es ? "Más certificaciones y logros" : "More certifications and achievements"}</summary>
+    <ul class="credential-list">{certifications.filter((cert) => cert !== COAE_CERTIFICATION).map((cert) => <li>{cert}</li>)}</ul>
+    <ul class="credential-list">{achievements.filter((achievement) => achievement.title !== htbRanking.title.en).map((achievement) => <li>{achievement.url ? <a class="text-link" href={achievement.url} target="_blank" rel="noopener noreferrer">{achievement.title}</a> : <strong>{achievement.title}</strong>}<span>{achievement.subtitle}</span></li>)}</ul>
+  </details>
+</div>

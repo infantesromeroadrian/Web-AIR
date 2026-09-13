@@ -6,10 +6,8 @@ const homePath = es ? "/es/" : "/";
 const otherPath = pathForLang(Astro.url, es ? "en" : "es");
 const onHome = Astro.url.pathname === homePath;
 const links = [
-  { label: es ? "Casos" : "Case studies", href: `${onHome ? "" : homePath}#security-work` },
-  { label: es ? "Proyectos" : "Projects", href: `${onHome ? "" : homePath}#projects` },
-  { label: es ? "Trayectoria" : "Experience", href: `${onHome ? "" : homePath}#experience` },
-  { label: es ? "Laboratorio" : "Laboratory", href: `${homePath}lab/` },
+  { label: es ? "Trabajo" : "Work", href: `${onHome ? "" : homePath}#work` },
+  { label: es ? "Perfil" : "Profile", href: `${onHome ? "" : homePath}#profile` },
   { label: es ? "Contacto" : "Contact", href: `${onHome ? "" : homePath}#contact` },
 ];
 ---
@@ -20,6 +18,7 @@ const links = [
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
     </div>
     <div class="nav-actions">
+      <a href={`${homePath}lab/`} class="nav-laboratory">{es ? "Laboratorio" : "Laboratory"}</a>
       <a href={otherPath} data-astro-reload class="language-link" aria-label={es ? "Switch to English" : "Cambiar a español"}>{es ? "EN" : "ES"}</a>
       <button class="action menu-toggle" type="button" aria-controls="main-navigation" aria-expanded="false" data-menu-toggle>{es ? "Menú" : "Menu"}</button>
     </div>
@@ -33,6 +32,7 @@ const links = [
     const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
     const menu = header?.querySelector<HTMLElement>("#main-navigation");
     if (!header || !toggle || !menu) return;
+    header.setAttribute("data-menu-ready", "");
     const controller = new AbortController();
     const close = (returnFocus = false) => {
       header.removeAttribute("data-menu-open");

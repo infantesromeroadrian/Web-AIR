@@ -63,24 +63,28 @@
 
 ### 3.1 Composición vigente del frontend
 
-Las homes EN/ES comparten `HomeContent.astro`: Hero y About compacto → casos de un cliente empresarial anonimizado → proyectos → trayectoria → skills → educación y reconocimientos → acceso al laboratorio → contacto. Hero y experiencia distinguen el puesto actual de AI Security Architect en BBVA Technology de la práctica independiente de AI Red Teamer en Hack The Box. Los datos de esta actividad viven separados del historial laboral en `experience.ts`; ranking y certificación conservan sus fuentes compartidas. Las métricas de los casos anonimizados no se atribuyen a BBVA ni a HTB.
+Las homes EN/ES comparten `HomeContent.astro` y cuatro secciones principales: identidad → trabajo seleccionado → perfil → contacto. Un H1 con el nombre presenta a una sola persona con el rol compuesto AI Security Architect & AI Red Teamer. La navegación principal ofrece Trabajo, Perfil y Contacto; Laboratorio ocupa una posición secundaria.
 
-El Hero usa SVG/CSS conceptual, sin telemetría. El movimiento se activa y pausa expresamente; móvil y `prefers-reduced-motion` permanecen estáticos. Las secciones informativas son Astro; el catálogo incluye proyectos desde SSR.
+`SelectedWork.astro` reúne dos casos empresariales anonimizados y dos proyectos propios (FraudAI Agent y Spectra). La contribución, fecha, resultados y límite de validación de cada caso permanecen visibles; los controles técnicos se despliegan mediante `details`. Las métricas de los casos no se atribuyen a BBVA ni a HTB. El catálogo completo está en `/work/` y `/es/work/`, con los diez proyectos presentes en el HTML inicial y el filtro Todos seleccionado.
+
+`Profile.astro` reúne la presentación, experiencia, formación, credenciales y skills. El puesto actual en BBVA y la práctica independiente de HTB están separados; UNED y ETH Zürich–EPFL conservan el estado Terminado. Ranking HTB y COAE tienen una sola presentación principal. Trayectoria anterior, formación adicional, otras credenciales y herramientas se consultan mediante disclosures nativos. Todas las fuentes de `src/data` permanecen intactas.
+
+El grafo conceptual se conserva como `TrustVisual.astro` en el laboratorio, sin telemetría. El movimiento se activa y pausa expresamente; móvil y `prefers-reduced-motion` permanecen estáticos. Las secciones informativas son Astro.
 
 ### 3.2 Hidratación y carga
 
 | Componente | Directiva | Comportamiento |
 |------------|-----------|----------------|
-| SectorTabs | `client:visible` | HTML inicial con selección de proyectos; añade filtros |
+| SectorTabs | `client:visible`, solo catálogo | HTML inicial con los diez proyectos; añade filtros |
 | ContactForm | `client:visible` | Conserva el contrato de envío existente |
-| ToolDock | `client:idle` | Importa AIChat o MiniTerminal al abrir; diálogos nativos |
+| ToolDock | `client:idle`, solo laboratorio | Controles dentro de la página; importa AIChat o MiniTerminal al abrir, con diálogos nativos |
 | LabModule | `client:visible`, solo laboratorio | Importa cada demostración tras pulsar Abrir; cerrar desmonta la demo |
 
-La home tiene tres islas React. Ningún módulo 3D, partículas, cursor ni animación de escritura se monta allí. El laboratorio conserva las demostraciones expuestas previamente; no activa secciones dormidas. ARCA y GitHub usan contenido estático plegable; el vídeo de ARCA tiene controles y `preload="none"`.
+La home tiene una isla React (formulario de contacto), el catálogo una y el laboratorio cuatro. Ningún módulo 3D, partículas, cursor, grafo ni dock se monta en la portada. El laboratorio conserva las demostraciones expuestas previamente; no activa secciones dormidas. ARCA y GitHub usan contenido estático plegable; el vídeo de ARCA tiene controles y `preload="none"`.
 
 ### 3.3 Rutas y estado
 
-`/` y `/es/` comparten composición. `/lab/` y `/es/lab/` comparten laboratorio. Fichas y roadmap conservan sus rutas; el Header dirige las anclas a la home localizada desde otras páginas. Los listeners del Header y del SVG se limpian antes de los intercambios de ClientRouter.
+`/` y `/es/` comparten composición. `/work/` y `/es/work/` comparten catálogo; `/lab/` y `/es/lab/` comparten laboratorio. Fichas y roadmap conservan sus rutas; el Header dirige las anclas a la home localizada desde otras páginas. Las anclas antiguas (`about`, `security-work`, `projects`, `experience`, `skills`, `education` y los accesos al laboratorio) permanecen sobre contenido visible o resúmenes nativos correspondientes. Los listeners del Header y del SVG se limpian antes de los intercambios de ClientRouter.
 
 El roadmap conserva claves, valores, índices y checklists. Su estado inicial es determinista en SSR e hidratación; el efecto existente recupera la persistencia local. Las APIs, proveedores y contratos de envío quedan fuera de esta revisión de presentación.
 

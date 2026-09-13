@@ -1,38 +1,31 @@
 ---
-import SectionTitle from "../components/astro/SectionTitle.astro";
 import { currentExperience, experience, htbActivity } from "../data/experience";
-import { htbRanking } from "../data/achievements";
-import { COAE_CERTIFICATION } from "../data/education";
-import { getLangFromUrl, t } from "../i18n/utils";
+import { getLangFromUrl } from "../i18n/utils";
 const lang = getLangFromUrl(Astro.url);
+const es = lang === "es";
 ---
-<section id="experience" class="content-section"><div class="content-wrap">
-  <SectionTitle title={t("experience.title", lang)} subtitle={t("experience.subtitle", lang)} />
-  <div class="current-experience">
-    <article class="current-role" aria-labelledby="current-employment-title">
-      <p class="role-context">{t("experience.employment", lang)}</p>
-      <p class="role-organization">{currentExperience.company}</p>
-      <h3 id="current-employment-title">{currentExperience.role}</h3>
-      <p class="mt-2 text-sm">{currentExperience.period} · {currentExperience.location}</p>
-      <p class="mt-4">{currentExperience.headline}</p>
-      <details class="details-block mt-3"><summary>{t("experience.tech", lang)}</summary><p>{currentExperience.description}</p><ul class="list-disc pl-5 space-y-2 text-text-secondary">{currentExperience.highlights.map((highlight) => <li>{highlight}</li>)}</ul><div class="tag-list">{currentExperience.tags.map((tag) => <span>{tag}</span>)}</div></details>
-    </article>
-    <article class="current-role" aria-labelledby="current-activity-title">
-      <p class="role-context">{htbActivity.scope[lang]}</p>
-      <p class="role-organization">{htbActivity.platform}</p>
-      <h3 id="current-activity-title">{htbActivity.role}</h3>
-      <p class="mt-2 text-sm">{t("experience.activity.current", lang)}</p>
-      <p class="mt-4">{htbActivity.headline[lang]}</p>
-      <div class="experience-metrics"><span><strong>{htbRanking.value}</strong>{t("experience.htb.ranking", lang)} · {htbRanking.period[lang]}</span></div>
-      <p class="mt-3 text-sm">{COAE_CERTIFICATION} · {t("education.cert.completed", lang)}</p>
-      <details class="details-block mt-3"><summary>{t("experience.activity.scope", lang)}</summary><p>{htbActivity.description[lang]}</p><div class="tag-list">{htbActivity.tags.map((tag) => <span>{tag}</span>)}</div></details>
-    </article>
-  </div>
-  {experience.slice(1).map((exp) => <article class="experience-row">
-    <div><p class="text-accent font-medium">{exp.company}</p><p class="mt-2 text-sm">{exp.period}</p><p class="mt-1 text-sm">{exp.location}</p></div>
-    <div><h3>{exp.role}</h3><p class="mt-3">{exp.headline}</p>
-      {exp.impact.length > 0 && <div class="experience-metrics">{exp.impact.map((metric) => <span><strong>{metric.value}</strong>{metric.label}</span>)}</div>}
-      <details class="details-block mt-3"><summary>{t("experience.tech", lang)}</summary><p>{exp.description}</p><ul class="list-disc pl-5 space-y-2 text-text-secondary">{exp.highlights.map((highlight) => <li>{highlight}</li>)}</ul><div class="tag-list">{exp.tags.map((tag) => <span>{tag}</span>)}</div></details>
-    </div>
-  </article>)}
-</div></section>
+<div id="experience" class="profile-experience">
+  <h3 class="profile-subtitle">{es ? "Experiencia y práctica" : "Experience and practice"}</h3>
+  <article class="profile-position">
+    <h4>{currentExperience.role}</h4>
+    <p class="position-organization">{currentExperience.company}</p>
+    <p class="position-meta">{currentExperience.period} · {currentExperience.location}</p>
+    <p>{es ? "Arquitectura de AI Safety para entornos financieros, con seguridad integrada en el ciclo de desarrollo." : currentExperience.headline}</p>
+    <details class="details-block"><summary>{es ? "Responsabilidades actuales" : "Current responsibilities"}</summary><p>{currentExperience.description}</p><ul class="list-disc pl-5 space-y-2">{currentExperience.highlights.map((highlight) => <li>{highlight}</li>)}</ul><div class="tag-list">{currentExperience.tags.map((tag) => <span>{tag}</span>)}</div></details>
+  </article>
+  <article class="profile-position">
+    <h4>{htbActivity.role}</h4>
+    <p class="position-organization">{htbActivity.platform}</p>
+    <p>{htbActivity.scope[lang]}.</p>
+    <details class="details-block"><summary>{es ? "Alcance de la práctica" : "Practice scope"}</summary><p>{htbActivity.description[lang]}</p><div class="tag-list">{htbActivity.tags.map((tag) => <span>{tag}</span>)}</div></details>
+  </article>
+  <details class="profile-disclosure">
+    <summary>{es ? "Trayectoria anterior" : "Previous experience"}<span>2019–2026</span></summary>
+    <div class="career-history">{experience.slice(1).map((exp) => <article>
+      <h4>{exp.role}</h4><p class="position-organization">{exp.company}</p><p class="position-meta">{exp.period} · {exp.location}</p><p>{exp.headline}</p><p>{exp.description}</p>
+      <ul class="list-disc pl-5 space-y-2">{exp.highlights.map((highlight) => <li>{highlight}</li>)}</ul>
+      {exp.impact.length > 0 && <ul class="career-metrics">{exp.impact.map((metric) => <li><strong>{metric.value}</strong> {metric.label}</li>)}</ul>}
+      <div class="tag-list">{exp.tags.map((tag) => <span>{tag}</span>)}</div>
+    </article>)}</div>
+  </details>
+</div>

@@ -1,11 +1,10 @@
 ---
 import { getLangFromUrl } from "../i18n/utils";
 const es = getLangFromUrl(Astro.url) === "es";
-const lab = es ? "/es/lab/" : "/lab/";
+const base = es ? "/es/" : "/";
+const lab = `${base}lab/`;
 ---
-<section id="lab" class="content-section"><div class="content-wrap lab-teaser">
-  <h2>{es ? "El otro lado del sistema." : "The other side of the system."}</h2>
-  <p>{es ? "Explora ARCA, las visualizaciones y las herramientas interactivas. Cada experiencia se activa cuando tú eliges." : "Explore ARCA, the visualizations and the interactive tools. Each experience starts when you choose."}</p>
-  <div class="link-row"><a class="action action-primary" href={lab}>{es ? "Entrar al laboratorio" : "Enter the laboratory"} ↗</a><a class="action" href={`${es ? "/es/" : "/"}roadmap`}>Roadmap</a></div>
-  <div class="link-row mt-4"><a class="action" id="arca" href={`${lab}#arca`}>ARCA</a><a class="action" id="attacks" href={`${lab}#attacks`}>{es ? "Visualizaciones y análisis" : "Visualizations and analysis"}</a><a class="action" id="job-match" href={`${lab}#job-match`}>Job Match</a><a class="action" id="github" href={`${lab}#github`}>GitHub</a></div>
-</div></section>
+<aside id="lab" class="lab-teaser" aria-label={es ? "Explorar el laboratorio" : "Explore the laboratory"}>
+  <p>{es ? "En el laboratorio: sistemas de agentes, experimentos visuales, el asistente de IA y el terminal del perfil." : "In the laboratory: agent systems, visual experiments, the AI assistant and profile terminal."}</p>
+  <div class="lab-links"><a class="text-link" href={lab}>{es ? "Abrir laboratorio" : "Open laboratory"}</a><a class="text-link" id="arca" href={`${lab}#arca`}>ARCA</a><a class="text-link" id="attacks" href={`${lab}#attacks`}>{es ? "Visualizaciones" : "Visualizations"}</a><a class="text-link" id="job-match" href={`${lab}#job-match`}>Job Match</a><a class="text-link" id="github" href={`${lab}#github`}>GitHub</a><a class="text-link" href={`${base}roadmap`}>Roadmap</a></div>
+</aside>

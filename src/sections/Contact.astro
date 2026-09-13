@@ -27,6 +27,6 @@ const labels = {
 };
 ---
 <section id="contact" class="content-section"><div class="content-wrap contact-grid">
-  <div class="contact-intro"><h2>{t("contact.title", lang)}</h2><p>{t("contact.subtitle", lang)}</p><div class="contact-links">{SOCIAL_LINKS.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name} ↗</a>)}</div><p class="text-sm">{SITE.location}</p></div>
+  <div class="contact-intro"><h2>{lang === "es" ? "Contacto" : "Contact"}</h2><p>{lang === "es" ? "¿Hablamos de seguridad de IA? Puedes escribirme para conversar sobre arquitectura, evaluación adversarial o una oportunidad profesional." : "Let's talk about AI security. Get in touch to discuss architecture, adversarial evaluation or a professional opportunity."}</p><div class="contact-links">{SOCIAL_LINKS.map((link) => <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name} ↗</a>)}</div><p class="text-sm">{SITE.location}</p></div>
   <div><ContactForm client:visible labels={labels} /></div>
 </div></section>
